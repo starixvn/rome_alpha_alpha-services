@@ -5,11 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="App_Data\SPNames\DBAGE.bodb02.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\DBCust.CustDB.BODBDownlineNet.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App_Data\SPNames\Local\DBAGE.bodb02.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\Local\DBCust.CustDB.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fanex.Data.CrossCutting.WrappingException" Version="1.1.0-beta1" />
+    <PackageReference Include="Fanex.Data.OldConnectionStringProvider" Version="1.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="SimpleInjector" Version="4.3.0" />
+    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Alpha.Services\Alpha.Services.csproj" />
   </ItemGroup>
 
 </Project>
