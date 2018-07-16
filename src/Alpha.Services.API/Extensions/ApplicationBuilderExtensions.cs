@@ -65,6 +65,8 @@
         {
             container.RegisterSingleton<CustomerService, CustomerServiceImpl>();
             container.RegisterSingleton<OutstandingService, OutstandingServiceImpl>();
+            container.RegisterSingleton<ReportDateService, ReportDateServiceImpl>();
+            container.RegisterSingleton<BalanceInfoService, BalanceInfoServiceImpl>();
         }
     }
 }

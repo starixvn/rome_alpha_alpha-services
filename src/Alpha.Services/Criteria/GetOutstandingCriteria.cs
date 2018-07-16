@@ -4,9 +4,11 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
 
-    public class OutstandingCriteria : CriteriaBase
+    public class GetOutstandingCriteria : CriteriaBase
     {
-        public OutstandingCriteria(UserLevel custLevel, int custId)
+        public GetOutstandingCriteria(
+            UserLevel custLevel,
+            int custId)
         {
             CustLevel = custLevel;
             CustId = custId;

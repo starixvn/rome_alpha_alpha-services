@@ -20,6 +20,6 @@
         }
 
         public async Task<Customer> GetCustomerInfo(int custId)
-            => await dynamicRepository.GetAsync<Customer>(new CustomerInfoCriteria(custId));
+            => await dynamicRepository.GetAsync<Customer>(new GetCustomerInfoCriteria(custId));
     }
 }

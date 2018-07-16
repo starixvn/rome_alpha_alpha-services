@@ -30,9 +30,7 @@
                 options.SwaggerDoc("v1", new Info
                 {
                     Title = "Alpha Services",
-                    Version = "v1",
-                    Description = "The Alpha Services",
-                    TermsOfService = "Terms Of Service"
+                    Version = "v1"
                 });
             });
         }

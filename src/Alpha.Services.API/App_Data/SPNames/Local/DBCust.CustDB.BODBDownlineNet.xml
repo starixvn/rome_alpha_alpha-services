@@ -6,6 +6,8 @@
       <Mapping DataField="username" ObjectProperty="UserName" />
       <Mapping DataField="closed" ObjectProperty="IsClosed" />
       <Mapping DataField="suspend" ObjectProperty="IsSuspended" />
+      <Mapping DataField="currency" ObjectProperty="CurrencyId" />
+      <Mapping DataField="currencyname" ObjectProperty="CurrencyName" />
     </Setting>
   </Function>
 </Functions>

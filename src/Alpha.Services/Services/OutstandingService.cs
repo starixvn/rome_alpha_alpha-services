@@ -22,6 +22,6 @@
 
         public async Task<OutstandingModel> GetOutstanding(OutstandingParam param)
             => await dynamicRepository.GetAsync<OutstandingModel>(
-                new OutstandingCriteria(param.CustLevel, param.CustId));
+                new GetOutstandingCriteria(param.CustLevel, param.CustId));
     }
 }

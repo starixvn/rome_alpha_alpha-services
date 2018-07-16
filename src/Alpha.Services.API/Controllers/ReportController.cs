@@ -16,12 +16,26 @@
             this.mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("{custId}/outstanding")]
         public async Task<IActionResult> GetOutstanding(int custId)
         {
             var outstanding = await mediator.Send(new OutstandingQuery(custId));
 
             return Ok(outstanding);
         }
+
+        [HttpGet("{custId}/balanceinfo")]
+        public async Task<IActionResult> GetBalanceInfo(int custId)
+        {
+            var balanceInfo = await mediator.Send(new BalanceInfoQuery(custId));
+
+            return Ok(balanceInfo);
+        }
+
+        //[HttpGet("{custId}/winloss/{date}")]
+        //public async Task<IActionResult> GetWinLoss(int custId, DateTime date)
+        //{
+        //    return Ok();
+        //}
     }
 }
