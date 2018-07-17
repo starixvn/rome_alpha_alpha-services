@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
+  <Function Name="Report">
+    <Setting Key="Age_SelBalanceUpDay" SpName="Age_SelBalanceUpDay" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_GetProductList" SpName="Age_Rpt_GetProductList" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="ProductID" ObjectProperty="id" />
+      <Mapping DataField="ProductName" ObjectProperty="name" />
+    </Setting>
+  </Function>
   <Function Name="Outstanding">
     <Setting Key="Age_CustomerSelStatisticsInfo_Ag" SpName="Age_CustomerSelStatisticsInfo_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
@@ -14,8 +21,7 @@
       <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
     </Setting>
   </Function>
-  <Function Name="BalanceInfo">
-    <Setting Key="Age_SelBalanceUpDay" SpName="Age_SelBalanceUpDay" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+  <Function Name="Balance Info">
     <Setting Key="Age_CustomerSelBalanceInfo_Ag" SpName="Age_CustomerSelBalanceInfo_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="cashBalance" ObjectProperty="CashBalance" />
       <Mapping DataField="yesterday_CashBalance" ObjectProperty="YesterdayCashBalance" />
@@ -45,6 +51,38 @@
       <Mapping DataField="yesterdayWinloss" ObjectProperty="YesterdayWinLoss" />
       <Mapping DataField="givenCredit" ObjectProperty="GivenCredit" />
       <Mapping DataField="memberCredit" ObjectProperty="MemberCredit" />
+    </Setting>
+  </Function>
+  <Function Name="Win Loss">
+    <Setting Key="Age_Rpt_WinLoss_Master" SpName="Age_Rpt_WinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
+      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
+      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
+      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
+      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
+      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
+      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
+      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
+    </Setting>
+    <Setting Key="Age_Rpt_WinLoss_Agent" SpName="Age_Rpt_WinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
+      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
+      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
+      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
+      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
+      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
+      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
+      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
+    </Setting>
+    <Setting Key="Age_Rpt_WinLoss_Member" SpName="Age_Rpt_WinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
+      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
+      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
+      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
+      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
+      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
+      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
+      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
     </Setting>
   </Function>
 </Functions>

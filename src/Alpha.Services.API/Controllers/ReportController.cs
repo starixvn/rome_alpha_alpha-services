@@ -1,5 +1,6 @@
 ﻿namespace Alpha.Services.API.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using MediatR;
@@ -32,10 +33,12 @@
             return Ok(balanceInfo);
         }
 
-        //[HttpGet("{custId}/winloss/{date}")]
-        //public async Task<IActionResult> GetWinLoss(int custId, DateTime date)
-        //{
-        //    return Ok();
-        //}
+        [HttpGet("{custId}/winloss/{date}")]
+        public async Task<IActionResult> GetWinLoss(int custId, DateTime date)
+        {
+            var winLoss = await mediator.Send(new WinLossQuery(custId, date));
+
+            return Ok(winLoss);
+        }
     }
 }

@@ -11,7 +11,7 @@
 
     public static class ServiceCollectionExtensions
     {
-        public static void ConfigureCors(this IServiceCollection services)
+        public static IServiceCollection ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(options =>
             {
@@ -21,9 +21,11 @@
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
+            return services;
         }
 
-        public static void AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -33,9 +35,11 @@
                     Version = "v1"
                 });
             });
+
+            return services;
         }
 
-        public static void IntegrateSimpleInjector(this IServiceCollection services, Container container)
+        public static IServiceCollection IntegrateSimpleInjector(this IServiceCollection services, Container container)
         {
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
@@ -48,6 +52,8 @@
 
             services.EnableSimpleInjectorCrossWiring(container);
             services.UseSimpleInjectorAspNetRequestScoping(container);
+
+            return services;
         }
     }
 }

@@ -7,10 +7,14 @@
   <ItemGroup>
     <None Remove="App_Data\SPNames\DBAGE.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\DBCust.CustDB.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\Local\DBAGE.bodb_AGE.BODBDownlineNet.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="App_Data\SPNames\Local\DBAGE.bodb02.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\Local\DBAGE.bodb_AGE.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\Local\DBCust.CustDB.BODBDownlineNet.xml">
