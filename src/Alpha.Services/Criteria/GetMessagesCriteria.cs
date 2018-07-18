@@ -1,15 +1,23 @@
 ﻿namespace Alpha.Services.Criteria
 {
     using System;
+    using System.Collections.Generic;
+    using Alpha.Services.Models;
     using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class GetMessagesCriteria : CriteriaBase
     {
+        private static readonly IDictionary<int, int> specialTypes = new Dictionary<int, int>
+        {
+            [Constants.MessageTypeConstants.Normal] = 0,
+            [Constants.MessageTypeConstants.Special] = 1,
+            [Constants.MessageTypeConstants.Personal] = 2
+        };
+
         public GetMessagesCriteria(
             int custId,
             string parentSites,
-            int specialType,
             int totalMessage,
             DateTime startDate,
             DateTime endDate,
@@ -18,12 +26,14 @@
         {
             CustId = custId;
             ParentSites = parentSites;
-            Special = specialType;
             TotalMessasge = totalMessage;
             StartDate = startDate;
             EndDate = endDate;
             IsTest = isTest;
         }
+
+        [SpParam(Ignored = true)]
+        public UserLevel CustLevel { get; }
 
         [SpParam(SqlParamName = "targetId")]
         public int CustId { get; }
@@ -31,7 +41,7 @@
         [SpParam(SqlParamName = "targetId2")]
         public string ParentSites { get; }
 
-        public int Special { get; }
+        public int Special => specialTypes[MessageType];
 
         [SpParam(SqlParamName = "record")]
         public int TotalMessasge { get; }
@@ -48,9 +58,9 @@
         public int MessageType { get; }
 
         public override string GetSettingKey()
-            => MessageType == Constants.MessageType.Personal
+            => MessageType == Constants.MessageTypeConstants.Personal
             ? "Dot_Msg_GetPrivateMessage"
-            : MessageType == Constants.MessageType.Normal
+            : MessageType == Constants.MessageTypeConstants.Normal
             ? "Dot_Msg_GetPublicMessage"
             : "Dot_Msg_GetSpecialMessage";
 

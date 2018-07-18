@@ -8,6 +8,7 @@
     <None Remove="App_Data\SPNames\DBAGE.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\DBCust.CustDB.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Local\DBAGE.bodb_AGE.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\Local\DBMSG.bodb_Message.BODBDownlineNet.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +19,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\Local\DBCust.CustDB.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\Local\DBMSG.bodb_Message.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

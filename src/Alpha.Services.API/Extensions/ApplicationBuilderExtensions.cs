@@ -70,6 +70,7 @@
             container.RegisterSingleton<ProductService, ProductServiceImpl>();
             container.RegisterSingleton<CustomerDateLimitService, CustomerDateLimitServiceImpl>();
             container.RegisterSingleton<WinLossService, WinLossServiceImpl>();
+            container.RegisterSingleton<MessageService, MessageServiceImpl>();
         }
     }
 }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Alpha.Services.API.Extensions;
+    using Alpha.Services.Configurations;
     using Fanex.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -38,6 +39,9 @@
                 .Run();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.Configure<AppSettings>(Configuration);
+
             services.ConfigureCors()
                 .IntegrateSimpleInjector(container)
                 .AddMemoryCache()
