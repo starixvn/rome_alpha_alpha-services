@@ -6,6 +6,10 @@ namespace Alpha.Services.Models
 {
     public class Message
     {
+        public Message()
+        {
+        }
+
         public Message(
             int id,
             string contentEN,
@@ -13,9 +17,7 @@ namespace Alpha.Services.Models
             string contentCH,
             string contentJP,
             string contentTH,
-            string contentIT,
             string contentKO,
-            string contentES,
             string contentVI,
             DateTime postTime,
             DateTime createTime,
@@ -35,6 +37,14 @@ namespace Alpha.Services.Models
             long rowNum)
         {
             Id = id;
+            ContentEN = contentEN;
+            ContentCS = contentCS;
+            ContentCH = contentCH;
+            ContentJP = contentJP;
+            ContentTH = contentTH;
+            ContentKO = contentKO;
+            ContentVI = contentVI;
+
             PostTime = postTime;
             CreateTime = createTime;
             LastUpdateTime = lastUpdateTime;
@@ -51,58 +61,71 @@ namespace Alpha.Services.Models
             UserId = userId;
             UserName = userName;
             RowNum = rowNum;
-
-            Contents = new Dictionary<string, string>
-            {
-                [LanguageConstants.English] = contentEN ?? string.Empty,
-                [LanguageConstants.ChineseSimplified] = contentCS ?? string.Empty,
-                [LanguageConstants.ChineseTraditional] = contentCH ?? string.Empty,
-                [LanguageConstants.Japanese] = contentJP ?? string.Empty,
-                [LanguageConstants.Thai] = contentTH ?? string.Empty,
-                [LanguageConstants.Korean] = contentKO ?? string.Empty,
-                [LanguageConstants.Vietnamese] = contentVI ?? string.Empty
-            };
         }
 
-        private readonly Dictionary<string, string> Contents;
+        public int Id { get; }
 
-        public int Id { get; private set; }
+        public string ContentEN { get; }
 
-        public DateTime PostTime { get; private set; }
+        public string ContentCS { get; }
 
-        public DateTime CreateTime { get; private set; }
+        public string ContentCH { get; }
 
-        public DateTime LastUpdateTime { get; internal set; }
+        public string ContentJP { get; }
 
-        public byte MessageType { get; internal set; }
+        public string ContentTH { get; }
 
-        public bool IsSticky { get; internal set; }
+        public string ContentKO { get; }
 
-        public bool IsTest { get; private set; }
+        public string ContentVI { get; }
 
-        public int MatchId { get; private set; }
+        public DateTime PostTime { get; }
 
-        public int CreatorId { get; private set; }
+        public DateTime CreateTime { get; }
 
-        public int LastUpdator { get; private set; }
+        public DateTime LastUpdateTime { get; }
 
-        public string CreatorName { get; private set; }
+        public byte MessageType { get; }
 
-        public string LastUpdateName { get; private set; }
+        public bool IsSticky { get; }
 
-        public bool IsBatch { get; private set; }
+        public bool IsTest { get; }
 
-        public string BetTransId { get; private set; }
+        public int MatchId { get; }
 
-        public int UserId { get; private set; }
+        public int CreatorId { get; }
 
-        public string UserName { get; private set; }
+        public int LastUpdator { get; }
 
-        public long RowNum { get; private set; }
+        public string CreatorName { get; }
 
-        public string GetContentByKey(string languageKey)
+        public string LastUpdateName { get; }
+
+        public bool IsBatch { get; }
+
+        public string BetTransId { get; }
+
+        public int UserId { get; }
+
+        public string UserName { get; }
+
+        public long RowNum { get; }
+
+        public IDictionary<string, string> Contents
+            => new Dictionary<string, string>
+            {
+                [LanguageConstants.English] = ContentEN ?? string.Empty,
+                [LanguageConstants.ChineseSimplified] = ContentCS ?? string.Empty,
+                [LanguageConstants.ChineseTraditional] = ContentCH ?? string.Empty,
+                [LanguageConstants.Japanese] = ContentJP ?? string.Empty,
+                [LanguageConstants.Thai] = ContentTH ?? string.Empty,
+                [LanguageConstants.Korean] = ContentKO ?? string.Empty,
+                [LanguageConstants.Vietnamese] = ContentVI ?? string.Empty
+            };
+
+        public string GetContentByLanguage(string languageKey)
             => Contents.ContainsKey(languageKey) && !string.IsNullOrEmpty(Contents[languageKey])
-            ? Contents[languageKey]
-            : Contents[LanguageConstants.English];
+                ? Contents[languageKey]
+                : Contents[LanguageConstants.English];
     }
 }
