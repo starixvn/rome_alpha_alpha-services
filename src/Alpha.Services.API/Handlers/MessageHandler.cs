@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
+    using Alpha.Services.Extensions;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
     using MediatR;
@@ -30,7 +31,10 @@
 
             var messages = await messageService.GetMessages(param);
 
-            return messages.Select(message => new MessageViewModel(message.Id, message.GetContentByLanguage(param.Language)));
+            return messages.Select(message
+                => new MessageViewModel(
+                    message.Id,
+                    message.GetContentByLanguage(param.Language).StripHTML()));
         }
     }
 }
