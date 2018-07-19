@@ -1,8 +1,14 @@
 ﻿namespace Alpha.Services.API.Extensions
 {
+    using Alpha.Services.API.Infrastructure.Filters;
+    using Alpha.Services.Configurations;
+    using MessagePack.AspNetCoreMvcFormatter;
+    using MessagePack.Resolvers;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.ViewComponents;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using SimpleInjector;
     using SimpleInjector.Integration.AspNetCore.Mvc;
@@ -11,21 +17,29 @@
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection ConfigureCors(this IServiceCollection services)
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            services.AddCors(options =>
+            services.AddMvc(options =>
             {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("msgpack", "application/x-msgpack");
+                options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Instance));
+                options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Instance));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy",
+                        builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+                });
 
             return services;
         }
 
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -35,6 +49,14 @@
                     Version = "v1"
                 });
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOptions();
+            services.Configure<AppSettings>(configuration);
 
             return services;
         }

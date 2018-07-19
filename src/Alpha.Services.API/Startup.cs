@@ -4,12 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using Alpha.Services.API.Extensions;
-    using Alpha.Services.API.Infrastructure.Filters;
-    using Alpha.Services.Configurations;
     using Fanex.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using SimpleInjector;
@@ -25,7 +22,6 @@
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             Dictionary<string, string> connections = Configuration
@@ -39,29 +35,16 @@
                 .UseDefaultDbSettingProvider("~/App_Data/SPNames/Local")
                 .Run();
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.Configure<AppSettings>(Configuration);
-
-            services.ConfigureCors()
+            services.AddCustomMvc()
+                .AddCustomSwagger()
                 .IntegrateSimpleInjector(container)
-                .AddMemoryCache()
-                .AddSwagger();
+                .AddMemoryCache();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            app.UseCors("CorsPolicy");
             app.InitializeContainer(container);
-
             app.UseMvc();
 
             app.UseSwagger()
