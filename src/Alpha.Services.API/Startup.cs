@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Alpha.Services.API.Extensions;
+    using Alpha.Services.API.Infrastructure.Filters;
     using Alpha.Services.Configurations;
     using Fanex.Data;
     using Microsoft.AspNetCore.Builder;
@@ -38,7 +39,10 @@
                 .UseDefaultDbSettingProvider("~/App_Data/SPNames/Local")
                 .Run();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<AppSettings>(Configuration);
 
