@@ -1,18 +1,14 @@
-﻿namespace Alpha.Services.API.ViewModels
-{
-    using MessagePack;
+﻿using MessagePack;
 
-    [MessagePackObject(keyAsPropertyName: true)]
+namespace Alpha.Services.API.ViewModels
+{
+    [MessagePackObject]
     public class MessageViewModel
     {
-        public MessageViewModel(int id, string content)
-        {
-            Id = id;
-            Content = content;
-        }
+        [Key(0)]
+        public int Id { get; set; }
 
-        public int Id { get; }
-
-        public string Content { get; }
+        [Key(1)]
+        public string Content { get; set; }
     }
 }

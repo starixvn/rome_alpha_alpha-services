@@ -6,6 +6,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
+    [FormatFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
@@ -17,17 +18,23 @@
             this.mediator = mediator;
         }
 
-        [HttpGet("{custId}/messages/{messageType}/{from}/{to}/{language}")]
+        [HttpGet("{custId}/messages/{messageType}/{language}/{fromTime}/{toTime}")]
         public async Task<IActionResult> GetMessages(
             int custId,
             int messageType,
-            DateTime from,
-            DateTime to,
-            string language)
+            string language,
+            long fromTime,
+            long toTime)
         {
-            var messages = await mediator.Send(new MessageQuery(custId, messageType, language, from, to));
+            var messages = await mediator.Send(
+                new MessageQuery(
+                    custId,
+                    messageType,
+                    language,
+                    DateTimeOffset.FromUnixTimeMilliseconds(fromTime).DateTime.ToLocalTime(),
+                    DateTimeOffset.FromUnixTimeMilliseconds(toTime).DateTime.ToLocalTime()));
 
-            return Ok(messages);
+            return Ok(MessagePack.MessagePackSerializer.Serialize(messages));
         }
     }
 }

@@ -38,6 +38,7 @@
             services.AddCustomMvc()
                 .AddCustomSwagger()
                 .IntegrateSimpleInjector(container)
+                .AddCustomConfiguration(Configuration)
                 .AddMemoryCache();
         }
 

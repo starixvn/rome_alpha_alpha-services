@@ -18,18 +18,15 @@
     public class MessageServiceImpl : MessageService
     {
         private readonly IDynamicRepository dynamicRepository;
-        private readonly CustomerService customerService;
         private readonly CustomerDateLimitService customerDateLimitService;
         private readonly AppSettings appSettings;
 
         public MessageServiceImpl(
             IDynamicRepository dynamicRepository,
-            CustomerService customerService,
             CustomerDateLimitService customerDateLimitService,
             IOptions<AppSettings> options)
         {
             this.dynamicRepository = dynamicRepository;
-            this.customerService = customerService;
             this.customerDateLimitService = customerDateLimitService;
 
             appSettings = options.Value;
@@ -37,8 +34,7 @@
 
         public async Task<IEnumerable<Message>> GetMessages(MessageParam param)
         {
-            var customer = await customerService.GetCustomerInfo(param.CustId);
-            var custLevel = customer.CustLevel;
+            var custLevel = param.CustLevel;
             var parentSites = custLevel.IsSuperLevel()
                 ? appSettings.ParentSites.Super
                 : custLevel.IsMasterLevel()

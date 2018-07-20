@@ -1,8 +1,5 @@
 ﻿namespace Alpha.Services.API.ViewModels
 {
-    using MessagePack;
-
-    [MessagePackObject(keyAsPropertyName: true)]
     public class OutstandingViewModel
     {
         public OutstandingViewModel(decimal outstanding, decimal totalOutstanding)

@@ -6,6 +6,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
+    [FormatFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportController : ControllerBase
@@ -34,9 +35,10 @@
         }
 
         [HttpGet("{custId}/winloss/{date}")]
-        public async Task<IActionResult> GetWinLoss(int custId, DateTime date)
+        public async Task<IActionResult> GetWinLoss(int custId, long date)
         {
-            var winLoss = await mediator.Send(new WinLossQuery(custId, date));
+            var winLoss = await mediator.Send(
+                new WinLossQuery(custId, DateTimeOffset.FromUnixTimeMilliseconds(date).DateTime.ToLocalTime()));
 
             return Ok(winLoss);
         }

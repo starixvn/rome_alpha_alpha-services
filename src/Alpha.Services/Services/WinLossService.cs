@@ -1,6 +1,7 @@
 ﻿namespace Alpha.Services.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Alpha.Services.Criteria;
     using Alpha.Services.Extensions;
@@ -28,10 +29,9 @@
 
         public async Task<IEnumerable<WinLossModel>> GetWinLoss(WinLossParam param)
         {
-            var winLossData = new List<WinLossModel>();
             var reportDate = await reportDateService.GetBalanceUpDayAndMoveBetsDay();
 
-            var winLossDTOs = await dynamicRepository.FetchAsync<WinLossDTO>(
+            var winLossDtos = await dynamicRepository.FetchAsync<WinLossDTO>(
                 new GetWinLossCriteria(
                     param.CustLevel,
                     param.CustId,
@@ -41,12 +41,7 @@
                     reportDate.MoveBetsDay,
                     param.ProductIds));
 
-            foreach (var dto in winLossDTOs)
-            {
-                winLossData.Add(BuildWinLoss(dto, param.CustLevel));
-            }
-
-            return winLossData;
+            return winLossDtos.Select(dto => BuildWinLoss(dto, param.CustLevel));
         }
 
         private static WinLossModel BuildWinLoss(WinLossDTO winLossDTO, UserLevel custLevel)

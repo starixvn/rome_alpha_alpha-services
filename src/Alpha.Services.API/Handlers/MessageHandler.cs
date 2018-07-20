@@ -14,15 +14,21 @@
     public class MessageHandler : IRequestHandler<MessageQuery, IEnumerable<MessageViewModel>>
     {
         private readonly MessageService messageService;
+        private readonly CustomerService customerService;
 
-        public MessageHandler(MessageService messageService)
+        public MessageHandler(
+            MessageService messageService,
+            CustomerService customerService)
         {
             this.messageService = messageService;
+            this.customerService = customerService;
         }
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
         {
+            var customer = await customerService.GetCustomerInfo(request.CustId);
             var param = new MessageParam(
+                customer.CustLevel,
                 request.CustId,
                 request.MessageType,
                 request.Language,
@@ -32,9 +38,11 @@
             var messages = await messageService.GetMessages(param);
 
             return messages.Select(
-                message => new MessageViewModel(
-                    message.Id,
-                    message.GetContentByLanguage(param.Language).StripHTML()));
+                message => new MessageViewModel
+                {
+                    Id = message.Id,
+                    Content = message.GetContentByLanguage(param.Language).StripHTML()
+                });
         }
     }
 }

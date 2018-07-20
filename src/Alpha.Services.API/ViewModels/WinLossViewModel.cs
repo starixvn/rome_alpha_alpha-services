@@ -1,9 +1,7 @@
 ﻿namespace Alpha.Services.API.ViewModels
 {
     using Alpha.Services.Models;
-    using MessagePack;
 
-    [MessagePackObject(keyAsPropertyName: true)]
     public class WinLossViewModel
     {
         public WinLossViewModel(
