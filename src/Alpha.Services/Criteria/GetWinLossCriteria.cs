@@ -49,6 +49,9 @@
             ? "Age_Rpt_WinLoss_Agent"
             : "Age_Rpt_WinLoss_Master";
 
-        public override bool IsValid() => CustId > 0 && FromDate <= ToDate;
+        public override bool IsValid()
+            => CustId > 0
+                && FromDate <= ToDate
+                && !string.IsNullOrWhiteSpace(ProductIds);
     }
 }

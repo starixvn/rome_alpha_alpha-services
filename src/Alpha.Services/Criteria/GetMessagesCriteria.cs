@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Alpha.Services.Constants;
     using Alpha.Services.Models;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -10,9 +11,9 @@
     {
         private static readonly IDictionary<int, int> specialTypes = new Dictionary<int, int>
         {
-            [Constants.MessageTypeConstants.Normal] = 0,
-            [Constants.MessageTypeConstants.Special] = 1,
-            [Constants.MessageTypeConstants.Personal] = 2
+            [MessageTypeConstants.Normal] = 0,
+            [MessageTypeConstants.Special] = 1,
+            [MessageTypeConstants.Personal] = 2
         };
 
         public GetMessagesCriteria(
@@ -30,6 +31,7 @@
             StartDate = startDate;
             EndDate = endDate;
             IsTest = isTest;
+            MessageType = messageType;
         }
 
         [SpParam(Ignored = true)]
@@ -58,12 +60,15 @@
         public int MessageType { get; }
 
         public override string GetSettingKey()
-            => MessageType == Constants.MessageTypeConstants.Personal
+            => MessageType == MessageTypeConstants.Personal
             ? "Dot_Msg_GetPrivateMessage"
-            : MessageType == Constants.MessageTypeConstants.Normal
+            : MessageType == MessageTypeConstants.Normal
             ? "Dot_Msg_GetPublicMessage"
             : "Dot_Msg_GetSpecialMessage";
 
-        public override bool IsValid() => CustId > 0 && !string.IsNullOrEmpty(ParentSites);
+        public override bool IsValid()
+            => CustId > 0
+                && !string.IsNullOrWhiteSpace(ParentSites)
+                && EndDate >= StartDate;
     }
 }
