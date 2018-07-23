@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
-    using Alpha.Services.Params;
     using Alpha.Services.Services;
     using MediatR;
 
@@ -24,10 +23,12 @@
         public async Task<OutstandingViewModel> Handle(OutstandingQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
-            var param = new OutstandingParam(customer.CustLevel, customer.CustId);
-            var outstanding = await outstandingService.GetOutstanding(param);
+            var outstanding = await outstandingService.GetOutstanding(customer.CustLevel, customer.CustId);
 
-            return new OutstandingViewModel(outstanding.Outstanding, outstanding.TotalOutstanding);
+            return new OutstandingViewModel(
+                customer.RoleId,
+                outstanding.Outstanding,
+                outstanding.TotalOutstanding);
         }
     }
 }

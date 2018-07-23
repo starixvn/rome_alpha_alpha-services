@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
-    using Alpha.Services.Params;
     using Alpha.Services.Services;
     using MediatR;
 
@@ -24,8 +23,7 @@
         public async Task<BalanceInfoViewModel> Handle(BalanceInfoQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
-            var param = new BalanceInfoParam(customer.CustLevel, customer.CustId);
-            var balanceInfo = await balanceInfoService.GetBalanceInfo(param);
+            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, customer.CustId);
 
             return new BalanceInfoViewModel(
                 customer.CurrencyName,

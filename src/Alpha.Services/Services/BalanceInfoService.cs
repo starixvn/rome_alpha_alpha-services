@@ -3,12 +3,11 @@
     using System.Threading.Tasks;
     using Alpha.Services.Criteria;
     using Alpha.Services.Models;
-    using Alpha.Services.Params;
     using Fanex.Data.Repository;
 
     public interface BalanceInfoService
     {
-        Task<BalanceInfo> GetBalanceInfo(BalanceInfoParam param);
+        Task<BalanceInfo> GetBalanceInfo(UserLevel custLevel, int custId);
     }
 
     public class BalanceInfoServiceImpl : BalanceInfoService
@@ -24,14 +23,14 @@
             this.reportDateService = reportDateService;
         }
 
-        public async Task<BalanceInfo> GetBalanceInfo(BalanceInfoParam param)
+        public async Task<BalanceInfo> GetBalanceInfo(UserLevel custLevel, int custId)
         {
             var moveBetsDay = await reportDateService.GetMoveBetsDay();
 
             return await dynamicRepository.GetAsync<BalanceInfo>(
                 new GetBalanceInfoCriteria(
-                    param.CustLevel,
-                    param.CustId,
+                    custLevel,
+                    custId,
                     moveBetsDay));
         }
     }

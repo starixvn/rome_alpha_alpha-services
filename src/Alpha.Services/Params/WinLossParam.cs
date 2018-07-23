@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Alpha.Services.Models;
-
-namespace Alpha.Services.Params
+﻿namespace Alpha.Services.Params
 {
+    using System;
+    using System.Collections.Generic;
+    using Alpha.Services.Models;
+
     public class WinLossParam
     {
         public WinLossParam(
