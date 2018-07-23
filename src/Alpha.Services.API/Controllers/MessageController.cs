@@ -34,7 +34,7 @@
                     DateTimeOffset.FromUnixTimeMilliseconds(fromTime).DateTime.ToLocalTime(),
                     DateTimeOffset.FromUnixTimeMilliseconds(toTime).DateTime.ToLocalTime()));
 
-            return Ok(MessagePack.MessagePackSerializer.Serialize(messages));
+            return Ok(messages);
         }
     }
 }

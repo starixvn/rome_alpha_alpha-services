@@ -1,8 +1,5 @@
 ﻿namespace Alpha.Services.Client.Models
 {
-    using MessagePack;
-
-    [MessagePackObject(keyAsPropertyName: true)]
     public class WinLoss
     {
         public decimal TurnOver { get; set; }

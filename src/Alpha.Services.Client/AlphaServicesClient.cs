@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Alpha.Services.Client.Models;
-    using MessagePack;
     using RestSharp;
 
     public class AlphaServicesClient : IAlphaServicesClient
@@ -43,13 +42,11 @@
         private T Get<T>(string resource) where T : new()
         {
             var request = new RestRequest(resource, Method.GET);
-            request.AddHeader("Accept", "application/x-msgpack");
-
-            var response = restClient.Execute(request);
+            var response = restClient.Execute<T>(request);
 
             if (response.IsSuccessful)
             {
-                return MessagePackSerializer.Deserialize<T>(response.RawBytes);
+                return response.Data;
             }
 
             throw new InvalidOperationException(response.ErrorMessage);
@@ -58,13 +55,11 @@
         private async Task<T> GetAsync<T>(string resource) where T : new()
         {
             var request = new RestRequest(resource, Method.GET);
-            request.AddHeader("Accept", "application/x-msgpack");
-
-            var response = await restClient.ExecuteTaskAsync(request);
+            var response = await restClient.ExecuteTaskAsync<T>(request);
 
             if (response.IsSuccessful)
             {
-                return MessagePackSerializer.Deserialize<T>(response.RawBytes);
+                return response.Data;
             }
 
             throw new InvalidOperationException(response.ErrorMessage);

@@ -2,8 +2,6 @@
 {
     using Alpha.Services.API.Infrastructure.Filters;
     using Alpha.Services.Configurations;
-    using MessagePack.AspNetCoreMvcFormatter;
-    using MessagePack.Resolvers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
@@ -22,9 +20,6 @@
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-                options.FormatterMappings.SetMediaTypeMappingForFormat("msgpack", "application/x-msgpack");
-                options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Instance));
-                options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Instance));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddCors(options =>

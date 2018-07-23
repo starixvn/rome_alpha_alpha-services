@@ -1,8 +1,5 @@
 ﻿namespace Alpha.Services.Client.Models
 {
-    using MessagePack;
-
-    [MessagePackObject(keyAsPropertyName: true)]
     public class BalanceInfo
     {
         public string Currency { get; set; }
