@@ -1,7 +1,7 @@
 ﻿namespace Alpha.Services.Sample
 {
     using System;
-    using Alpha.Services.Client;
+    using Alpha.Services.Client.Services;
     using Newtonsoft.Json;
     using RestSharp;
 
@@ -10,85 +10,86 @@
         private static void Main(string[] args)
         {
             var restClient = new RestClient("http://localhost:57847/api");
-            var alphaServicesClient = new AlphaServicesClient(restClient);
 
-            Console.WriteLine("-------------------- Sync --------------------");
+            Console.WriteLine("-------------------- Report Service --------------------");
 
-            GetOutstanding(alphaServicesClient);
-            GetBalanceInfo(alphaServicesClient);
-            GetWinLoss(alphaServicesClient);
-            GetMessages(alphaServicesClient);
+            var reportService = new ReportServiceImpl(restClient);
+            GetOutstanding(reportService);
+            GetBalanceInfo(reportService);
+            GetWinLoss(reportService);
+            GetOutstandingAsync(reportService);
+            GetBalanceInfoAsync(reportService);
+            GetWinLossAsync(reportService);
 
-            Console.WriteLine("-------------------- Async --------------------");
+            Console.WriteLine("-------------------- Message Service --------------------");
 
-            GetOutstandingAsync(alphaServicesClient);
-            GetBalanceInfoAsync(alphaServicesClient);
-            GetWinLossAsync(alphaServicesClient);
-            GetMessagesAsync(alphaServicesClient);
+            var messageService = new MessageServiceImpl(restClient);
+            GetMessages(messageService);
+            GetMessagesAsync(messageService);
         }
 
-        #region Sync
+        #region Report
 
-        private static void GetOutstanding(IAlphaServicesClient client)
+        private static void GetOutstanding(ReportService service)
         {
-            var outstanding = client.GetOutstanding(1176086);
+            var outstanding = service.GetOutstanding(1176086);
 
             Console.WriteLine($"Request: GetOutstanding, response: {JsonConvert.SerializeObject(outstanding)}");
         }
 
-        private static void GetBalanceInfo(IAlphaServicesClient client)
+        private static void GetBalanceInfo(ReportService service)
         {
-            var balanceInfo = client.GetBalanceInfo(1176086);
+            var balanceInfo = service.GetBalanceInfo(1176086);
 
             Console.WriteLine($"Request: GetBalanceInfo, response: {JsonConvert.SerializeObject(balanceInfo)}");
         }
 
-        private static void GetWinLoss(IAlphaServicesClient client)
+        private static void GetWinLoss(ReportService service)
         {
-            var winLoss = client.GetWinLoss(1176086, DateTime.Now.AddDays(-1).Date);
+            var winLoss = service.GetWinLoss(1176086, DateTime.Now.AddDays(-1).Date);
 
             Console.WriteLine($"Request: GetWinLoss, response: {JsonConvert.SerializeObject(winLoss)}");
         }
 
-        private static void GetMessages(IAlphaServicesClient client)
+        private static void GetOutstandingAsync(ReportService service)
         {
-            var messages = client.GetMessages(1176086, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now);
-
-            Console.WriteLine($"Request: GetMessages, response: {JsonConvert.SerializeObject(messages)}");
-        }
-
-        #endregion Sync
-
-        #region Async
-
-        private static void GetOutstandingAsync(IAlphaServicesClient client)
-        {
-            var outstanding = client.GetOutstandingAsync(1176086).Result;
+            var outstanding = service.GetOutstandingAsync(1176086).Result;
 
             Console.WriteLine($"Request: GetOutstandingAsync, response: {JsonConvert.SerializeObject(outstanding)}");
         }
 
-        private static void GetBalanceInfoAsync(IAlphaServicesClient client)
+        private static void GetBalanceInfoAsync(ReportService service)
         {
-            var balanceInfo = client.GetBalanceInfoAsync(1176086).Result;
+            var balanceInfo = service.GetBalanceInfoAsync(1176086).Result;
 
             Console.WriteLine($"Request: GetBalanceInfoAsync, response: {JsonConvert.SerializeObject(balanceInfo)}");
         }
 
-        private static void GetWinLossAsync(IAlphaServicesClient client)
+        private static void GetWinLossAsync(ReportService service)
         {
-            var winLoss = client.GetWinLossAsync(1176086, DateTime.Now.AddDays(-1).Date).Result;
+            var winLoss = service.GetWinLossAsync(1176086, DateTime.Now.AddDays(-1).Date).Result;
 
             Console.WriteLine($"Request: GetWinLossAsync, response: {JsonConvert.SerializeObject(winLoss)}");
         }
 
-        private static void GetMessagesAsync(IAlphaServicesClient client)
+        #endregion Report
+
+        #region Message
+
+        private static void GetMessages(MessageService service)
         {
-            var messages = client.GetMessagesAsync(1176086, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now).Result;
+            var messages = service.GetMessages(1176086, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now);
+
+            Console.WriteLine($"Request: GetMessages, response: {JsonConvert.SerializeObject(messages)}");
+        }
+
+        private static void GetMessagesAsync(MessageService service)
+        {
+            var messages = service.GetMessagesAsync(1176086, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now).Result;
 
             Console.WriteLine($"Request: GetMessagesAsync, response: {JsonConvert.SerializeObject(messages)}");
         }
 
-        #endregion Async
+        #endregion Message
     }
 }
