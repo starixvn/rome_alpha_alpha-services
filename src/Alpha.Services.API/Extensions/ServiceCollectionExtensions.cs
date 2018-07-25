@@ -44,7 +44,6 @@
                     Title = "Alpha Services",
                     Version = "v1"
                 });
-                options.AddSecurityDefinition("HMAC")
             });
 
             return services;
