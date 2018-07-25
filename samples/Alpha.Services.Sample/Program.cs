@@ -3,17 +3,14 @@
     using System;
     using Alpha.Services.Client.Services;
     using Newtonsoft.Json;
-    using RestSharp;
 
     internal class Program
     {
         private static void Main(string[] args)
         {
-            var restClient = new RestClient("http://localhost:57847/api");
-
             Console.WriteLine("-------------------- Report Service --------------------");
 
-            var reportService = new ReportServiceImpl(restClient);
+            var reportService = new ReportServiceImpl();
             GetOutstanding(reportService);
             GetBalanceInfo(reportService);
             GetWinLoss(reportService);
@@ -23,7 +20,7 @@
 
             Console.WriteLine("-------------------- Message Service --------------------");
 
-            var messageService = new MessageServiceImpl(restClient);
+            var messageService = new MessageServiceImpl();
             GetMessages(messageService);
             GetMessagesAsync(messageService);
         }

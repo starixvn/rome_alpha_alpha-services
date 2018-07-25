@@ -1,5 +1,6 @@
 ﻿namespace Alpha.Services.API.Extensions
 {
+    using Alpha.Services.API.Infrastructure.Auth;
     using Alpha.Services.API.Infrastructure.Filters;
     using Alpha.Services.Configurations;
     using Microsoft.AspNetCore.Http;
@@ -43,6 +44,7 @@
                     Title = "Alpha Services",
                     Version = "v1"
                 });
+                options.AddSecurityDefinition("HMAC")
             });
 
             return services;
@@ -68,6 +70,16 @@
                         ContentTypes = { "application/problem+json", "application/problem+xml" }
                     };
                 };
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.AddScheme("HMAC", auth => auth.HandlerType = typeof(HmacAuthenticationHandler));
             });
 
             return services;

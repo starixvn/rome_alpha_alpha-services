@@ -3,7 +3,6 @@
     using System;
     using System.Threading.Tasks;
     using Alpha.Services.Client.Models;
-    using RestSharp;
 
     public interface ReportService
     {
@@ -22,11 +21,6 @@
 
     public class ReportServiceImpl : BaseService, ReportService
     {
-        public ReportServiceImpl(IRestClient restClient)
-            : base(restClient)
-        {
-        }
-
         public OutstandingModel GetOutstanding(int custId)
            => Get<OutstandingModel>($"report/{custId}/outstanding");
 

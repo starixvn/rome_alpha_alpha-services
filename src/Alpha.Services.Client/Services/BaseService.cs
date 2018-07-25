@@ -2,16 +2,29 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Alpha.Services.Client.Configurations;
+    using Alpha.Services.Client.Helpers;
     using RestSharp;
 
     public abstract class BaseService
     {
         private readonly IRestClient restClient;
 
-        protected BaseService(IRestClient restClient)
+        public BaseService() : this(null)
         {
-            this.restClient = restClient;
         }
+
+        internal BaseService(IRestClient restClient = null)
+        {
+            this.restClient = restClient ?? CreateDefaultClient();
+        }
+
+        public static IRestClient CreateDefaultClient()
+           => new RestClient
+           {
+               BaseUrl = new Uri(AppSettings.BaseUrl),
+               Authenticator = new HmacAuthenticator()
+           };
 
         protected T Get<T>(string resource) where T : new()
         {

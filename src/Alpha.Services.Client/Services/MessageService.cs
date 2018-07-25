@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Alpha.Services.Client.Models;
-    using RestSharp;
 
     public interface MessageService
     {
@@ -15,11 +14,6 @@
 
     public class MessageServiceImpl : BaseService, MessageService
     {
-        public MessageServiceImpl(IRestClient restClient)
-            : base(restClient)
-        {
-        }
-
         public IEnumerable<Message> GetMessages(int custId, int messageType, string language, DateTimeOffset fromTime, DateTimeOffset toTime)
            => Get<List<Message>>($"message/{custId}/messages/{messageType}/{language}/{fromTime.ToUnixTimeMilliseconds()}/{toTime.ToUnixTimeMilliseconds()}");
 

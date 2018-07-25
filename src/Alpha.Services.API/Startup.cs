@@ -39,7 +39,8 @@
                 .AddCustomSwagger()
                 .IntegrateSimpleInjector(container)
                 .AddCustomConfiguration(Configuration)
-                .AddMemoryCache();
+                .AddMemoryCache()
+                .AddCustomAuthentication();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
