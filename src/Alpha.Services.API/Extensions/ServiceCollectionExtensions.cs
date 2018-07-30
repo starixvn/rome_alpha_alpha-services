@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
     using Swashbuckle.AspNetCore.Swagger;
 
     public static class ServiceCollectionExtensions
@@ -50,6 +51,8 @@
         {
             services.AddOptions();
             services.Configure<AppSettings>(configuration);
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppSettings>>().Value);
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>

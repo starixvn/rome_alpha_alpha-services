@@ -8,7 +8,6 @@
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Fanex.Data.Repository;
-    using Microsoft.Extensions.Options;
 
     public interface MessageService
     {
@@ -24,12 +23,11 @@
         public MessageServiceImpl(
             IDynamicRepository dynamicRepository,
             CustomerDateLimitService customerDateLimitService,
-            IOptions<AppSettings> options)
+            AppSettings appSettings)
         {
             this.dynamicRepository = dynamicRepository;
             this.customerDateLimitService = customerDateLimitService;
-
-            appSettings = options.Value;
+            this.appSettings = appSettings;
         }
 
         public async Task<IEnumerable<Message>> GetMessages(MessageParam param)
