@@ -8,8 +8,8 @@
     using Microsoft.AspNetCore.Mvc;
 
     [FormatFilter]
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = "HMAC")]
     public class ReportController : ControllerBase
     {

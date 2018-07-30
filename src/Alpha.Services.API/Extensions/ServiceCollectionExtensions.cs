@@ -3,15 +3,12 @@
     using Alpha.Services.API.Infrastructure.Auth;
     using Alpha.Services.API.Infrastructure.Filters;
     using Alpha.Services.Configurations;
+    using Alpha.Services.Services;
+    using Fanex.Data.Repository;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Controllers;
-    using Microsoft.AspNetCore.Mvc.ViewComponents;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using SimpleInjector;
-    using SimpleInjector.Integration.AspNetCore.Mvc;
-    using SimpleInjector.Lifestyles;
     using Swashbuckle.AspNetCore.Swagger;
 
     public static class ServiceCollectionExtensions
@@ -84,19 +81,23 @@
             return services;
         }
 
-        public static IServiceCollection IntegrateSimpleInjector(this IServiceCollection services, Container container)
+        public static IServiceCollection AddDataAccesses(this IServiceCollection services)
         {
-            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            services.AddSingleton<IDynamicRepository, DynamicRepository>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            return services;
+        }
 
-            services.AddSingleton<IControllerActivator>(
-                new SimpleInjectorControllerActivator(container));
-            services.AddSingleton<IViewComponentActivator>(
-                new SimpleInjectorViewComponentActivator(container));
-
-            services.EnableSimpleInjectorCrossWiring(container);
-            services.UseSimpleInjectorAspNetRequestScoping(container);
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddSingleton<CustomerService, CustomerServiceImpl>();
+            services.AddSingleton<OutstandingService, OutstandingServiceImpl>();
+            services.AddSingleton<ReportDateService, ReportDateServiceImpl>();
+            services.AddSingleton<BalanceInfoService, BalanceInfoServiceImpl>();
+            services.AddSingleton<ProductService, ProductServiceImpl>();
+            services.AddSingleton<CustomerDateLimitService, CustomerDateLimitServiceImpl>();
+            services.AddSingleton<WinLossService, WinLossServiceImpl>();
+            services.AddSingleton<MessageService, MessageServiceImpl>();
 
             return services;
         }

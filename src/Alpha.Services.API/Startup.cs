@@ -3,18 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Alpha.Services.API.Extensions;
     using Fanex.Data;
+    using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using SimpleInjector;
 
     public class Startup
     {
-        private Container container = new Container();
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,7 +36,9 @@
 
             services.AddCustomMvc()
                 .AddCustomSwagger()
-                .IntegrateSimpleInjector(container)
+                .AddMediatR(typeof(Startup).GetTypeInfo().Assembly)
+                .AddDataAccesses()
+                .AddServices()
                 .AddCustomConfiguration(Configuration)
                 .AddMemoryCache()
                 .AddCustomAuthentication();
@@ -46,13 +47,12 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
-            app.InitializeContainer(container);
             app.UseMvc();
 
             app.UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alpha.Services V1");
+                    c.SwaggerEndpoint("../swagger/v1/swagger.json", "Alpha.Services V1");
                 });
         }
     }
