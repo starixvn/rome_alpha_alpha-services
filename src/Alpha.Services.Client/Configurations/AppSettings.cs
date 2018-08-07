@@ -1,23 +1,66 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Configuration;
-
-namespace Alpha.Services.Client.Configurations
+﻿namespace Alpha.Services.Client.Configurations
 {
-    public static class AppSettings
+    using System;
+    using System.Collections.Specialized;
+    using System.Configuration;
+    using System.IO;
+    using Microsoft.Extensions.Configuration;
+
+    public interface IServiceSettings
     {
-        [ThreadStatic]
-        private static NameValueCollection settings;
+        string BaseUrl { get; }
 
-        internal static NameValueCollection Settings
+        string ApiKey { get; }
+    }
+
+    public class ServiceSettings : IServiceSettings
+    {
+        public ServiceSettings(string baseUrl, string apiKey)
         {
-            get { return settings ?? ConfigurationManager.AppSettings; }
-
-            set { settings = value; }
+            BaseUrl = baseUrl;
+            ApiKey = apiKey;
         }
 
-        public static string BaseUrl => Settings["AlphaServicesClient:BaseUrl"];
+        public string BaseUrl { get; }
 
-        public static string ApiKey => Settings["AlphaServicesClient:ApiKey"];
+        public string ApiKey { get; }
+    }
+
+    public static class AppSettings
+    {
+        private readonly static IConfigurationRoot configurationRoot;
+
+        static AppSettings()
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var configFileName = "appsettings.json";
+
+            if (File.Exists(Path.Combine(currentDirectory, configFileName)))
+            {
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(currentDirectory)
+                    .AddJsonFile(configFileName);
+
+                configurationRoot = builder.Build();
+            }
+
+            var baseUrl = GetConfigs("AlphaServicesClient:BaseUrl");
+            var apiKey = GetConfigs("AlphaServicesClient:ApiKey");
+
+            ServiceSettings = new ServiceSettings(baseUrl, apiKey);
+        }
+
+        internal static NameValueCollection Settings => ConfigurationManager.AppSettings;
+
+        public static IServiceSettings ServiceSettings { get; private set; }
+
+        private static string GetConfigs(string configName)
+        {
+            var configValue = configurationRoot == null
+                ? Settings[configName]
+                : configurationRoot[configName];
+
+            return configValue ?? throw new InvalidOperationException($"Missing config for {configName}");
+        }
     }
 }

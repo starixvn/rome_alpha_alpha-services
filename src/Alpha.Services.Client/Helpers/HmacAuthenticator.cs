@@ -28,7 +28,7 @@
             //Creating the raw signature string
             string signatureRawData = $"{AppId}{requestHttpMethod}{requestUri}{requestTimeStamp}{nonce}";
 
-            var secretKeyByteArray = Convert.FromBase64String(AppSettings.ApiKey);
+            var secretKeyByteArray = Convert.FromBase64String(AppSettings.ServiceSettings.ApiKey);
 
             byte[] signature = Encoding.UTF8.GetBytes(signatureRawData);
 

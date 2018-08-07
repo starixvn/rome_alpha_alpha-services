@@ -22,7 +22,7 @@
         public static IRestClient CreateDefaultClient()
            => new RestClient
            {
-               BaseUrl = new Uri(AppSettings.BaseUrl),
+               BaseUrl = new Uri(AppSettings.ServiceSettings.BaseUrl),
                Authenticator = new HmacAuthenticator()
            };
 
