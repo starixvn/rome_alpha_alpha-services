@@ -17,4 +17,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Alpha.Services.API\Alpha.Services.API.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="xunit.core">
+      <HintPath>xunit.core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

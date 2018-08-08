@@ -3,16 +3,16 @@
     public class OutstandingViewModel
     {
         public OutstandingViewModel(
-            byte levelId,
+            byte level,
             decimal outstanding,
             decimal totalOutstanding)
         {
-            LevelId = levelId;
+            Level = level;
             Outstanding = outstanding;
             TotalOutstanding = totalOutstanding;
         }
 
-        public byte LevelId { get; }
+        public byte Level { get; }
 
         public decimal Outstanding { get; }
 
