@@ -1,9 +1,9 @@
 ﻿namespace Alpha.Services.API.Requests
 {
-    using Alpha.Services.API.ViewModels;
+    using System.Collections.Generic;
     using MediatR;
 
-    public class BalanceInfoQuery : IRequest<BalanceInfoViewModel>
+    public class BalanceInfoQuery : IRequest<IDictionary<string, object>>
     {
         public BalanceInfoQuery(int custId)
         {

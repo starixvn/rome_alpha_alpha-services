@@ -11,7 +11,7 @@
     using Alpha.Services.Services;
     using MediatR;
 
-    public class WinLossHandler : IRequestHandler<WinLossQuery, WinLossViewModel>
+    public class WinLossHandler : IRequestHandler<WinLossQuery, IDictionary<string, object>>
     {
         private readonly CustomerService customerService;
         private readonly ProductService productService;
@@ -30,7 +30,7 @@
             this.winLossService = winLossService;
         }
 
-        public async Task<WinLossViewModel> Handle(WinLossQuery request, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>> Handle(WinLossQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
             var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
@@ -39,14 +39,31 @@
             var param = new WinLossParam(customer.CustLevel, customer.CustId, request.Date, limitedDate, productIds);
             var winLossData = await winLossService.GetWinLoss(param);
             var grandTotal = AccumulateGrandTotal(winLossData);
+            var companyWinLoss = grandTotal.Company;
 
-            return new WinLossViewModel(
-                grandTotal.Turnover,
-                grandTotal.GrossComm,
-                grandTotal.MemberNetWinLoss,
-                grandTotal.AgentNetWinLoss,
-                grandTotal.MasterNetWinLoss,
-                grandTotal.SuperNetWinLoss);
+            return new Dictionary<string, object>
+            {
+                { nameof(grandTotal.Turnover) , grandTotal.Turnover },
+                { nameof(grandTotal.GrossComm) , grandTotal.GrossComm },
+
+                { "MemberNetWinLoss.WinLoss" , grandTotal.MemberNetWinLoss?.WinLoss },
+                { "MemberNetWinLoss.Comm" , grandTotal.MemberNetWinLoss?.Comm },
+                { "MemberNetWinLoss.Total" , grandTotal.MemberNetWinLoss?.Total },
+
+                { "AgentNetWinLoss.WinLoss" , grandTotal.AgentNetWinLoss?.WinLoss },
+                { "AgentNetWinLoss.Comm" , grandTotal.AgentNetWinLoss?.Comm },
+                { "AgentNetWinLoss.Total" , grandTotal.AgentNetWinLoss?.Total },
+
+                { "MasterNetWinLoss.WinLoss" , grandTotal.MasterNetWinLoss?.WinLoss },
+                { "MasterNetWinLoss.Comm" , grandTotal.MasterNetWinLoss?.Comm },
+                { "MasterNetWinLoss.Total" , grandTotal.MasterNetWinLoss?.Total },
+
+                { "SuperNetWinLoss.WinLoss" , grandTotal.SuperNetWinLoss?.WinLoss },
+                { "SuperNetWinLoss.Comm" , grandTotal.SuperNetWinLoss?.Comm },
+                { "SuperNetWinLoss.Total" , grandTotal.SuperNetWinLoss?.Total },
+
+                { nameof(companyWinLoss) , companyWinLoss },
+            };
         }
 
         internal WinLossModel AccumulateGrandTotal(IEnumerable<WinLossModel> reportData)

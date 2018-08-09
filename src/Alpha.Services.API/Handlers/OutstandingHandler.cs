@@ -1,5 +1,6 @@
 ﻿namespace Alpha.Services.API.Handlers
 {
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
@@ -7,7 +8,7 @@
     using Alpha.Services.Services;
     using MediatR;
 
-    public class OutstandingHandler : IRequestHandler<OutstandingQuery, OutstandingViewModel>
+    public class OutstandingHandler : IRequestHandler<OutstandingQuery, IDictionary<string, object>>
     {
         private readonly CustomerService customerService;
         private readonly OutstandingService outstandingService;
@@ -20,15 +21,16 @@
             this.outstandingService = outstandingService;
         }
 
-        public async Task<OutstandingViewModel> Handle(OutstandingQuery request, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>> Handle(OutstandingQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
             var outstanding = await outstandingService.GetOutstanding(customer.CustLevel, customer.CustId);
 
-            return new OutstandingViewModel(
-                customer.RoleId,
-                outstanding.Outstanding,
-                outstanding.TotalOutstanding);
+            return new Dictionary<string, object>
+            {
+                { customer.CustLevel.DisplayName , outstanding.Outstanding },
+                { "TotalMembersOutstanding", outstanding.TotalOutstanding },
+            };
         }
     }
 }
