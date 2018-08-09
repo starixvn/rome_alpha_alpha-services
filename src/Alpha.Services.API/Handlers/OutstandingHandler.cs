@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
+    using Alpha.Services.Models;
     using Alpha.Services.Services;
     using MediatR;
 
@@ -28,8 +29,8 @@
 
             return new Dictionary<string, object>
             {
-                { customer.CustLevel.DisplayName , outstanding.Outstanding },
-                { "TotalMembersOutstanding", outstanding.TotalOutstanding },
+                { UserLevel.Member.DisplayName, outstanding.TotalOutstanding },
+                { customer.CustLevel.DisplayName , outstanding.Outstanding }
             };
         }
     }
