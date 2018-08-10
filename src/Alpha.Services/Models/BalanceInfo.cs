@@ -14,7 +14,7 @@
             decimal todayWinLoss,
             decimal yesterdayWinLoss,
             decimal givenCredit,
-            decimal memberCredit)
+            decimal totalCredit)
         {
             CashBalance = cashBalance;
             YesterdayCashBalance = yesterdayCashBalance;
@@ -23,7 +23,7 @@
             TodayWinLoss = todayWinLoss;
             YesterdayWinLoss = yesterdayWinLoss;
             GivenCredit = givenCredit;
-            MemberCredit = memberCredit;
+            TotalCredit = totalCredit;
         }
 
         public decimal CashBalance { get; }
@@ -40,6 +40,6 @@
 
         public decimal GivenCredit { get; }
 
-        public decimal MemberCredit { get; }
+        public decimal TotalCredit { get; }
     }
 }

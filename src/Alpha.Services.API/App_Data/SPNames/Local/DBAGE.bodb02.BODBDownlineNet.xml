@@ -30,7 +30,7 @@
       <Mapping DataField="todayWinloss" ObjectProperty="TodayWinLoss" />
       <Mapping DataField="yesterdayWinloss" ObjectProperty="YesterdayWinLoss" />
       <Mapping DataField="givenCredit" ObjectProperty="GivenCredit" />
-      <Mapping DataField="memberCredit" ObjectProperty="MemberCredit" />
+      <Mapping DataField="memberCredit" ObjectProperty="TotalCredit" />
     </Setting>
     <Setting Key="Age_CustomerSelBalanceInfo_MAg" SpName="Age_CustomerSelBalanceInfo_MAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="cashBalance" ObjectProperty="CashBalance" />
@@ -40,7 +40,7 @@
       <Mapping DataField="todayWinloss" ObjectProperty="TodayWinLoss" />
       <Mapping DataField="yesterdayWinloss" ObjectProperty="YesterdayWinLoss" />
       <Mapping DataField="givenCredit" ObjectProperty="GivenCredit" />
-      <Mapping DataField="memberCredit" ObjectProperty="MemberCredit" />
+      <Mapping DataField="memberCredit" ObjectProperty="TotalCredit" />
     </Setting>
     <Setting Key="Age_CustomerSelBalanceInfo_SAg" SpName="Age_CustomerSelBalanceInfo_SAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="cashBalance" ObjectProperty="CashBalance" />
@@ -50,7 +50,7 @@
       <Mapping DataField="todayWinloss" ObjectProperty="TodayWinLoss" />
       <Mapping DataField="yesterdayWinloss" ObjectProperty="YesterdayWinLoss" />
       <Mapping DataField="givenCredit" ObjectProperty="GivenCredit" />
-      <Mapping DataField="memberCredit" ObjectProperty="MemberCredit" />
+      <Mapping DataField="memberCredit" ObjectProperty="TotalCredit" />
     </Setting>
   </Function>
   <Function Name="Win Loss">

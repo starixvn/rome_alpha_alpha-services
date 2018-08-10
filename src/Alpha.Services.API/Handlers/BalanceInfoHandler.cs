@@ -4,7 +4,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
-    using Alpha.Services.API.ViewModels;
     using Alpha.Services.Services;
     using MediatR;
 
@@ -25,18 +24,19 @@
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
             var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, customer.CustId);
+            var directDownlineLevel = customer.CustLevel.GetDirectDownLineLevel();
 
             return new Dictionary<string, object>
             {
-                { nameof(customer.CurrencyName), customer.CurrencyName },
-                { nameof(balanceInfo.CashBalance), balanceInfo.CashBalance },
-                { nameof(balanceInfo.YesterdayCashBalance), balanceInfo.YesterdayCashBalance },
-                { nameof(balanceInfo.TotalBalance), balanceInfo.TotalBalance },
-                { nameof(balanceInfo.YesterdayTotalBalance), balanceInfo.YesterdayTotalBalance },
-                { nameof(balanceInfo.TodayWinLoss), balanceInfo.TodayWinLoss },
-                { nameof(balanceInfo.YesterdayWinLoss), balanceInfo.YesterdayWinLoss },
-                { nameof(balanceInfo.GivenCredit), balanceInfo.GivenCredit },
-                { nameof(balanceInfo.MemberCredit), balanceInfo.MemberCredit }
+                [nameof(customer.CurrencyName)] = customer.CurrencyName,
+                [nameof(balanceInfo.CashBalance)] = balanceInfo.CashBalance,
+                [nameof(balanceInfo.YesterdayCashBalance)] = balanceInfo.YesterdayCashBalance,
+                [nameof(balanceInfo.TotalBalance)] = balanceInfo.TotalBalance,
+                [nameof(balanceInfo.YesterdayTotalBalance)] = balanceInfo.YesterdayTotalBalance,
+                [nameof(balanceInfo.TodayWinLoss)] = balanceInfo.TodayWinLoss,
+                [nameof(balanceInfo.YesterdayWinLoss)] = balanceInfo.YesterdayWinLoss,
+                [nameof(balanceInfo.GivenCredit)] = balanceInfo.GivenCredit,
+                [directDownlineLevel.DisplayName + nameof(balanceInfo.TotalCredit)] = balanceInfo.TotalCredit
             };
         }
     }
