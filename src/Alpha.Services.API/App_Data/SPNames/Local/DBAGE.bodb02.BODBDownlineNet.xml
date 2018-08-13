@@ -7,20 +7,6 @@
       <Mapping DataField="ProductName" ObjectProperty="name" />
     </Setting>
   </Function>
-  <Function Name="Outstanding">
-    <Setting Key="Age_CustomerSelStatisticsInfo_Ag" SpName="Age_CustomerSelStatisticsInfo_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
-      <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
-      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
-    </Setting>
-    <Setting Key="Age_CustomerSelStatisticsInfo_MAg" SpName="Age_CustomerSelStatisticsInfo_MAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
-      <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
-      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
-    </Setting>
-    <Setting Key="Age_CustomerSelStatisticsInfo_SAg" SpName="Age_CustomerSelStatisticsInfo_SAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
-      <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
-      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
-    </Setting>
-  </Function>
   <Function Name="Balance Info">
     <Setting Key="Age_CustomerSelBalanceInfo_Ag" SpName="Age_CustomerSelBalanceInfo_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="cashBalance" ObjectProperty="CashBalance" />
