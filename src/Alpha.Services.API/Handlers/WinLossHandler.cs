@@ -66,7 +66,7 @@
             };
         }
 
-        internal WinLossModel AccumulateGrandTotal(IEnumerable<WinLossModel> reportData)
+        internal static WinLossModel AccumulateGrandTotal(IEnumerable<WinLossModel> reportData)
         {
             var grandTotal = new WinLossModel();
 

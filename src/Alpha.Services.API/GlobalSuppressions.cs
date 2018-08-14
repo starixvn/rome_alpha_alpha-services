@@ -1,0 +1,8 @@
+﻿
+// This file is used by Code Analysis to maintain SuppressMessage 
+// attributes that are applied to this project.
+// Project-level suppressions either have no target or are given 
+// a specific target and scoped to a namespace, type, member, etc.
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.API.Handlers.WinLossHandler.Handle(Alpha.Services.API.Requests.WinLossQuery,System.Threading.CancellationToken)~System.Threading.Tasks.Task{System.Collections.Generic.IDictionary{System.String,System.Object}}")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3925:\"ISerializable\" should be implemented correctly", Justification = "<Pending>", Scope = "type", Target = "~T:Alpha.Services.API.Infrastructure.Exceptions.DomainException")]

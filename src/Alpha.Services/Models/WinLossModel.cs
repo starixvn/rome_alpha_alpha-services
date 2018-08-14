@@ -52,9 +52,7 @@
                         + (SuperNetWinLoss?.Total ?? 0));
             }
 
-            private set
-            {
-            }
+            private set { }
         }
 
         public WinLossModel Add(WinLossModel winloss)

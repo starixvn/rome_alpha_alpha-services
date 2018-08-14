@@ -32,7 +32,7 @@
             AgentComm = agentComm;
             AgentTotal = agentTotal;
             MasterWinLoss = masterWinLoss;
-            MasterComm = MasterComm;
+            MasterComm = masterComm;
             MasterTotal = masterTotal;
             SuperWinLoss = superWinLoss;
             SuperComm = superComm;
