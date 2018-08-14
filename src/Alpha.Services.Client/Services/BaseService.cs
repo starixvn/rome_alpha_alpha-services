@@ -6,15 +6,15 @@
     using Alpha.Services.Client.Helpers;
     using RestSharp;
 
-    public abstract class BaseService
+    public class BaseService
     {
         private readonly IRestClient restClient;
 
-        public BaseService() : this(null)
+        protected BaseService() : this(null)
         {
         }
 
-        internal BaseService(IRestClient restClient = null)
+        internal BaseService(IRestClient restClient)
         {
             this.restClient = restClient ?? CreateDefaultClient();
         }

@@ -16,9 +16,9 @@
 
     public class MessageServiceImpl : MessageService
     {
+        private readonly AppSettings appSettings;
         private readonly IDynamicRepository dynamicRepository;
         private readonly CustomerDateLimitService customerDateLimitService;
-        private readonly AppSettings appSettings;
 
         public MessageServiceImpl(
             IDynamicRepository dynamicRepository,
@@ -32,12 +32,7 @@
 
         public async Task<IEnumerable<Message>> GetMessages(MessageParam param)
         {
-            var custLevel = param.CustLevel;
-            var parentSites = custLevel.IsSuperLevel()
-                ? appSettings.ParentSites.Super
-                : custLevel.IsMasterLevel()
-                ? appSettings.ParentSites.Master
-                : appSettings.ParentSites.Agent;
+            var parentSites = GetParentSites(param.CustLevel);
 
             var limitedDate = await customerDateLimitService.GetCustomerDateLimit(param.CustId);
             var fromTime = param.MessageType == Constants.MessageTypeConstants.Personal
@@ -53,6 +48,21 @@
                       param.ToTime,
                       appSettings.IsLocalTest,
                       param.MessageType));
+        }
+
+        private string GetParentSites(UserLevel custLevel)
+        {
+            if (custLevel.IsSuperLevel())
+            {
+                return appSettings.ParentSites.Super;
+            }
+
+            if (custLevel.IsMasterLevel())
+            {
+                return appSettings.ParentSites.Master;
+            }
+
+            return appSettings.ParentSites.Agent;
         }
     }
 }

@@ -4,7 +4,7 @@
     using Alpha.Services.Client.Services;
     using Newtonsoft.Json;
 
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
