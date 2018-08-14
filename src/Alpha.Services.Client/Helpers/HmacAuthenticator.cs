@@ -14,7 +14,7 @@
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {
-            var requestUri = HttpUtility.UrlEncode(client.BuildUri(request).OriginalString.ToLower());
+            var requestUri = HttpUtility.UrlEncode(client.BuildUri(request).OriginalString.ToLowerInvariant());
             string requestHttpMethod = request.Method.ToString();
 
             //Calculate UNIX time

@@ -33,7 +33,7 @@
             this.memoryCache = memoryCache;
         }
 
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var headers = (HttpRequestHeaders)Context.Request.Headers;
             var authorizations = headers.HeaderAuthorization;
@@ -46,29 +46,31 @@
                 {
                     var autherizationHeaderArray = GetAutherizationHeaderValues(authorization);
 
-                    if (autherizationHeaderArray != null)
+                    if (autherizationHeaderArray == null)
                     {
-                        var appId = autherizationHeaderArray[0];
-                        var incomingBase64Signature = autherizationHeaderArray[1];
-                        var nonce = autherizationHeaderArray[2];
-                        var requestTimeStamp = autherizationHeaderArray[3];
-
-                        var isValid = IsValidRequest(Context.Request, appId, incomingBase64Signature, nonce, requestTimeStamp);
-
-                        if (isValid)
-                        {
-                            var identity = new ClaimsIdentity("HMAC");
-                            var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), "HMAC");
-
-                            return AuthenticateResult.Success(ticket);
-                        }
-
-                        return AuthenticateResult.Fail("Unauthorized");
+                        return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
                     }
+
+                    var appId = autherizationHeaderArray[0];
+                    var incomingBase64Signature = autherizationHeaderArray[1];
+                    var nonce = autherizationHeaderArray[2];
+                    var requestTimeStamp = autherizationHeaderArray[3];
+
+                    var isValid = IsValidRequest(Context.Request, appId, incomingBase64Signature, nonce, requestTimeStamp);
+
+                    if (isValid)
+                    {
+                        var identity = new ClaimsIdentity("HMAC");
+                        var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), "HMAC");
+
+                        return Task.FromResult(AuthenticateResult.Success(ticket));
+                    }
+
+                    return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
                 }
             }
 
-            return AuthenticateResult.Fail("Unauthorized");
+            return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
         }
 
         private static string[] GetAutherizationHeaderValues(string rawAuthzHeader)
@@ -80,10 +82,13 @@
         private bool IsValidRequest(HttpRequest request, string appId, string incomingBase64Signature, string nonce,
             string requestTimeStamp)
         {
-            string requestUri = HttpUtility.UrlEncode(request.Scheme + "://" + request.Host + request.Path).ToLower();
+            string requestUri = HttpUtility.UrlEncode(request.Scheme + "://" + request.Host + request.Path).ToLowerInvariant();
             string requestHttpMethod = request.Method;
 
-            if (IsReplayRequest(nonce, requestTimeStamp)) return false;
+            if (IsReplayRequest(nonce, requestTimeStamp))
+            {
+                return false;
+            }
 
             var signatureRawData = $"{appId}{requestHttpMethod}{requestUri}{requestTimeStamp}{nonce}";
 
@@ -101,7 +106,10 @@
 
         private bool IsReplayRequest(string nonce, string requestTimeStamp)
         {
-            if (memoryCache.TryGetValue(nonce, out object _)) return true;
+            if (memoryCache.TryGetValue(nonce, out object _))
+            {
+                return true;
+            }
 
             var epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
             var currentTimeSpan = DateTime.UtcNow - epochStart;
@@ -109,7 +117,10 @@
             var serverTotalSeconds = Convert.ToUInt64(currentTimeSpan.TotalSeconds);
             var requestTotalSeconds = Convert.ToUInt64(requestTimeStamp);
 
-            if (serverTotalSeconds - requestTotalSeconds > RequestMaxAgeInSeconds) return true;
+            if (serverTotalSeconds - requestTotalSeconds > RequestMaxAgeInSeconds)
+            {
+                return true;
+            }
 
             memoryCache.Set(nonce, requestTimeStamp, DateTimeOffset.UtcNow.AddSeconds(RequestMaxAgeInSeconds));
 
