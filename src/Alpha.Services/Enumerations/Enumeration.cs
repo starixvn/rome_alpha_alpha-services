@@ -80,7 +80,28 @@
 
         public static bool operator ==(Enumeration left, Enumeration right)
         {
-            return ReferenceEquals(left, null) ? ReferenceEquals(right, null) ? true : false : !ReferenceEquals(right, null) && left.Value == right.Value;
+            if (ReferenceEquals(left, null))
+            {
+                if (ReferenceEquals(right, null))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (ReferenceEquals(right, null))
+                {
+                    return false;
+                }
+                else
+                {
+                    return left.Value == right.Value;
+                }
+            }
         }
 
         public static bool operator !=(Enumeration left, Enumeration right)
