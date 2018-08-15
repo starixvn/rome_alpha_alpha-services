@@ -44,7 +44,7 @@
                 .AddCustomAuthentication();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
             app.UseMvc();
