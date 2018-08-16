@@ -46,31 +46,29 @@
                 {
                     var autherizationHeaderArray = GetAutherizationHeaderValues(authorization);
 
-                    if (autherizationHeaderArray == null)
+                    if (autherizationHeaderArray != null)
                     {
-                        return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+                        var appId = autherizationHeaderArray[0];
+                        var incomingBase64Signature = autherizationHeaderArray[1];
+                        var nonce = autherizationHeaderArray[2];
+                        var requestTimeStamp = autherizationHeaderArray[3];
+
+                        var isValid = IsValidRequest(Context.Request, appId, incomingBase64Signature, nonce, requestTimeStamp);
+
+                        if (isValid)
+                        {
+                            var identity = new ClaimsIdentity("HMAC");
+                            var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), "HMAC");
+
+                            return Task.FromResult(AuthenticateResult.Success(ticket));
+                        }
+
+                        return Task.FromResult(AuthenticateResult.Fail("Incorrect 'Authorization' header."));
                     }
-
-                    var appId = autherizationHeaderArray[0];
-                    var incomingBase64Signature = autherizationHeaderArray[1];
-                    var nonce = autherizationHeaderArray[2];
-                    var requestTimeStamp = autherizationHeaderArray[3];
-
-                    var isValid = IsValidRequest(Context.Request, appId, incomingBase64Signature, nonce, requestTimeStamp);
-
-                    if (isValid)
-                    {
-                        var identity = new ClaimsIdentity("HMAC");
-                        var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), "HMAC");
-
-                        return Task.FromResult(AuthenticateResult.Success(ticket));
-                    }
-
-                    return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
                 }
             }
 
-            return Task.FromResult(AuthenticateResult.Fail("Unauthorized"));
+            return Task.FromResult(AuthenticateResult.Fail("Incorrect'Authorization' header."));
         }
 
         private static string[] GetAutherizationHeaderValues(string rawAuthzHeader)
