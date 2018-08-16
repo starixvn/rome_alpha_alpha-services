@@ -40,8 +40,8 @@
                 .AddDataAccesses()
                 .AddServices()
                 .AddCustomConfiguration(Configuration)
-                .AddMemoryCache()
-                .AddCustomAuthentication();
+                .AddMemoryCache();
+            //.AddCustomAuthentication();
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)

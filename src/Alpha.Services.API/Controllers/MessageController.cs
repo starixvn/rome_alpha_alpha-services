@@ -10,7 +10,7 @@
     [FormatFilter]
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = "HMAC")]
+    //[Authorize(AuthenticationSchemes = "HMAC")]
     public class MessageController : ControllerBase
     {
         private readonly IMediator mediator;
