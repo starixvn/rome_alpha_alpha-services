@@ -68,7 +68,7 @@
                 }
             }
 
-            return Task.FromResult(AuthenticateResult.Fail("Incorrect'Authorization' header."));
+            return Task.FromResult(AuthenticateResult.Fail("Missing or malformed 'Authorization' header."));
         }
 
         private static string[] GetAutherizationHeaderValues(string rawAuthzHeader)
