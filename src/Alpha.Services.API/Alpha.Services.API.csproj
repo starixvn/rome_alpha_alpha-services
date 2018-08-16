@@ -21,6 +21,8 @@
     <None Remove="App_Data\SPNames\Pro\DB042.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Pro\DBAGE.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Pro\DBAGE.bodb_AGE.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\Pro\DBCust.CustDB.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\Pro\DBMSG.bodb_Message.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\SIT\DBAGE.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\SIT\DBAGE.bodb_AGE.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\SIT\DBCust.CustDB.BODBDownlineNet.xml" />
@@ -55,6 +57,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\Pro\DBAGE.bodb_AGE.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\Pro\DBCust.CustDB.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\Pro\DBMSG.bodb_Message.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\SIT\DBAGE.bodb02.BODBDownlineNet.xml">
