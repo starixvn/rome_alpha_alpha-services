@@ -43,7 +43,7 @@
                   new GetMessagesCriteria(
                       param.CustId,
                       parentSites,
-                      0,
+                      1000,
                       fromTime,
                       param.ToTime,
                       appSettings.IsLocalTest,
