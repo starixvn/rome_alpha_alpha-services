@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions SiteId="105" SiteName="Alpha">
+  <Function Name="Customer Date Limit">
+    <Setting Key="Age_CustomerSelDateLimit" SpName="Age_CustomerSelDateLimit" DbName="DBAGE.bodb_AGE.BODBDownlineNet" />
+  </Function>
+</Functions>

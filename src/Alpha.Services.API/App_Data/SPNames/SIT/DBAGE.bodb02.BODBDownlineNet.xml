@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions SiteId="105" SiteName="Alpha">
+  <Function Name="Report">
+    <Setting Key="Age_SelBalanceUpDay" SpName="Age_SelBalanceUpDay" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_GetProductList" SpName="Age_Rpt_GetProductList" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="ProductID" ObjectProperty="id" />
+      <Mapping DataField="ProductName" ObjectProperty="name" />
+    </Setting>
+  </Function>
+  <Function Name="Outstanding">
+    <Setting Key="Age_CustomerSelStatisticsInfo_Ag" SpName="Age_CustomerSelStatisticsInfo_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
+      <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
+      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
+    </Setting>
+    <Setting Key="Age_CustomerSelStatisticsInfo_MAg" SpName="Age_CustomerSelStatisticsInfo_MAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
+      <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
+      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
+    </Setting>
+    <Setting Key="Age_CustomerSelStatisticsInfo_SAg" SpName="Age_CustomerSelStatisticsInfo_SAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
+      <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
+      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
+    </Setting>
+  </Function>
+</Functions>
