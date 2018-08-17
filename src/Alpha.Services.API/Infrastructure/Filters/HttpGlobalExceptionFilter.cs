@@ -3,18 +3,18 @@
     using System.Net;
     using Alpha.Services.API.Infrastructure.ActionResults;
     using Alpha.Services.API.Infrastructure.Exceptions;
+    using Fanex.Logging;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using Microsoft.Extensions.Logging;
 
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {
         private readonly IHostingEnvironment env;
-        private readonly ILogger<HttpGlobalExceptionFilter> logger;
+        private readonly ILogger logger;
 
-        public HttpGlobalExceptionFilter(IHostingEnvironment env, ILogger<HttpGlobalExceptionFilter> logger)
+        public HttpGlobalExceptionFilter(IHostingEnvironment env, ILogger logger)
         {
             this.env = env;
             this.logger = logger;
@@ -22,9 +22,7 @@
 
         public void OnException(ExceptionContext context)
         {
-            logger.LogError(new EventId(context.Exception.HResult),
-                context.Exception,
-                context.Exception.Message);
+            logger.Error(context.Exception.Message, context.Exception);
 
             if (context.Exception.GetType() == typeof(DomainException))
             {
