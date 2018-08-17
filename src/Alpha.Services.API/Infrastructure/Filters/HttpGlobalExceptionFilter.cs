@@ -1,6 +1,8 @@
 ﻿namespace Alpha.Services.API.Infrastructure.Filters
 {
+    using System.Linq;
     using System.Net;
+    using Alpha.Services.API.Extensions;
     using Alpha.Services.API.Infrastructure.ActionResults;
     using Alpha.Services.API.Infrastructure.Exceptions;
     using Fanex.Logging;
@@ -22,7 +24,7 @@
 
         public void OnException(ExceptionContext context)
         {
-            logger.Error(context.Exception.Message, context.Exception);
+            logger.Error(BuildErrorMessage(context));
 
             if (context.Exception.GetType() == typeof(DomainException))
             {
@@ -55,12 +57,27 @@
             }
             context.ExceptionHandled = true;
         }
-    }
 
-    public class ErrorResponse
-    {
-        public string[] Messages { get; set; }
+        private static string BuildErrorMessage(ExceptionContext context)
+        {
+            var request = context.HttpContext.Request;
+            var bodyData = request.GetRawBodyStringAsync().Result;
+            var path = $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
+            var headers = string.Join(
+                "\r\n",
+                request.Headers.Select(header => $"{header.Key}:{header.Value}"));
+            var cookies = string.Join(
+                "\r\n",
+                request.Cookies.Select(cookie => $"{cookie.Key}:{cookie.Value}"));
 
-        public object DeveloperMessage { get; set; }
+            return string.Join(
+                "\r\n\r\n",
+                context.Exception.Message,
+                $"PATH: {path}",
+                $"BODY: {bodyData}",
+                $"HEADERS: \r\n {headers}",
+                $"COOKIES: \r\n {cookies}",
+                $"EXCEPTION: {context.Exception}");
+        }
     }
 }
