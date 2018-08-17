@@ -98,7 +98,6 @@
             services.AddSingleton<ReportDateService, ReportDateServiceImpl>();
             services.AddSingleton<BalanceInfoService, BalanceInfoServiceImpl>();
             services.AddSingleton<ProductService, ProductServiceImpl>();
-            services.AddSingleton<CustomerDateLimitService, CustomerDateLimitServiceImpl>();
             services.AddSingleton<WinLossService, WinLossServiceImpl>();
             services.AddSingleton<MessageService, MessageServiceImpl>();
 

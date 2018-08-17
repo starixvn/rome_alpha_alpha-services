@@ -15,18 +15,15 @@
     {
         private readonly CustomerService customerService;
         private readonly ProductService productService;
-        private readonly CustomerDateLimitService customerDateLimitService;
         private readonly WinLossService winLossService;
 
         public WinLossHandler(
             CustomerService customerService,
             ProductService productService,
-            CustomerDateLimitService customerDateLimitService,
             WinLossService winLossService)
         {
             this.customerService = customerService;
             this.productService = productService;
-            this.customerDateLimitService = customerDateLimitService;
             this.winLossService = winLossService;
         }
 
@@ -34,9 +31,8 @@
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
             var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
-            var limitedDate = await customerDateLimitService.GetCustomerDateLimit(request.CustId);
 
-            var param = new WinLossParam(customer.CustLevel, customer.CustId, request.Date, limitedDate, productIds);
+            var param = new WinLossParam(customer.CustLevel, customer.CustId, request.Date, productIds);
             var winLossData = await winLossService.GetWinLoss(param);
             var grandTotal = AccumulateGrandTotal(winLossData);
             var companyWinLoss = grandTotal.Company;

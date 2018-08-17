@@ -10,13 +10,11 @@
             UserLevel custLevel,
             int custId,
             DateTime date,
-            DateTime limitedDate,
             IEnumerable<int> productIds)
         {
             CustLevel = custLevel;
             CustId = custId;
             Date = date;
-            LimitedDate = limitedDate;
             ProductIds = productIds;
         }
 
@@ -25,8 +23,6 @@
         public int CustId { get; }
 
         public DateTime Date { get; }
-
-        public DateTime LimitedDate { get; }
 
         public IEnumerable<int> ProductIds { get; }
     }

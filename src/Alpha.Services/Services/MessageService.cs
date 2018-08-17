@@ -18,15 +18,12 @@
     {
         private readonly AppSettings appSettings;
         private readonly IDynamicRepository dynamicRepository;
-        private readonly CustomerDateLimitService customerDateLimitService;
 
         public MessageServiceImpl(
             IDynamicRepository dynamicRepository,
-            CustomerDateLimitService customerDateLimitService,
             AppSettings appSettings)
         {
             this.dynamicRepository = dynamicRepository;
-            this.customerDateLimitService = customerDateLimitService;
             this.appSettings = appSettings;
         }
 
@@ -34,17 +31,12 @@
         {
             var parentSites = GetParentSites(param.CustLevel);
 
-            var limitedDate = await customerDateLimitService.GetCustomerDateLimit(param.CustId);
-            var fromTime = param.MessageType == Constants.MessageTypeConstants.Personal
-                        ? param.FromTime.GetGreaterDate(limitedDate)
-                        : param.FromTime;
-
             return await dynamicRepository.FetchAsync<Message>(
                   new GetMessagesCriteria(
                       param.CustId,
                       parentSites,
                       1000,
-                      fromTime,
+                      param.FromTime,
                       param.ToTime,
                       appSettings.IsLocalTest,
                       param.MessageType));

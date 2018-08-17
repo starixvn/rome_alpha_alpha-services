@@ -14,13 +14,11 @@
     public class MessageServiceImplTests
     {
         private readonly IDynamicRepository dynamicRepository;
-        private readonly CustomerDateLimitService customerDateLimitService;
         private readonly MessageServiceImpl messageService;
 
         public MessageServiceImplTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
-            customerDateLimitService = Substitute.For<CustomerDateLimitService>();
 
             var options = Substitute.For<IOptions<AppSettings>>();
             var appSettings = new AppSettings
@@ -30,20 +28,7 @@
             };
             options.Value.Returns(appSettings);
 
-            messageService = new MessageServiceImpl(dynamicRepository, customerDateLimitService, options.Value);
-        }
-
-        [Fact]
-        public void GetMessages_Always_CallsCustomerDateLimitService()
-        {
-            // Arrange
-            var param = new MessageParam(UserLevel.Agent, 1, 0, "en-US", DateTime.Now, DateTime.Now);
-
-            // Act
-            messageService.GetMessages(param).GetAwaiter().GetResult();
-
-            // Assert
-            customerDateLimitService.Received().GetCustomerDateLimit(Arg.Is(param.CustId));
+            messageService = new MessageServiceImpl(dynamicRepository, options.Value);
         }
 
         [Fact]

@@ -33,7 +33,7 @@
         public void GetWinLoss_Always_CallsReportDateService()
         {
             // Arrange
-            var param = new WinLossParam(UserLevel.Agent, 1, DateTime.Now, DateTime.Now, new List<int> { 1, 2 });
+            var param = new WinLossParam(UserLevel.Agent, 1, DateTime.Now, new List<int> { 1, 2 });
 
             // Act
             winLossService.GetWinLoss(param).GetAwaiter().GetResult();
@@ -46,7 +46,7 @@
         public void GetWinLoss_Always_CallsDynamicRepository()
         {
             // Arrange
-            var param = new WinLossParam(UserLevel.Agent, 1, DateTime.Now, DateTime.Now, new List<int> { 1, 2 });
+            var param = new WinLossParam(UserLevel.Agent, 1, DateTime.Now, new List<int> { 1, 2 });
 
             // Act
             winLossService.GetWinLoss(param).GetAwaiter().GetResult();

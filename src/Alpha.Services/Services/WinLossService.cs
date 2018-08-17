@@ -35,7 +35,7 @@
                 new GetWinLossCriteria(
                     param.CustLevel,
                     param.CustId,
-                    param.Date.GetGreaterDate(param.LimitedDate),
+                    param.Date,
                     param.Date,
                     reportDate.BalanceUpDay,
                     reportDate.MoveBetsDay,
