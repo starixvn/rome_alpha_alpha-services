@@ -6,6 +6,8 @@
     using System.Reflection;
     using Alpha.Services.API.Extensions;
     using Fanex.Data;
+    using Fanex.Logging;
+    using Fanex.Logging.RabbitMQ;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -34,6 +36,10 @@
                 .UseDefaultDbSettingProvider("~/App_Data/SPNames/Local")
                 .Run();
 
+            LogManager
+                    .SetDefaultLogCategory(Configuration["Fanex.Logging:DefaultCategory"])
+                    .Use(new RabbitMQLogging(Configuration["Fanex.Logging:RabbitMQConnectionStrings"]));
+
             services.AddCustomMvc()
                 .AddCustomSwagger()
                 .AddMediatR(typeof(Startup).GetTypeInfo().Assembly)
@@ -42,6 +48,8 @@
                 .AddCustomConfiguration(Configuration)
                 .AddMemoryCache();
             //.AddCustomAuthentication();
+
+            services.AddSingleton(Logger.Log);
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)

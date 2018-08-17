@@ -99,6 +99,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.0-beta6" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.1" />
