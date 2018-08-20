@@ -4,8 +4,8 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Alpha.Services.API.Infrastructure.Exceptions;
     using Alpha.Services.API.Requests;
-    using Alpha.Services.API.ViewModels;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
@@ -30,6 +30,12 @@
         public async Task<IDictionary<string, object>> Handle(WinLossQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
+
+            if (customer == null)
+            {
+                throw new DomainException("Customer does not exist");
+            }
+
             var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
 
             var param = new WinLossParam(customer.CustLevel, customer.CustId, request.Date, productIds);

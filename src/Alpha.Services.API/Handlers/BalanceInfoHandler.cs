@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Alpha.Services.API.Infrastructure.Exceptions;
     using Alpha.Services.API.Requests;
     using Alpha.Services.Services;
     using MediatR;
@@ -23,6 +24,12 @@
         public async Task<IDictionary<string, object>> Handle(BalanceInfoQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
+
+            if (customer == null)
+            {
+                throw new DomainException("Customer does not exist");
+            }
+
             var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, customer.CustId);
             var directDownlineLevel = customer.CustLevel.GetDirectDownLineLevel();
 

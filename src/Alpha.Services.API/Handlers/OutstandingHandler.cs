@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Alpha.Services.API.Infrastructure.Exceptions;
     using Alpha.Services.API.Requests;
-    using Alpha.Services.API.ViewModels;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
     using MediatR;
@@ -25,6 +25,12 @@
         public async Task<IDictionary<string, object>> Handle(OutstandingQuery request, CancellationToken cancellationToken)
         {
             var customer = await customerService.GetCustomerInfo(request.CustId);
+
+            if (customer == null)
+            {
+                throw new DomainException("Customer does not exist");
+            }
+
             var outstanding = await outstandingService.GetOutstanding(customer.CustLevel, customer.CustId);
 
             return new Dictionary<string, object>
