@@ -1,16 +1,24 @@
 ﻿namespace Alpha.Services.Client.Helpers
 {
     using System;
+    using System.Net;
+    using System.Net.Sockets;
     using System.Security.Cryptography;
     using System.Text;
     using System.Web;
-    using Alpha.Services.Client.Configurations;
     using RestSharp;
     using RestSharp.Authenticators;
 
     public class HmacAuthenticator : IAuthenticator
     {
-        private const string AppId = "1e8cf0fb1bb94c9a8180cdf91d8d39be";
+        private readonly string machineIP;
+        private readonly string secretKey;
+
+        public HmacAuthenticator(string secretKey)
+        {
+            this.secretKey = secretKey;
+            machineIP = GetLocalIPAddress();
+        }
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {
@@ -26,9 +34,9 @@
             string nonce = Guid.NewGuid().ToString("N");
 
             //Creating the raw signature string
-            string signatureRawData = $"{AppId}{requestHttpMethod}{requestUri}{requestTimeStamp}{nonce}";
+            string signatureRawData = $"{machineIP}{requestHttpMethod}{requestUri}{requestTimeStamp}{nonce}";
 
-            var secretKeyByteArray = Convert.FromBase64String(AppSettings.ServiceSettings.ApiKey);
+            var secretKeyByteArray = Convert.FromBase64String(secretKey);
 
             byte[] signature = Encoding.UTF8.GetBytes(signatureRawData);
 
@@ -38,9 +46,24 @@
                 string requestSignatureBase64String = Convert.ToBase64String(signatureBytes);
 
                 // Setting the values in the Authorization header using custom scheme (amx)
-                var authHeader = $"amx {AppId}:{requestSignatureBase64String}:{nonce}:{requestTimeStamp}";
+                var authHeader = $"amx {machineIP}:{requestSignatureBase64String}:{nonce}:{requestTimeStamp}";
                 request.AddParameter("Authorization", authHeader, ParameterType.HttpHeader);
             }
+        }
+
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString().Replace(":", "_");
+                }
+            }
+
+            throw new InvalidOperationException("Local IP Address Not Found!");
         }
     }
 }

@@ -16,14 +16,14 @@
 
         internal BaseService(IRestClient restClient)
         {
-            this.restClient = restClient ?? CreateDefaultClient();
+            this.restClient = restClient ?? CreateRestClient();
         }
 
-        public static IRestClient CreateDefaultClient()
+        public virtual IRestClient CreateRestClient()
            => new RestClient
            {
-               BaseUrl = new Uri(AppSettings.ServiceSettings.BaseUrl),
-               Authenticator = new HmacAuthenticator()
+               BaseUrl = new Uri(AppSettings.AlphaServiceSettings.BaseUrl),
+               Authenticator = new HmacAuthenticator(AppSettings.AlphaServiceSettings.ApiKey)
            };
 
         protected T Get<T>(string resource) where T : new()

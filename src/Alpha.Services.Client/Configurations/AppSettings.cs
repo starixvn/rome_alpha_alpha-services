@@ -44,15 +44,20 @@
                 configurationRoot = builder.Build();
             }
 
-            var baseUrl = GetConfigs("AlphaServicesClient:BaseUrl");
-            var apiKey = GetConfigs("AlphaServicesClient:ApiKey");
+            var alphaServicesBaseUrl = GetConfigs("AlphaServices:BaseUrl");
+            var alphaServicesApiKey = GetConfigs("AlphaServices:ApiKey");
+            AlphaServiceSettings = new ServiceSettings(alphaServicesBaseUrl, alphaServicesApiKey);
 
-            ServiceSettings = new ServiceSettings(baseUrl, apiKey);
+            var announcementServiceBaseUrl = GetConfigs("AnnouncementService:BaseUrl");
+            var announcementServiceApiKey = GetConfigs("AnnouncementService:ApiKey");
+            AnnouncementServiceSettings = new ServiceSettings(announcementServiceBaseUrl, announcementServiceApiKey);
         }
 
         internal static NameValueCollection Settings => ConfigurationManager.AppSettings;
 
-        public static IServiceSettings ServiceSettings { get; private set; }
+        public static IServiceSettings AlphaServiceSettings { get; private set; }
+
+        public static IServiceSettings AnnouncementServiceSettings { get; private set; }
 
         private static string GetConfigs(string configName)
         {

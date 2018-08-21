@@ -23,6 +23,11 @@
             var messageService = new MessageServiceImpl();
             GetMessages(messageService);
             GetMessagesAsync(messageService);
+
+            Console.WriteLine("-------------------- Announcement Service --------------------");
+
+            var announcementService = new AnnouncementServiceImpl();
+            GetAnnouncements(announcementService);
         }
 
         #region Report
@@ -91,5 +96,16 @@
         }
 
         #endregion Message
+
+        #region Announcement
+
+        private static void GetAnnouncements(AnnouncementService service)
+        {
+            var announcements = service.GetAnnouncements(1176086, "en-US", DateTime.Now.AddDays(-3), DateTime.Now);
+
+            Console.WriteLine($"Request: GetAnnouncements, response: {FormatJson(announcements)}");
+        }
+
+        #endregion Announcement
     }
 }
