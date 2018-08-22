@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
   <Function Name="Message">
-    <Setting Key="Dot_Msg_GetPublicMessage" SpName="Dot_Msg_GetPublicMessage" DbName="DBMSG.bodb_Message.BODBDownlineNet" Plain="0">
+    <Setting Key="Chatbot_GetNormalMessage" SpName="Chatbot_GetNormalMessage" DbName="DBMSG.bodb_Message.BODBDownlineNet" Plain="0">
       <Mapping DataField="MessageId" ObjectProperty="Id" />
       <Mapping DataField="Content_en" ObjectProperty="ContentEN" />
       <Mapping DataField="Content_cs" ObjectProperty="ContentCS" />

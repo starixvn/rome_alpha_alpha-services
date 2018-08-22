@@ -63,7 +63,7 @@
             => MessageType == MessageTypeConstants.Personal
             ? "Dot_Msg_GetPrivateMessage"
             : MessageType == MessageTypeConstants.Normal
-            ? "Dot_Msg_GetPublicMessage"
+            ? "Chatbot_GetNormalMessage"
             : "Dot_Msg_GetSpecialMessage";
 
         public override bool IsValid()
