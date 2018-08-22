@@ -28,6 +28,11 @@
 
             var announcementService = new AnnouncementServiceImpl();
             GetAnnouncements(announcementService);
+
+            Console.WriteLine("-------------------- Customer Service --------------------");
+
+            var customerService = new CustomerServiceImpl();
+            IsAccountClosed(customerService);
         }
 
         #region Report
@@ -107,5 +112,16 @@
         }
 
         #endregion Announcement
+
+        #region Customer
+
+        private static void IsAccountClosed(CustomerService service)
+        {
+            var isClosed = service.IsAccountClosed(1176086, 0).Result;
+
+            Console.WriteLine($"Request: IsAccountClosed, response: {isClosed}");
+        }
+
+        #endregion Customer
     }
 }
