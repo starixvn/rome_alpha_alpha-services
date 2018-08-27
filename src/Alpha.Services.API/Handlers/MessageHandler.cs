@@ -48,7 +48,9 @@
                 message => new MessageViewModel
                 {
                     Id = message.Id,
-                    Content = message.GetContentByLanguage(param.Language).StripHTML()
+                    Content = message.GetContentByLanguage(param.Language)
+                    .Replace("@@", message.BetTransId)
+                    .StripHTML()
                 });
         }
     }
