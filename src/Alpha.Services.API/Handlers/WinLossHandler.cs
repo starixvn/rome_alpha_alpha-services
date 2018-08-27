@@ -40,6 +40,12 @@
 
             var param = new WinLossParam(customer.CustLevel, customer.CustId, request.Date, productIds);
             var winLossData = await winLossService.GetWinLoss(param);
+
+            if (winLossData == null || !winLossData.Any())
+            {
+                return new Dictionary<string, object>();
+            }
+
             var grandTotal = AccumulateGrandTotal(winLossData);
             var companyWinLoss = grandTotal.Company;
 
