@@ -33,7 +33,7 @@
             DbSettingProviderManager
                 .StartNewSession()
                 .UseConnectionStrings(connections)
-                .UseDefaultDbSettingProvider("~/App_Data/SPNames/Local")
+                .UseDefaultDbSettingProvider(Configuration["StoredProcedurePath"])
                 .Run();
 
             LogManager

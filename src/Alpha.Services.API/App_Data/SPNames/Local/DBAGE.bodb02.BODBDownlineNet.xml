@@ -1,7 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
-  <Function Name="Report">
+  <Function Name="Customer Information">
+    <Setting Key="Chatbot_GetCustomerInfo" SpName="Chatbot_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="recommend" ObjectProperty="CustId" />
+      <Mapping DataField="username" ObjectProperty="UserName" />
+      <Mapping DataField="currencyname" ObjectProperty="CurrencyName" />
+    </Setting>
     <Setting Key="Age_CustomerStatusSel" SpName="Age_CustomerStatusSel" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+  </Function>
+  <Function Name="Report">
     <Setting Key="Age_SelBalanceUpDay" SpName="Age_SelBalanceUpDay" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
     <Setting Key="Age_Rpt_GetProductList" SpName="Age_Rpt_GetProductList" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductID" ObjectProperty="id" />

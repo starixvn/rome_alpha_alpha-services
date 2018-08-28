@@ -11,7 +11,7 @@
 
         public int CustId { get; }
 
-        public override string GetSettingKey() => "Age_CustomerSelUserInfo";
+        public override string GetSettingKey() => "Chatbot_GetCustomerInfo";
 
         public override bool IsValid() => CustId > 0;
     }
