@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Alpha.Services.Extensions
+﻿namespace Alpha.Services.Client.Extensions
 {
+    using System.Text.RegularExpressions;
+
     public static class StringExtensions
     {
         private const string HtmlTagPattern = "<.*?>";

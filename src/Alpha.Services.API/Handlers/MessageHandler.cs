@@ -7,7 +7,6 @@
     using Alpha.Services.API.Infrastructure.Exceptions;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
-    using Alpha.Services.Extensions;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
     using MediatR;
@@ -50,7 +49,6 @@
                     Id = message.Id,
                     Content = message.GetContentByLanguage(param.Language)
                     .Replace("@@", message.BetTransId)
-                    .StripHTML()
                 });
         }
     }
