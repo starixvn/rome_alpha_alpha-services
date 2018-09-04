@@ -2,7 +2,6 @@
 <Functions SiteId="105" SiteName="Alpha">
   <Function Name="Customer Information">
     <Setting Key="Chatbot_GetCustomerInfo" SpName="Chatbot_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
-      <Mapping DataField="recommend" ObjectProperty="CustId" />
       <Mapping DataField="username" ObjectProperty="UserName" />
       <Mapping DataField="currencyname" ObjectProperty="CurrencyName" />
     </Setting>

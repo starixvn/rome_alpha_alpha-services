@@ -12,7 +12,7 @@
             var criteria = new GetCustomerInfoCriteria(0);
 
             // Act & Assert
-            Assert.Equal("Age_CustomerSelUserInfo", criteria.GetSettingKey());
+            Assert.Equal("Chatbot_GetCustomerInfo", criteria.GetSettingKey());
         }
 
         [Theory]
