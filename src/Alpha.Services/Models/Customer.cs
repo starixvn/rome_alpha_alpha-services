@@ -9,18 +9,14 @@ namespace Alpha.Services.Models
         }
 
         public Customer(
-            int custId,
             string userName,
             byte roleId,
             string currencyName)
         {
-            CustId = custId;
             UserName = userName;
             RoleId = roleId;
             CurrencyName = currencyName;
         }
-
-        public int CustId { get; private set; }
 
         public string UserName { get; private set; }
 

@@ -30,7 +30,7 @@
                 throw new DomainException("Customer does not exist");
             }
 
-            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, customer.CustId);
+            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, request.CustId);
             var directDownlineLevel = customer.CustLevel.GetDirectDownLineLevel();
 
             return new Dictionary<string, object>

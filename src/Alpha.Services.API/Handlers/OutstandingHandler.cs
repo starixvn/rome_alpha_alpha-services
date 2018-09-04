@@ -31,7 +31,7 @@
                 throw new DomainException("Customer does not exist");
             }
 
-            var outstanding = await outstandingService.GetOutstanding(customer.CustLevel, customer.CustId);
+            var outstanding = await outstandingService.GetOutstanding(customer.CustLevel, request.CustId);
 
             return new Dictionary<string, object>
             {

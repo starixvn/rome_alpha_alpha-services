@@ -38,7 +38,7 @@
 
             var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
 
-            var param = new WinLossParam(customer.CustLevel, customer.CustId, request.Date, productIds);
+            var param = new WinLossParam(customer.CustLevel, request.CustId, request.Date, productIds);
             var winLossData = await winLossService.GetWinLoss(param);
 
             if (winLossData == null || !winLossData.Any())
