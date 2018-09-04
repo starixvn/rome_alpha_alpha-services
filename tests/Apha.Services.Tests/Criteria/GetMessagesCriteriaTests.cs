@@ -9,7 +9,7 @@
     {
         [Theory]
         [InlineData(MessageTypeConstants.Personal, "Dot_Msg_GetPrivateMessage")]
-        [InlineData(MessageTypeConstants.Normal, "Dot_Msg_GetPublicMessage")]
+        [InlineData(MessageTypeConstants.Normal, "Chatbot_GetNormalMessage")]
         [InlineData(MessageTypeConstants.Special, "Dot_Msg_GetSpecialMessage")]
         public void GetSettingKey_WithCorrectCustLevel_ReturnsValidSettingKey(int messageType, string expectedSettingKey)
         {

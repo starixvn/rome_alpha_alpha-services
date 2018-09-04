@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Alpha.Services.API.Infrastructure.Exceptions;
     using Alpha.Services.API.Requests;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
@@ -13,32 +12,22 @@
 
     public class WinLossHandler : IRequestHandler<WinLossQuery, IDictionary<string, object>>
     {
-        private readonly CustomerService customerService;
         private readonly ProductService productService;
         private readonly WinLossService winLossService;
 
         public WinLossHandler(
-            CustomerService customerService,
             ProductService productService,
             WinLossService winLossService)
         {
-            this.customerService = customerService;
             this.productService = productService;
             this.winLossService = winLossService;
         }
 
         public async Task<IDictionary<string, object>> Handle(WinLossQuery request, CancellationToken cancellationToken)
         {
-            var customer = await customerService.GetCustomerInfo(request.CustId);
-
-            if (customer == null)
-            {
-                throw new DomainException("Customer does not exist");
-            }
-
             var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
 
-            var param = new WinLossParam(customer.CustLevel, request.CustId, request.Date, productIds);
+            var param = new WinLossParam(request.CustLevel, request.CustId, request.Date, productIds);
             var winLossData = await winLossService.GetWinLoss(param);
 
             if (winLossData == null || !winLossData.Any())

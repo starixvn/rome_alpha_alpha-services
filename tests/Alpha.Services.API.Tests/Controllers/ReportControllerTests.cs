@@ -3,6 +3,7 @@
     using System;
     using Alpha.Services.API.Controllers;
     using Alpha.Services.API.Requests;
+    using Alpha.Services.API.Tests.Constants;
     using MediatR;
     using NSubstitute;
     using Xunit;
@@ -25,7 +26,7 @@
             var custId = 1;
 
             // Act
-            reportController.GetOutstanding(custId).ConfigureAwait(false);
+            reportController.GetOutstanding(custId, CustLevel.Agent).ConfigureAwait(false);
 
             // Assert
             mediator.Received().Send(Arg.Is<OutstandingQuery>(q => q.CustId == custId));
@@ -53,7 +54,7 @@
             var expectedDate = DateTimeOffset.FromUnixTimeMilliseconds(date).ToLocalTime();
 
             // Act
-            reportController.GetWinLoss(custId, date).ConfigureAwait(false);
+            reportController.GetWinLoss(custId, CustLevel.Agent, date).ConfigureAwait(false);
 
             // Assert
             mediator.Received().Send(Arg.Is<WinLossQuery>(q => q.CustId == custId && q.Date == expectedDate));

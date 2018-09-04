@@ -42,7 +42,7 @@
 
         private static void GetOutstanding(ReportService service)
         {
-            var outstanding = service.GetOutstanding(1176086);
+            var outstanding = service.GetOutstanding(1176086, 2);
 
             Console.WriteLine($"Request: GetOutstanding, response: {FormatJson(outstanding)}");
         }
@@ -56,14 +56,14 @@
 
         private static void GetWinLoss(ReportService service)
         {
-            var winLoss = service.GetWinLoss(1176086, DateTime.Now.AddDays(-1).Date);
+            var winLoss = service.GetWinLoss(1176086, 2, DateTime.Now.AddDays(-1).Date);
 
             Console.WriteLine($"Request: GetWinLoss, response: {FormatJson(winLoss)}");
         }
 
         private static void GetOutstandingAsync(ReportService service)
         {
-            var outstanding = service.GetOutstandingAsync(1176086).Result;
+            var outstanding = service.GetOutstandingAsync(1176086, 2).Result;
 
             Console.WriteLine($"Request: GetOutstandingAsync, response: {FormatJson(outstanding)}");
         }
@@ -77,7 +77,7 @@
 
         private static void GetWinLossAsync(ReportService service)
         {
-            var winLoss = service.GetWinLossAsync(1176086, DateTime.Now.AddDays(-1).Date).Result;
+            var winLoss = service.GetWinLossAsync(1176086, 2, DateTime.Now.AddDays(-1).Date).Result;
 
             Console.WriteLine($"Request: GetWinLossAsync, response: {FormatJson(winLoss)}");
         }
@@ -88,14 +88,14 @@
 
         private static void GetMessages(MessageService service)
         {
-            var messages = service.GetMessages(1176086, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now);
+            var messages = service.GetMessages(1176086, 2, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now);
 
             Console.WriteLine($"Request: GetMessages, response: {FormatJson(messages)}");
         }
 
         private static void GetMessagesAsync(MessageService service)
         {
-            var messages = service.GetMessagesAsync(1176086, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now).Result;
+            var messages = service.GetMessagesAsync(1176086, 2, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now).Result;
 
             Console.WriteLine($"Request: GetMessagesAsync, response: {FormatJson(messages)}");
         }
