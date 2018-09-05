@@ -1,10 +1,9 @@
 ﻿namespace Alpha.Services.API.Controllers
 {
-    using System;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
+    using Alpha.Services.Extensions;
     using MediatR;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [FormatFilter]
@@ -20,27 +19,27 @@
             this.mediator = mediator;
         }
 
-        [HttpGet("{custId}/outstanding")]
-        public async Task<IActionResult> GetOutstanding(int custId = 1176086)
+        [HttpGet("{custId}/{custLevel}/outstanding")]
+        public async Task<IActionResult> GetOutstanding(int custId, byte custLevel)
         {
-            var outstanding = await mediator.Send(new OutstandingQuery(custId));
+            var outstanding = await mediator.Send(new OutstandingQuery(custId, custLevel));
 
             return Ok(outstanding);
         }
 
         [HttpGet("{custId}/balanceinfo")]
-        public async Task<IActionResult> GetBalanceInfo(int custId = 1176086)
+        public async Task<IActionResult> GetBalanceInfo(int custId)
         {
             var balanceInfo = await mediator.Send(new BalanceInfoQuery(custId));
 
             return Ok(balanceInfo);
         }
 
-        [HttpGet("{custId}/winloss/{date}")]
-        public async Task<IActionResult> GetWinLoss(int custId = 1176086, long date = 1532922530926)
+        [HttpGet("{custId}/{custLevel}/winloss/{date}")]
+        public async Task<IActionResult> GetWinLoss(int custId, byte custLevel, long date)
         {
             var winLoss = await mediator.Send(
-                new WinLossQuery(custId, DateTimeOffset.FromUnixTimeMilliseconds(date).DateTime.ToLocalTime()));
+                new WinLossQuery(custId, custLevel, date.ToLocalTime()));
 
             return Ok(winLoss);
         }

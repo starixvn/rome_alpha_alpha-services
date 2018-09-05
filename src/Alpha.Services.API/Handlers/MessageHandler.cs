@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Alpha.Services.API.Infrastructure.Exceptions;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
     using Alpha.Services.Params;
@@ -14,27 +13,16 @@
     public class MessageHandler : IRequestHandler<MessageQuery, IEnumerable<MessageViewModel>>
     {
         private readonly MessageService messageService;
-        private readonly CustomerService customerService;
 
-        public MessageHandler(
-            MessageService messageService,
-            CustomerService customerService)
+        public MessageHandler(MessageService messageService)
         {
             this.messageService = messageService;
-            this.customerService = customerService;
         }
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
         {
-            var customer = await customerService.GetCustomerInfo(request.CustId);
-
-            if (customer == null)
-            {
-                throw new DomainException("Customer does not exist");
-            }
-
             var param = new MessageParam(
-                customer.CustLevel,
+                request.CustLevel,
                 request.CustId,
                 request.MessageType,
                 request.Language,

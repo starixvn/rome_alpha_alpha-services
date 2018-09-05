@@ -47,7 +47,6 @@
                 .AddServices()
                 .AddCustomConfiguration(Configuration)
                 .AddMemoryCache();
-            //.AddCustomAuthentication();
 
             services.AddSingleton(Logger.Log);
         }

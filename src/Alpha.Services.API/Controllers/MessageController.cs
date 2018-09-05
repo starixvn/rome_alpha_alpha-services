@@ -1,10 +1,9 @@
 ﻿namespace Alpha.Services.API.Controllers
 {
-    using System;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
+    using Alpha.Services.Extensions;
     using MediatR;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [FormatFilter]
@@ -20,21 +19,23 @@
             this.mediator = mediator;
         }
 
-        [HttpGet("{custId}/messages/{messageType}/{language}/{fromTime}/{toTime}")]
+        [HttpGet("{custId}/{custLevel}/messages/{messageType}/{language}/{fromTime}/{toTime}")]
         public async Task<IActionResult> GetMessages(
-            int custId = 1176086,
-            int messageType = 2,
-            string language = "en-US",
-            long fromTime = 1532490957191,
-            long toTime = 1532922530926)
+            int custId,
+            byte custLevel,
+            int messageType,
+            string language,
+            long fromTime,
+            long toTime)
         {
             var messages = await mediator.Send(
                 new MessageQuery(
                     custId,
+                    custLevel,
                     messageType,
                     language,
-                    DateTimeOffset.FromUnixTimeMilliseconds(fromTime).DateTime.ToLocalTime(),
-                    DateTimeOffset.FromUnixTimeMilliseconds(toTime).DateTime.ToLocalTime()));
+                    fromTime.ToLocalTime(),
+                    toTime.ToLocalTime()));
 
             return Ok(messages);
         }

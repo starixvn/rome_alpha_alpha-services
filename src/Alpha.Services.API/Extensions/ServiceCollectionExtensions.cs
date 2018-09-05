@@ -4,6 +4,7 @@
     using Alpha.Services.API.Infrastructure.Filters;
     using Alpha.Services.Configurations;
     using Alpha.Services.Services;
+    using Fanex.Caching;
     using Fanex.Data.Repository;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -93,6 +94,7 @@
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<CustomerService, CustomerServiceImpl>();
             services.AddSingleton<OutstandingService, OutstandingServiceImpl>();
             services.AddSingleton<ReportDateService, ReportDateServiceImpl>();
