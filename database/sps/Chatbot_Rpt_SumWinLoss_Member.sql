@@ -49,11 +49,17 @@ BEGIN
 		,@MoveBetsDay
 		,@BalanceUpDay;
 
-	SELECT SUM(Turnover) AS Turnover
-		,SUM(GrossComm) AS GrossCom
-		,SUM(MemberWinLoss) AS MemberWinLoss
-		,SUM(MemberComm) AS MemberComm
-		,SUM(AgWinLoss) AS AgentWinLoss
-		,SUM(AgComm) AS AgentComm
-	FROM #AgentWinLoss
+	IF EXISTS (
+			SELECT 1
+			FROM #AgentWinLoss
+			)
+	BEGIN
+		SELECT SUM(Turnover) AS Turnover
+			,SUM(GrossComm) AS GrossCom
+			,SUM(MemberWinLoss) AS MemberWinLoss
+			,SUM(MemberComm) AS MemberComm
+			,SUM(AgWinLoss) AS AgentWinLoss
+			,SUM(AgComm) AS AgentComm
+		FROM #AgentWinLoss
+	END
 END;

@@ -48,10 +48,16 @@ BEGIN
 		,@MoveBetsDay
 		,@BalanceUpDay;
 
-	SELECT SUM(Turnover) AS Turnover
-		,SUM(GrossComm) AS GrossCom
-		,SUM(MAgTotal) AS MasterTotal
-		,SUM(SAgWinLoss) AS SuperWinLoss
-		,SUM(SAgComm) AS SuperComm
-	FROM #SuperWinLoss
+	IF EXISTS (
+			SELECT 1
+			FROM #SuperWinLoss
+			)
+	BEGIN
+		SELECT SUM(Turnover) AS Turnover
+			,SUM(GrossComm) AS GrossCom
+			,SUM(MAgTotal) AS MasterTotal
+			,SUM(SAgWinLoss) AS SuperWinLoss
+			,SUM(SAgComm) AS SuperComm
+		FROM #SuperWinLoss
+	END
 END;
