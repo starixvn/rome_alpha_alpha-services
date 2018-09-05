@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Alpha.Services.Services;
+    using Fanex.Caching;
     using Fanex.Data.Repository;
     using NSubstitute;
     using Xunit;
@@ -11,12 +12,14 @@
     {
         private const string ProductsCacheKey = "Alpha.Services.ProductServiceImpl.Products";
         private readonly IDynamicRepository dynamicRepository;
+        private readonly ICacheService cacheService;
         private readonly ProductServiceImpl productService;
 
         public ProductServiceImplTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
-            productService = new ProductServiceImpl(dynamicRepository);
+            cacheService = Substitute.For<ICacheService>();
+            productService = new ProductServiceImpl(dynamicRepository, cacheService);
         }
 
         [Theory]

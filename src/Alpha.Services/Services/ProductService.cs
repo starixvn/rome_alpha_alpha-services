@@ -18,10 +18,14 @@
     {
         private const string ProductsCacheKey = "Alpha.Services.ProductServiceImpl.Products";
         private readonly IDynamicRepository dynamicRepository;
+        private readonly ICacheService cacheService;
 
-        public ProductServiceImpl(IDynamicRepository dynamicRepository)
+        public ProductServiceImpl(
+            IDynamicRepository dynamicRepository,
+            ICacheService cacheService)
         {
             this.dynamicRepository = dynamicRepository;
+            this.cacheService = cacheService;
         }
 
         public async Task<IEnumerable<int>> GetProductIdsForCustomer(int custId, DateTime? minReportDate = null)
@@ -48,7 +52,7 @@
             || minReportDate.Value <= product.EndOfSupportDate.Value;
 
         private async Task<IEnumerable<Product>> GetProductsForReport()
-            => await ConfiguredCacheService.GetOrSetAsync(
+            => await cacheService.GetOrSetAsync(
                 ProductsCacheKey,
                 () => dynamicRepository.Fetch<Product>(new GetProductsCriteria()),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));

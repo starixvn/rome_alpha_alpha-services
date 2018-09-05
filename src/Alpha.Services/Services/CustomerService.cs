@@ -18,17 +18,21 @@
     {
         private const string AccountClosedCacheKey = "Alpha.Services.Services.CustomerServiceImpl.IsAccountActivated.{0}.{1}";
         private readonly IDynamicRepository dynamicRepository;
+        private readonly ICacheService cacheService;
 
-        public CustomerServiceImpl(IDynamicRepository dynamicRepository)
+        public CustomerServiceImpl(
+            IDynamicRepository dynamicRepository,
+            ICacheService cacheService)
         {
             this.dynamicRepository = dynamicRepository;
+            this.cacheService = cacheService;
         }
 
         public async Task<Customer> GetCustomerInfo(int custId)
             => await dynamicRepository.GetAsync<Customer>(new GetCustomerInfoCriteria(custId));
 
         public async Task<bool> IsAccountClosed(int custId, int subAccountId)
-            => await ConfiguredCacheService.GetOrSetAsync(
+            => await cacheService.GetOrSetAsync(
                 string.Format(AccountClosedCacheKey, custId, subAccountId),
                 () => !IsAccountActive(custId, subAccountId),
                 new CacheItemOptions().SetAbsoluteExpiration(new TimeSpan(0, 0, 30)));

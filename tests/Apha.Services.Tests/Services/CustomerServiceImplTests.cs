@@ -3,6 +3,7 @@
     using Alpha.Services.Criteria;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
+    using Fanex.Caching;
     using Fanex.Data.Repository;
     using NSubstitute;
     using Xunit;
@@ -11,11 +12,13 @@
     {
         private readonly IDynamicRepository dynamicRepository;
         private readonly CustomerServiceImpl customerService;
+        private readonly ICacheService cacheService;
 
         public CustomerServiceImplTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
-            customerService = new CustomerServiceImpl(dynamicRepository);
+            cacheService = Substitute.For<ICacheService>();
+            customerService = new CustomerServiceImpl(dynamicRepository, cacheService);
         }
 
         [Fact]

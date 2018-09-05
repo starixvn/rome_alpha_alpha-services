@@ -20,10 +20,14 @@
     {
         private const string BalanceUpDayAndMoveBetsDayCacheKey = "Alpha.Services.ReportDateServiceImpl.BalanceUpDayAndMoveBetsDay";
         private readonly IDynamicRepository dynamicRepository;
+        private readonly ICacheService cacheService;
 
-        public ReportDateServiceImpl(IDynamicRepository dynamicRepository)
+        public ReportDateServiceImpl(
+            IDynamicRepository dynamicRepository,
+            ICacheService cacheService)
         {
             this.dynamicRepository = dynamicRepository;
+            this.cacheService = cacheService;
         }
 
         public async Task<DateTime> GetBalanceUpDay()
@@ -41,7 +45,7 @@
         }
 
         public async Task<BalanceUpDayAndMoveBetsDay> GetBalanceUpDayAndMoveBetsDay()
-         => await ConfiguredCacheService.GetOrSetAsync(
+         => await cacheService.GetOrSetAsync(
              BalanceUpDayAndMoveBetsDayCacheKey,
              () => dynamicRepository.Get<BalanceUpDayAndMoveBetsDay>(new GetBalanceUpDayAndMoveBetsDayCriteria()),
              new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
