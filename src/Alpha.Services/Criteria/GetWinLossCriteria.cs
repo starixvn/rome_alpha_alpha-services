@@ -44,10 +44,10 @@
 
         public override string GetSettingKey()
             => CustLevel.IsAgentLevel()
-            ? "Age_Rpt_WinLoss_Member"
+            ? "Chatbot_Rpt_SumWinLoss_Member"
             : CustLevel.IsMasterLevel()
-            ? "Age_Rpt_WinLoss_Agent"
-            : "Age_Rpt_WinLoss_Master";
+            ? "Chatbot_Rpt_SumWinLoss_Agent"
+            : "Chatbot_Rpt_SumWinLoss_Master";
 
         public override bool IsValid()
             => CustId > 0

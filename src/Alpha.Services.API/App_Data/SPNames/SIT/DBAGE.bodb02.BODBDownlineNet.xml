@@ -28,4 +28,9 @@
       <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
     </Setting>
   </Function>
+  <Function Name="Win Loss">
+    <Setting Key="Chatbot_Rpt_SumWinLoss_Master" SpName="Chatbot_Rpt_SumWinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Chatbot_Rpt_SumWinLoss_Agent" SpName="Chatbot_Rpt_SumWinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Chatbot_Rpt_SumWinLoss_Member" SpName="Chatbot_Rpt_SumWinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+  </Function>
 </Functions>

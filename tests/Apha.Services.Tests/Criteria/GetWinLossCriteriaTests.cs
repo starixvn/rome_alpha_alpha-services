@@ -11,9 +11,9 @@
     public class GetWinLossCriteriaTests
     {
         [Theory]
-        [InlineData(2, "Age_Rpt_WinLoss_Member")]
-        [InlineData(3, "Age_Rpt_WinLoss_Agent")]
-        [InlineData(4, "Age_Rpt_WinLoss_Master")]
+        [InlineData(2, "Chatbot_Rpt_SumWinLoss_Member")]
+        [InlineData(3, "Chatbot_Rpt_SumWinLoss_Agent")]
+        [InlineData(4, "Chatbot_Rpt_SumWinLoss_Master")]
         public void GetSettingKey_WithCorrectCustLevel_ReturnsValidSettingKey(byte custLevelId, string expectedSettingKey)
         {
             // Arrange
