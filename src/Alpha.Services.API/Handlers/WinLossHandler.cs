@@ -1,11 +1,9 @@
 ﻿namespace Alpha.Services.API.Handlers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
-    using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
     using MediatR;
@@ -28,54 +26,50 @@
             var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
 
             var param = new WinLossParam(request.CustLevel, request.CustId, request.Date, productIds);
-            var winLossData = await winLossService.GetWinLoss(param);
+            var winloss = await winLossService.GetWinLoss(param);
 
-            if (winLossData == null || !winLossData.Any())
+            var result = new Dictionary<string, object>();
+
+            if (winloss != null)
             {
-                return new Dictionary<string, object>();
-            }
+                result.Add(nameof(winloss.Turnover), winloss.Turnover);
+                result.Add(nameof(winloss.GrossComm), winloss.GrossComm);
 
-            var grandTotal = AccumulateGrandTotal(winLossData);
-            var companyWinLoss = grandTotal.Company;
-
-            return new Dictionary<string, object>
-            {
-                { nameof(grandTotal.Turnover) , grandTotal.Turnover },
-                { nameof(grandTotal.GrossComm) , grandTotal.GrossComm },
-
-                { "MemberNetWinLoss.WinLoss" , grandTotal.MemberNetWinLoss?.WinLoss },
-                { "MemberNetWinLoss.Comm" , grandTotal.MemberNetWinLoss?.Comm },
-                { "MemberNetWinLoss.Total" , grandTotal.MemberNetWinLoss?.Total },
-
-                { "AgentNetWinLoss.WinLoss" , grandTotal.AgentNetWinLoss?.WinLoss },
-                { "AgentNetWinLoss.Comm" , grandTotal.AgentNetWinLoss?.Comm },
-                { "AgentNetWinLoss.Total" , grandTotal.AgentNetWinLoss?.Total },
-
-                { "MasterNetWinLoss.WinLoss" , grandTotal.MasterNetWinLoss?.WinLoss },
-                { "MasterNetWinLoss.Comm" , grandTotal.MasterNetWinLoss?.Comm },
-                { "MasterNetWinLoss.Total" , grandTotal.MasterNetWinLoss?.Total },
-
-                { "SuperNetWinLoss.WinLoss" , grandTotal.SuperNetWinLoss?.WinLoss },
-                { "SuperNetWinLoss.Comm" , grandTotal.SuperNetWinLoss?.Comm },
-                { "SuperNetWinLoss.Total" , grandTotal.SuperNetWinLoss?.Total },
-
-                { nameof(companyWinLoss) , companyWinLoss },
-            };
-        }
-
-        internal static WinLossModel AccumulateGrandTotal(IEnumerable<WinLossModel> reportData)
-        {
-            var grandTotal = new WinLossModel();
-
-            if (reportData != null && reportData.Any())
-            {
-                foreach (var data in reportData)
+                if (request.CustLevel.IsAgentLevel())
                 {
-                    grandTotal.Add(data);
+                    result.Add("MemberNetWinLoss.WinLoss", winloss.MemberWinLoss);
+                    result.Add("MemberNetWinLoss.Comm", winloss.MemberComm);
+                    result.Add("MemberNetWinLoss.Total", winloss.MemberTotal);
+                    result.Add("AgentNetWinLoss.WinLoss", winloss.AgentWinLoss);
+                    result.Add("AgentNetWinLoss.Comm", winloss.AgentComm);
+
+                    var agentTotal = winloss.AgentWinLoss + winloss.AgentComm;
+                    result.Add("AgentNetWinLoss.Total", agentTotal);
+                    result.Add("companyWinLoss", -(winloss.MemberTotal + agentTotal));
+                }
+
+                if (request.CustLevel.IsMasterLevel())
+                {
+                    result.Add("AgentNetWinLoss.Total", winloss.AgentTotal);
+                    result.Add("MasterNetWinLoss.WinLoss", winloss.MasterWinLoss);
+                    result.Add("MasterNetWinLoss.Comm", winloss.MasterComm);
+
+                    var masterTotal = winloss.MasterWinLoss + winloss.MasterComm;
+                    result.Add("MasterNetWinLoss.Total", masterTotal);
+                    result.Add("companyWinLoss", -(winloss.AgentTotal + masterTotal));
+                }
+
+                if (request.CustLevel.IsSuperLevel())
+                {
+                    result.Add("MasterNetWinLoss.Total", winloss.MasterTotal);
+                    result.Add("SuperNetWinLoss.WinLoss", winloss.SuperWinLoss);
+                    result.Add("SuperNetWinLoss.Comm", winloss.SuperComm);
+                    result.Add("SuperNetWinLoss.Total", winloss.SuperTotal);
+                    result.Add("companyWinLoss", -(winloss.MasterTotal + winloss.SuperTotal));
                 }
             }
 
-            return grandTotal;
+            return result;
         }
     }
 }

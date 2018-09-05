@@ -47,35 +47,8 @@
     </Setting>
   </Function>
   <Function Name="Win Loss">
-    <Setting Key="Age_Rpt_WinLoss_Master" SpName="Age_Rpt_WinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
-      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
-      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
-      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
-      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
-      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
-      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
-      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
-      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
-    </Setting>
-    <Setting Key="Age_Rpt_WinLoss_Agent" SpName="Age_Rpt_WinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
-      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
-      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
-      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
-      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
-      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
-      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
-      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
-      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
-    </Setting>
-    <Setting Key="Age_Rpt_WinLoss_Member" SpName="Age_Rpt_WinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
-      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
-      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
-      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
-      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
-      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
-      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
-      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
-      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
-    </Setting>
+    <Setting Key="Chatbot_Rpt_SumWinLoss_Master" SpName="Chatbot_Rpt_SumWinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Chatbot_Rpt_SumWinLoss_Agent" SpName="Chatbot_Rpt_SumWinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Chatbot_Rpt_SumWinLoss_Member" SpName="Chatbot_Rpt_SumWinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
   </Function>
 </Functions>

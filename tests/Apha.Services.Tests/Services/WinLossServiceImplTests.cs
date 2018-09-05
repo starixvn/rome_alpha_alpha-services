@@ -20,7 +20,7 @@
         public WinLossServiceImplTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
-            dynamicRepository.FetchAsync<WinLossDTO>(Arg.Any<GetWinLossCriteria>()).Returns(new List<WinLossDTO>());
+            dynamicRepository.FetchAsync<WinLossModel>(Arg.Any<GetWinLossCriteria>()).Returns(new List<WinLossModel>());
 
             reportDateService = Substitute.For<ReportDateService>();
             reportDateService.GetBalanceUpDayAndMoveBetsDay()
@@ -52,7 +52,7 @@
             winLossService.GetWinLoss(param).GetAwaiter().GetResult();
 
             // Assert
-            dynamicRepository.Received().FetchAsync<WinLossDTO>(Arg.Any<GetWinLossCriteria>());
+            dynamicRepository.Received().GetAsync<WinLossModel>(Arg.Any<GetWinLossCriteria>());
         }
     }
 }

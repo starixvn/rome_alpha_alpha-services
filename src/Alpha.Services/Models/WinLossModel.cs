@@ -7,70 +7,59 @@
         }
 
         public WinLossModel(
-            int custId,
-            string custName,
-            decimal grossComm,
             decimal turnover,
-            NetWinLoss memberNetWinLoss,
-            NetWinLoss agentNetWinLoss,
-            NetWinLoss masterNetWinLoss,
-            NetWinLoss superNetWinLoss)
+            decimal grossComm,
+            decimal memberWinLoss,
+            decimal memberComm,
+            decimal agentWinLoss,
+            decimal agentComm,
+            decimal agentTotal,
+            decimal masterWinLoss,
+            decimal masterComm,
+            decimal masterTotal,
+            decimal superWinLoss,
+            decimal superComm)
         {
-            CustId = custId;
-            CustName = custName;
-            GrossComm = grossComm;
             Turnover = turnover;
-            MemberNetWinLoss = memberNetWinLoss;
-            AgentNetWinLoss = agentNetWinLoss;
-            MasterNetWinLoss = masterNetWinLoss;
-            SuperNetWinLoss = superNetWinLoss;
+            GrossComm = grossComm;
+            MemberWinLoss = memberWinLoss;
+            MemberComm = memberComm;
+            AgentWinLoss = agentWinLoss;
+            AgentComm = agentComm;
+            AgentTotal = agentTotal;
+            MasterWinLoss = masterWinLoss;
+            MasterComm = masterComm;
+            MasterTotal = masterTotal;
+            SuperWinLoss = superWinLoss;
+            SuperComm = superComm;
         }
 
-        public int CustId { get; }
+        public decimal Turnover { get; }
 
-        public string CustName { get; }
+        public decimal GrossComm { get; }
 
-        public decimal Turnover { get; private set; }
+        public decimal MemberWinLoss { get; }
 
-        public decimal GrossComm { get; private set; }
+        public decimal MemberComm { get; }
 
-        public NetWinLoss MemberNetWinLoss { get; private set; }
+        public decimal MemberTotal => MemberWinLoss + MemberComm;
 
-        public NetWinLoss AgentNetWinLoss { get; private set; }
+        public decimal AgentWinLoss { get; }
 
-        public NetWinLoss MasterNetWinLoss { get; private set; }
+        public decimal AgentComm { get; }
 
-        public NetWinLoss SuperNetWinLoss { get; private set; }
+        public decimal AgentTotal { get; }
 
-        public decimal Company
-        {
-            get
-            {
-                return -((MemberNetWinLoss?.Total ?? 0)
-                        + (AgentNetWinLoss?.Total ?? 0)
-                        + (MasterNetWinLoss?.Total ?? 0)
-                        + (SuperNetWinLoss?.Total ?? 0));
-            }
+        public decimal MasterWinLoss { get; }
 
-            private set { }
-        }
+        public decimal MasterComm { get; }
 
-        public WinLossModel Add(WinLossModel winloss)
-        {
-            if (winloss == null)
-            {
-                return this;
-            }
+        public decimal MasterTotal { get; }
 
-            GrossComm += winloss.GrossComm;
-            Turnover += winloss.Turnover;
-            Company += winloss.Company;
-            MemberNetWinLoss = NetWinLoss.Add(MemberNetWinLoss, winloss.MemberNetWinLoss);
-            AgentNetWinLoss = NetWinLoss.Add(AgentNetWinLoss, winloss.AgentNetWinLoss);
-            MasterNetWinLoss = NetWinLoss.Add(MasterNetWinLoss, winloss.MasterNetWinLoss);
-            SuperNetWinLoss = NetWinLoss.Add(SuperNetWinLoss, winloss.SuperNetWinLoss);
+        public decimal SuperWinLoss { get; }
 
-            return this;
-        }
+        public decimal SuperComm { get; }
+
+        public decimal SuperTotal => SuperWinLoss + SuperComm;
     }
 }

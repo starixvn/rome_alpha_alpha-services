@@ -1,17 +1,14 @@
 ﻿namespace Alpha.Services.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Alpha.Services.Criteria;
-    using Alpha.Services.Extensions;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Fanex.Data.Repository;
 
     public interface WinLossService
     {
-        Task<IEnumerable<WinLossModel>> GetWinLoss(WinLossParam param);
+        Task<WinLossModel> GetWinLoss(WinLossParam param);
     }
 
     public class WinLossServiceImpl : WinLossService
@@ -27,11 +24,11 @@
             this.reportDateService = reportDateService;
         }
 
-        public async Task<IEnumerable<WinLossModel>> GetWinLoss(WinLossParam param)
+        public async Task<WinLossModel> GetWinLoss(WinLossParam param)
         {
             var reportDate = await reportDateService.GetBalanceUpDayAndMoveBetsDay();
 
-            var winLossDtos = await dynamicRepository.FetchAsync<WinLossDTO>(
+            var winLoss = await dynamicRepository.GetAsync<WinLossModel>(
                 new GetWinLossCriteria(
                     param.CustLevel,
                     param.CustId,
@@ -41,42 +38,7 @@
                     reportDate.MoveBetsDay,
                     param.ProductIds));
 
-            return winLossDtos.Select(dto => BuildWinLoss(dto, param.CustLevel));
+            return winLoss;
         }
-
-        private static WinLossModel BuildWinLoss(WinLossDTO winLossDTO, UserLevel custLevel)
-            => new WinLossModel(
-                custId: winLossDTO.CustId,
-                custName: winLossDTO.CustName,
-                grossComm: winLossDTO.GrossComm,
-                turnover: winLossDTO.TurnOver,
-                memberNetWinLoss: BuildMemberNetWinLoss(winLossDTO, custLevel),
-                agentNetWinLoss: BuildAgentNetWinLoss(winLossDTO, custLevel),
-                masterNetWinLoss: BuildMasterNetWinLoss(winLossDTO, custLevel),
-                superNetWinLoss: BuildSuperNetWinLoss(winLossDTO, custLevel));
-
-        private static NetWinLoss BuildMemberNetWinLoss(WinLossDTO winLossDTO, UserLevel custLevel)
-            => custLevel.IsAgentLevel()
-            ? new NetWinLoss(winLossDTO.MemberWinLoss, winLossDTO.MemberComm)
-            : null;
-
-        private static NetWinLoss BuildAgentNetWinLoss(WinLossDTO winLossDTO, UserLevel custLevel)
-            => custLevel.IsNotSuperLevel()
-            ? (custLevel.IsMasterLevel()
-                ? new NetWinLoss(winLossDTO.AgentTotal)
-                : new NetWinLoss(winLossDTO.AgentWinLoss, winLossDTO.AgentComm))
-            : null;
-
-        private static NetWinLoss BuildMasterNetWinLoss(WinLossDTO winLossDTO, UserLevel custLevel)
-            => custLevel.IsMasterOrSuperLevel()
-            ? (custLevel.IsMasterLevel()
-                ? new NetWinLoss(winLossDTO.MasterWinLoss, winLossDTO.MasterComm)
-                : new NetWinLoss(winLossDTO.MasterTotal))
-            : null;
-
-        private static NetWinLoss BuildSuperNetWinLoss(WinLossDTO winLossDTO, UserLevel custLevel)
-            => custLevel.IsSuperLevel() ?
-            new NetWinLoss(winLossDTO.SuperWinLoss, winLossDTO.SuperComm) :
-            null;
     }
 }
