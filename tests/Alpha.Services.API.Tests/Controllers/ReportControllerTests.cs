@@ -10,6 +10,7 @@
 
     public class ReportControllerTests
     {
+        private const int custId = 1;
         private readonly IMediator mediator;
         private readonly ReportController reportController;
 
@@ -22,9 +23,6 @@
         [Fact]
         public void GetOutstanding_Always_CallsMediatorSendOutstandingQuery()
         {
-            // Arrange
-            var custId = 1;
-
             // Act
             reportController.GetOutstanding(custId, CustLevel.Agent).ConfigureAwait(false);
 
@@ -35,9 +33,6 @@
         [Fact]
         public void GetGetBalanceInfo_Always_CallsMediatorSendBalanceInfoQuery()
         {
-            // Arrange
-            var custId = 1;
-
             // Act
             reportController.GetBalanceInfo(custId).ConfigureAwait(false);
 
@@ -49,7 +44,6 @@
         public void GetGetWinLoss_Always_CallsMediatorSendWinLossQuery()
         {
             // Arrange
-            var custId = 1;
             var date = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             var expectedDate = DateTimeOffset.FromUnixTimeMilliseconds(date).ToLocalTime();
 
