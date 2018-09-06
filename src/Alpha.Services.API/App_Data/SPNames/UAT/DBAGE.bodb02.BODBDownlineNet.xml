@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
   <Function Name="Customer Information">
-    <Setting Key="Chatbot_GetCustomerInfo" SpName="Chatbot_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
+    <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
       <Mapping DataField="username" ObjectProperty="UserName" />
       <Mapping DataField="currencyname" ObjectProperty="CurrencyName" />
     </Setting>
@@ -47,8 +47,8 @@
     </Setting>
   </Function>
   <Function Name="Win Loss">
-    <Setting Key="Chatbot_Rpt_SumWinLoss_Master" SpName="Chatbot_Rpt_SumWinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
-    <Setting Key="Chatbot_Rpt_SumWinLoss_Agent" SpName="Chatbot_Rpt_SumWinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
-    <Setting Key="Chatbot_Rpt_SumWinLoss_Member" SpName="Chatbot_Rpt_SumWinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_SumWinLoss_Master" SpName="Age_Rpt_SumWinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_SumWinLoss_Agent" SpName="Age_Rpt_SumWinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_SumWinLoss_Member" SpName="Age_Rpt_SumWinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
   </Function>
 </Functions>
