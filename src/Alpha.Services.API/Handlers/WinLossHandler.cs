@@ -23,7 +23,7 @@
 
         public async Task<IDictionary<string, object>> Handle(WinLossQuery request, CancellationToken cancellationToken)
         {
-            var productIds = await productService.GetProductIdsForCustomer(request.CustId, request.MinDate);
+            var productIds = await productService.GetOfferedProductIdsForCustomer(request.CustId, request.MinDate);
 
             var param = new WinLossParam(request.CustLevel, request.CustId, request.Date, productIds);
             var winloss = await winLossService.GetWinLoss(param);

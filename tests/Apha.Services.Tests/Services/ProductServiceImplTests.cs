@@ -10,7 +10,6 @@
 
     public class ProductServiceImplTests
     {
-        private const string ProductsCacheKey = "Alpha.Services.ProductServiceImpl.Products";
         private readonly IDynamicRepository dynamicRepository;
         private readonly ICacheService cacheService;
         private readonly ProductServiceImpl productService;
@@ -26,13 +25,14 @@
         [InlineData(0)]
         [InlineData(-1)]
         [InlineData(int.MinValue)]
-        public void GetProductIdsForCustomer_InvalidCustId_ReturnsEmptyList(int custId)
+        public void GetOfferedProductIdsForCustomer_InvalidCustId_ReturnsEmptyList(int custId)
         {
             // Arrange
             var expectedResult = Enumerable.Empty<int>();
 
             // Act
-            var actualResult = productService.GetProductIdsForCustomer(custId, DateTime.Now).GetAwaiter().GetResult();
+            var actualResult = productService.GetOfferedProductIdsForCustomer(custId, DateTime.Now)
+                .GetAwaiter().GetResult();
 
             // Assert
             Assert.Equal(expectedResult, actualResult);
