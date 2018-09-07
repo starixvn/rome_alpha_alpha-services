@@ -1,11 +1,16 @@
 ﻿namespace Alpha.Services.API.Handlers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
+    using Alpha.Services.Configurations;
+    using Alpha.Services.Constants;
+    using Alpha.Services.Extensions;
+    using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
     using MediatR;
@@ -13,31 +18,71 @@
     public class MessageHandler : IRequestHandler<MessageQuery, IEnumerable<MessageViewModel>>
     {
         private readonly MessageService messageService;
+        private readonly AppSettings appSettings;
 
-        public MessageHandler(MessageService messageService)
+        public MessageHandler(MessageService messageService, AppSettings appSettings)
         {
             this.messageService = messageService;
+            this.appSettings = appSettings;
         }
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
         {
+            var result = new List<MessageViewModel>();
+
             var param = new MessageParam(
-                request.CustLevel,
-                request.CustId,
                 request.MessageType,
-                request.Language,
-                request.FromTime,
-                request.ToTime);
+                request.FromTime.ToLocalTime(),
+                request.ToTime.ToLocalTime(),
+                appSettings.IsLocalTest);
 
             var messages = await messageService.GetMessages(param);
 
-            return messages.Select(
-                message => new MessageViewModel
+            Func<CustomerInfo, Message, bool> filterCustomerByCustId = (c, m) => c.CustId == m.TargetId;
+            Func<CustomerInfo, Message, bool> filterCustomerByParentSite = (c, m) => GetParentSites(c.CustLevel).Contains(m.TargetId);
+
+            var fiterCustomer = request.MessageType == MessageTypeConstants.Personal
+                ? filterCustomerByCustId
+                : filterCustomerByParentSite;
+
+            foreach (var message in messages)
+            {
+                var customer = request.Customers.FirstOrDefault(c => fiterCustomer(c, message));
+
+                if (customer == null)
                 {
-                    Id = message.Id,
-                    Content = message.GetContentByLanguage(param.Language)
-                    .Replace("@@", message.BetTransId)
+                    continue;
+                }
+
+                result.Add(new MessageViewModel
+                {
+                    CustId = customer.CustId,
+                    Content = message.GetContentByLanguage(customer.Language).Replace("@@", message.BetTransId)
                 });
+            }
+
+            return result;
+        }
+
+        private IEnumerable<int> GetParentSites(UserLevel custLevel)
+        {
+            var parentSites = string.Empty;
+
+            if (custLevel.IsSuperLevel())
+            {
+                parentSites = appSettings.ParentSites.Super;
+            }
+
+            if (custLevel.IsMasterLevel())
+            {
+                parentSites = appSettings.ParentSites.Master;
+            }
+            if (custLevel.IsAgentLevel())
+            {
+                parentSites = appSettings.ParentSites.Agent;
+            }
+
+            return parentSites.Split(',').Select(Int32.Parse).ToList();
         }
     }
 }

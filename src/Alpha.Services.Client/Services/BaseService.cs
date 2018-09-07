@@ -27,8 +27,28 @@
            };
 
         protected T Get<T>(string resource) where T : new()
+            => Execute<T>(resource, Method.GET);
+
+        protected async Task<T> GetAsync<T>(string resource) where T : new()
+            => await ExecuteAsync<T>(resource, Method.GET);
+
+        protected T Post<T>(string resource, object data) where T : new()
+            => Execute<T>(resource, Method.POST, data);
+
+        protected async Task<T> PostAsync<T>(string resource, object data) where T : new()
+            => await ExecuteAsync<T>(resource, Method.POST, data);
+
+        private T Execute<T>(string resource, Method method, object data = null) where T : new()
         {
-            var request = new RestRequest(resource, Method.GET);
+            ValidateResource(resource);
+
+            var request = new RestRequest(resource, method);
+
+            if (data != null)
+            {
+                request.AddJsonBody(data);
+            }
+
             var response = restClient.Execute<T>(request);
 
             if (response.IsSuccessful)
@@ -36,12 +56,24 @@
                 return response.Data;
             }
 
-            throw new InvalidOperationException(response.ErrorMessage);
+            throw new InvalidOperationException(
+                string.Join(
+                    "\r\n",
+                    $"Content: {response.Content}",
+                    $"ErrorMessage: {response.ErrorMessage}"));
         }
 
-        protected async Task<T> GetAsync<T>(string resource) where T : new()
+        private async Task<T> ExecuteAsync<T>(string resource, Method method, object data = null) where T : new()
         {
-            var request = new RestRequest(resource, Method.GET);
+            ValidateResource(resource);
+
+            var request = new RestRequest(resource, method);
+
+            if (data != null)
+            {
+                request.AddJsonBody(data);
+            }
+
             var response = await restClient.ExecuteTaskAsync<T>(request);
 
             if (response.IsSuccessful)
@@ -49,7 +81,19 @@
                 return response.Data;
             }
 
-            throw new InvalidOperationException(response.ErrorMessage);
+            throw new InvalidOperationException(
+                string.Join(
+                    "\r\n",
+                    $"Content: {response.Content}",
+                    $"ErrorMessage: {response.ErrorMessage}"));
+        }
+
+        private static void ValidateResource(string resource)
+        {
+            if (string.IsNullOrWhiteSpace(resource))
+            {
+                throw new ArgumentNullException(nameof(resource));
+            }
         }
     }
 }

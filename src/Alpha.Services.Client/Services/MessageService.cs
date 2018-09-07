@@ -7,17 +7,31 @@
 
     public interface MessageService
     {
-        IEnumerable<Message> GetMessages(int custId, byte custLevel, int messageType, string language, DateTimeOffset fromTime, DateTimeOffset toTime);
+        IEnumerable<Message> GetMessages(int messageType, DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers);
 
-        Task<IEnumerable<Message>> GetMessagesAsync(int custId, byte custLevel, int messageType, string language, DateTimeOffset fromTime, DateTimeOffset toTime);
+        Task<IEnumerable<Message>> GetMessagesAsync(int messageType, DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers);
     }
 
     public class MessageServiceImpl : BaseService, MessageService
     {
-        public IEnumerable<Message> GetMessages(int custId, byte custLevel, int messageType, string language, DateTimeOffset fromTime, DateTimeOffset toTime)
-           => Get<List<Message>>($"message/{custId}/{custLevel}/messages/{messageType}/{language}/{fromTime.ToUnixTimeMilliseconds()}/{toTime.ToUnixTimeMilliseconds()}");
+        public IEnumerable<Message> GetMessages(int messageType, DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers)
+           => Post<List<Message>>("message",
+               new
+               {
+                   messageType,
+                   fromTime = fromTime.ToUnixTimeMilliseconds(),
+                   toTime = toTime.ToUnixTimeMilliseconds(),
+                   customers
+               });
 
-        public async Task<IEnumerable<Message>> GetMessagesAsync(int custId, byte custLevel, int messageType, string language, DateTimeOffset fromTime, DateTimeOffset toTime)
-            => await GetAsync<List<Message>>($"message/{custId}/{custLevel}/messages/{messageType}/{language}/{fromTime.ToUnixTimeMilliseconds()}/{toTime.ToUnixTimeMilliseconds()}");
+        public async Task<IEnumerable<Message>> GetMessagesAsync(int messageType, DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers)
+            => await PostAsync<List<Message>>("message",
+                new
+                {
+                    messageType,
+                    fromTime = fromTime.ToUnixTimeMilliseconds(),
+                    toTime = toTime.ToUnixTimeMilliseconds(),
+                    customers
+                });
     }
 }
