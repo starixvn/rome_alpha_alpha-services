@@ -47,18 +47,15 @@
 
             foreach (var message in messages)
             {
-                var customer = request.Customers.FirstOrDefault(c => fiterCustomer(c, message));
+                var custMessages = request.Customers
+                    .Where(customer => fiterCustomer(customer, message))
+                    .Select(customer => new MessageViewModel
+                    {
+                        CustId = customer.CustId,
+                        Content = message.GetContentByLanguage(customer.Language).Replace("@@", message.BetTransId)
+                    });
 
-                if (customer == null)
-                {
-                    continue;
-                }
-
-                result.Add(new MessageViewModel
-                {
-                    CustId = customer.CustId,
-                    Content = message.GetContentByLanguage(customer.Language).Replace("@@", message.BetTransId)
-                });
+                result.AddRange(custMessages);
             }
 
             return result;
