@@ -116,7 +116,11 @@
 
         private static void GetAnnouncements(AnnouncementService service)
         {
-            var announcements = service.GetAnnouncements(1176086, "en-US", DateTime.Now.AddDays(-3), DateTime.Now);
+            var customers = new List<Customer>
+            {
+                new Customer { CustId = 1176086, RoleId = 2, Language = "en-US"}
+            };
+            var announcements = service.GetAnnouncements(DateTime.Now.AddDays(-3), DateTime.Now, customers);
 
             Console.WriteLine($"Request: GetAnnouncements, response: {FormatJson(announcements)}");
         }

@@ -9,7 +9,7 @@
 
     public interface AnnouncementService
     {
-        IEnumerable<Message> GetAnnouncements(int custId, string language, DateTimeOffset fromDate, DateTimeOffset toDate);
+        IEnumerable<Message> GetAnnouncements(DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers);
     }
 
     public class AnnouncementServiceImpl : BaseService, AnnouncementService
@@ -21,7 +21,13 @@
                 Authenticator = new HmacAuthenticator(AppSettings.AnnouncementServiceSettings.ApiKey)
             };
 
-        public IEnumerable<Message> GetAnnouncements(int custId, string language, DateTimeOffset fromDate, DateTimeOffset toDate)
-            => Get<List<Message>>($"announcements/{custId}/{fromDate.ToUnixTimeMilliseconds()}/{toDate.ToUnixTimeMilliseconds()}/{language}");
+        public IEnumerable<Message> GetAnnouncements(DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers)
+            => Post<List<Message>>("announcements",
+                new
+                {
+                    fromTime = fromTime.ToUnixTimeMilliseconds(),
+                    toTime = toTime.ToUnixTimeMilliseconds(),
+                    customers
+                });
     }
 }
