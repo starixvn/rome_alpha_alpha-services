@@ -94,7 +94,7 @@
             {
                 new Customer { CustId=1176086, RoleId = 2, Language = "en-US" }
             };
-            var messages = service.GetMessages(0, DateTime.Now.AddDays(-5), DateTime.Now, customers);
+            var messages = service.GetMessages(2, DateTime.Now.AddDays(-5), DateTime.Now, customers);
 
             Console.WriteLine($"Request: GetMessages, response: {FormatJson(messages)}");
         }
@@ -105,7 +105,7 @@
             {
                 new Customer { CustId = 1176086, RoleId = 2, Language = "en-US"}
             };
-            var messages = service.GetMessagesAsync(0, DateTime.Now.AddDays(-1), DateTime.Now, customers).Result;
+            var messages = service.GetMessagesAsync(0, DateTime.Now.AddDays(-5), DateTime.Now, customers).Result;
 
             Console.WriteLine($"Request: GetMessagesAsync, response: {FormatJson(messages)}");
         }

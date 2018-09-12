@@ -17,13 +17,18 @@
 
     public class MessageHandler : IRequestHandler<MessageQuery, IEnumerable<MessageViewModel>>
     {
+        private readonly IAppSettings appSettings;
         private readonly MessageService messageService;
-        private readonly AppSettings appSettings;
+        private readonly CustomerService customerService;
 
-        public MessageHandler(MessageService messageService, AppSettings appSettings)
+        public MessageHandler(
+            IAppSettings appSettings,
+            MessageService messageService,
+            CustomerService customerService)
         {
-            this.messageService = messageService;
             this.appSettings = appSettings;
+            this.messageService = messageService;
+            this.customerService = customerService;
         }
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
@@ -38,15 +43,10 @@
 
             var messages = await messageService.GetMessages(param);
 
-            Func<CustomerInfo, Message, bool> filterCustomer = (c, m)
-                => m.MessageType == MessageTypeConstants.Personal
-                    ? c.CustId == m.TargetId
-                    : GetParentSites(c.CustLevel).Contains(m.TargetId);
-
             foreach (var message in messages)
             {
                 var custMessages = request.Customers
-                    .Where(customer => filterCustomer(customer, message))
+                    .Where(customer => IsMessageBelongCustomer(customer, message))
                     .Select(customer => new MessageViewModel
                     {
                         CustId = customer.CustId,
@@ -59,25 +59,16 @@
             return result;
         }
 
-        private IEnumerable<int> GetParentSites(UserLevel custLevel)
+        private bool IsMessageBelongCustomer(CustomerInfo customer, Message message)
+            => message.MessageType == MessageTypeConstants.Personal
+                ? customer.CustId == message.TargetId
+                : GetCustomerParentSites(customer.CustId).Contains(message.TargetId);
+
+        private IEnumerable<int> GetCustomerParentSites(int custId)
         {
-            var parentSites = string.Empty;
+            var customer = customerService.GetCustomerInfo(custId).GetAwaiter().GetResult();
 
-            if (custLevel.IsSuperLevel())
-            {
-                parentSites = appSettings.ParentSites.Super;
-            }
-
-            if (custLevel.IsMasterLevel())
-            {
-                parentSites = appSettings.ParentSites.Master;
-            }
-            if (custLevel.IsAgentLevel())
-            {
-                parentSites = appSettings.ParentSites.Agent;
-            }
-
-            return parentSites.Split(',').Select(Int32.Parse).ToList();
+            return appSettings.GetParentSites(customer.CustLevel.DisplayName, customer.System);
         }
     }
 }
