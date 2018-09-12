@@ -38,17 +38,15 @@
 
             var messages = await messageService.GetMessages(param);
 
-            Func<CustomerInfo, Message, bool> filterCustomerByCustId = (c, m) => c.CustId == m.TargetId;
-            Func<CustomerInfo, Message, bool> filterCustomerByParentSite = (c, m) => GetParentSites(c.CustLevel).Contains(m.TargetId);
-
-            var fiterCustomer = request.MessageType == MessageTypeConstants.Personal
-                ? filterCustomerByCustId
-                : filterCustomerByParentSite;
+            Func<CustomerInfo, Message, bool> filterCustomer = (c, m)
+                => m.MessageType == MessageTypeConstants.Personal
+                    ? c.CustId == m.TargetId
+                    : GetParentSites(c.CustLevel).Contains(m.TargetId);
 
             foreach (var message in messages)
             {
                 var custMessages = request.Customers
-                    .Where(customer => fiterCustomer(customer, message))
+                    .Where(customer => filterCustomer(customer, message))
                     .Select(customer => new MessageViewModel
                     {
                         CustId = customer.CustId,

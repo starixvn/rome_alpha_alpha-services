@@ -3,6 +3,7 @@
   <Function Name="Message">
     <Setting Key="Age_GetNewMessage" SpName="Age_GetNewMessage" DbName="DBMSG.bodb_Message.BODBDownlineNet" Plain="0">
       <Mapping DataField="MessageId" ObjectProperty="Id" />
+      <Mapping DataField="MsgType" ObjectProperty="MessageType" />
       <Mapping DataField="Content_en" ObjectProperty="ContentEN" />
       <Mapping DataField="Content_cs" ObjectProperty="ContentCS" />
       <Mapping DataField="Content_ch" ObjectProperty="ContentCH" />

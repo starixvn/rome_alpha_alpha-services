@@ -11,7 +11,7 @@ namespace Alpha.Services.Models
 
         public Message(
             int id,
-            int targetId,
+            byte messageType,
             string contentEN,
             string contentCS,
             string contentCH,
@@ -19,10 +19,12 @@ namespace Alpha.Services.Models
             string contentTH,
             string contentKO,
             string contentVI,
+            int targetId,
             string betTransId)
         {
             Id = id;
             TargetId = targetId;
+            MessageType = messageType;
             ContentEN = contentEN;
             ContentCS = contentCS;
             ContentCH = contentCH;
@@ -35,7 +37,7 @@ namespace Alpha.Services.Models
 
         public int Id { get; }
 
-        public int TargetId { get; }
+        public byte MessageType { get; }
 
         public string ContentEN { get; }
 
@@ -50,6 +52,8 @@ namespace Alpha.Services.Models
         public string ContentKO { get; }
 
         public string ContentVI { get; }
+
+        public int TargetId { get; }
 
         public string BetTransId { get; }
 
