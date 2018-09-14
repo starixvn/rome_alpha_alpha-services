@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Alpha.Services.Models
+﻿namespace Alpha.Services.Models
 {
+    using System;
+
     public class Product
     {
         public Product()

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Alpha.Services.Enumerations;
-
-namespace Alpha.Services.Models
+﻿namespace Alpha.Services.Models
 {
+    using System.Collections.Generic;
+    using Alpha.Services.Enumerations;
+
     public class Customer
     {
         private readonly IDictionary<int, string> systems = new Dictionary<int, string>

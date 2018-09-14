@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Alpha.Services.Constants;
-
-namespace Alpha.Services.Models
+﻿namespace Alpha.Services.Models
 {
+    using System.Collections.Generic;
+    using Alpha.Services.Constants;
+
     public class Message
     {
         public Message()
