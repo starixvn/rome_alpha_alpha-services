@@ -21,19 +21,16 @@
         private const string AuthenticationScheme = "amx";
 
         private readonly IMemoryCache memoryCache;
-        private readonly Fanex.Logging.ILogger logger;
 
         public HmacAuthenticationHandler(
             IMemoryCache memoryCache,
             IOptionsMonitor<AuthenticationSchemeOptions> options,
-            ILoggerFactory loggerFactory,
+            ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock,
-            Fanex.Logging.ILogger logger)
-            : base(options, loggerFactory, encoder, clock)
+            ISystemClock clock)
+            : base(options, logger, encoder, clock)
         {
             this.memoryCache = memoryCache;
-            this.logger = logger;
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -92,7 +89,6 @@
             }
 
             var signatureRawData = $"{appId}{requestHttpMethod}{requestUri}{requestTimeStamp}{nonce}";
-            logger.Info(signatureRawData);
 
             var sharedKey = "vvVAsk+7swmv0F1Zstz73B54B6Qeroksvt2l2TIqy98=";
             var secretKeyByteArray = Convert.FromBase64String(sharedKey);
