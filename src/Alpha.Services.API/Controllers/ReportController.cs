@@ -4,12 +4,13 @@
     using Alpha.Services.API.Requests;
     using Alpha.Services.Extensions;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [FormatFilter]
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = "HMAC")]
+    [Authorize(AuthenticationSchemes = "HMAC")]
     public class ReportController : ControllerBase
     {
         private readonly IMediator mediator;
