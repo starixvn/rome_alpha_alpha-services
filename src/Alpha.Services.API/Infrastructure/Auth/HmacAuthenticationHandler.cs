@@ -21,16 +21,19 @@
         private const string AuthenticationScheme = "amx";
 
         private readonly IMemoryCache memoryCache;
+        private readonly Fanex.Logging.ILogger logger;
 
         public HmacAuthenticationHandler(
             IMemoryCache memoryCache,
             IOptionsMonitor<AuthenticationSchemeOptions> options,
-            ILoggerFactory logger,
+            ILoggerFactory loggerFactory,
             UrlEncoder encoder,
-            ISystemClock clock)
-            : base(options, logger, encoder, clock)
+            ISystemClock clock,
+            Fanex.Logging.ILogger logger)
+            : base(options, loggerFactory, encoder, clock)
         {
             this.memoryCache = memoryCache;
+            this.logger = logger;
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -80,7 +83,7 @@
         private bool IsValidRequest(HttpRequest request, string appId, string incomingBase64Signature, string nonce,
             string requestTimeStamp)
         {
-            string requestUri = HttpUtility.UrlEncode(request.Scheme + "://" + request.Host + request.Path).ToLowerInvariant();
+            string requestUri = HttpUtility.UrlEncode(request.Scheme + "://" + request.Host + request.PathBase + request.Path).ToLowerInvariant();
             string requestHttpMethod = request.Method;
 
             if (IsReplayRequest(nonce, requestTimeStamp))
@@ -89,6 +92,7 @@
             }
 
             var signatureRawData = $"{appId}{requestHttpMethod}{requestUri}{requestTimeStamp}{nonce}";
+            logger.Info(signatureRawData);
 
             var sharedKey = "vvVAsk+7swmv0F1Zstz73B54B6Qeroksvt2l2TIqy98=";
             var secretKeyByteArray = Convert.FromBase64String(sharedKey);
