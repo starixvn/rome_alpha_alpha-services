@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Alpha.Services.Constants;
 
 namespace Alpha.Services.Models
@@ -12,6 +11,7 @@ namespace Alpha.Services.Models
 
         public Message(
             int id,
+            byte messageType,
             string contentEN,
             string contentCS,
             string contentCH,
@@ -19,24 +19,12 @@ namespace Alpha.Services.Models
             string contentTH,
             string contentKO,
             string contentVI,
-            DateTime postTime,
-            DateTime createTime,
-            DateTime lastUpdateTime,
-            byte messageType,
-            bool isSticky,
-            bool isTest,
-            int matchId,
-            int creator,
-            int lastUpdator,
-            string creatorName,
-            string lastUpdateName,
-            bool isBatch,
-            string bettransId,
-            int userId,
-            string userName,
-            long rowNum)
+            int targetId,
+            string betTransId)
         {
             Id = id;
+            TargetId = targetId;
+            MessageType = messageType;
             ContentEN = contentEN;
             ContentCS = contentCS;
             ContentCH = contentCH;
@@ -44,26 +32,12 @@ namespace Alpha.Services.Models
             ContentTH = contentTH;
             ContentKO = contentKO;
             ContentVI = contentVI;
-
-            PostTime = postTime;
-            CreateTime = createTime;
-            LastUpdateTime = lastUpdateTime;
-            MessageType = messageType;
-            IsSticky = isSticky;
-            IsTest = isTest;
-            MatchId = matchId;
-            CreatorId = creator;
-            LastUpdator = lastUpdator;
-            CreatorName = creatorName;
-            LastUpdateName = lastUpdateName;
-            IsBatch = isBatch;
-            BetTransId = bettransId;
-            UserId = userId;
-            UserName = userName;
-            RowNum = rowNum;
+            BetTransId = betTransId;
         }
 
         public int Id { get; }
+
+        public byte MessageType { get; }
 
         public string ContentEN { get; }
 
@@ -79,37 +53,9 @@ namespace Alpha.Services.Models
 
         public string ContentVI { get; }
 
-        public DateTime PostTime { get; }
-
-        public DateTime CreateTime { get; }
-
-        public DateTime LastUpdateTime { get; }
-
-        public byte MessageType { get; }
-
-        public bool IsSticky { get; }
-
-        public bool IsTest { get; }
-
-        public int MatchId { get; }
-
-        public int CreatorId { get; }
-
-        public int LastUpdator { get; }
-
-        public string CreatorName { get; }
-
-        public string LastUpdateName { get; }
-
-        public bool IsBatch { get; }
+        public int TargetId { get; }
 
         public string BetTransId { get; }
-
-        public int UserId { get; }
-
-        public string UserName { get; }
-
-        public long RowNum { get; }
 
         public IDictionary<string, string> Contents
             => new Dictionary<string, string>

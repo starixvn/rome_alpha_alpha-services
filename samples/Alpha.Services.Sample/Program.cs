@@ -1,6 +1,8 @@
 ﻿namespace Alpha.Services.Sample
 {
     using System;
+    using System.Collections.Generic;
+    using Alpha.Services.Client.Models;
     using Alpha.Services.Client.Services;
     using Newtonsoft.Json;
 
@@ -88,14 +90,22 @@
 
         private static void GetMessages(MessageService service)
         {
-            var messages = service.GetMessages(1176086, 2, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now);
+            var customers = new List<Customer>
+            {
+                new Customer { CustId=1176086, RoleId = 2, Language = "en-US" }
+            };
+            var messages = service.GetMessages(2, DateTime.Now.AddDays(-5), DateTime.Now, customers);
 
             Console.WriteLine($"Request: GetMessages, response: {FormatJson(messages)}");
         }
 
         private static void GetMessagesAsync(MessageService service)
         {
-            var messages = service.GetMessagesAsync(1176086, 2, 1, "en-US", DateTime.Now.AddDays(-1), DateTime.Now).Result;
+            var customers = new List<Customer>
+            {
+                new Customer { CustId = 1176086, RoleId = 2, Language = "en-US"}
+            };
+            var messages = service.GetMessagesAsync(0, DateTime.Now.AddDays(-5), DateTime.Now, customers).Result;
 
             Console.WriteLine($"Request: GetMessagesAsync, response: {FormatJson(messages)}");
         }
@@ -106,7 +116,11 @@
 
         private static void GetAnnouncements(AnnouncementService service)
         {
-            var announcements = service.GetAnnouncements(1176086, "en-US", DateTime.Now.AddDays(-3), DateTime.Now);
+            var customers = new List<Customer>
+            {
+                new Customer { CustId = 1176086, RoleId = 2, Language = "en-US"}
+            };
+            var announcements = service.GetAnnouncements(DateTime.Now.AddDays(-3), DateTime.Now, customers);
 
             Console.WriteLine($"Request: GetAnnouncements, response: {FormatJson(announcements)}");
         }

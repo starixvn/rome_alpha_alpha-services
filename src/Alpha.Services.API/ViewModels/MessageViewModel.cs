@@ -2,7 +2,7 @@
 {
     public class MessageViewModel
     {
-        public int Id { get; set; }
+        public int CustId { get; set; }
 
         public string Content { get; set; }
     }

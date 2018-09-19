@@ -1,13 +1,11 @@
 ﻿namespace Apha.Services.Tests.Services
 {
     using System;
-    using Alpha.Services.Configurations;
     using Alpha.Services.Criteria;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
     using Fanex.Data.Repository;
-    using Microsoft.Extensions.Options;
     using NSubstitute;
     using Xunit;
 
@@ -19,29 +17,20 @@
         public MessageServiceImplTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
-
-            var options = Substitute.For<IOptions<AppSettings>>();
-            var appSettings = new AppSettings
-            {
-                IsLocalTest = true,
-                ParentSites = new ParentSiteSettings { Agent = "3000,3300" }
-            };
-            options.Value.Returns(appSettings);
-
-            messageService = new MessageServiceImpl(dynamicRepository, options.Value);
+            messageService = new MessageServiceImpl(dynamicRepository);
         }
 
         [Fact]
         public void GetMessages_Always_CallsDynamicRepository()
         {
             // Arrange
-            var param = new MessageParam(UserLevel.Agent, 1, 0, "en-US", DateTime.Now, DateTime.Now);
+            var param = new MessageParam(0, DateTime.Now, DateTime.Now, true);
 
             // Act
             messageService.GetMessages(param).GetAwaiter().GetResult();
 
             // Assert
-            dynamicRepository.Received().FetchAsync<Message>(Arg.Any<GetMessagesCriteria>());
+            dynamicRepository.Received().FetchAsync<Message>(Arg.Any<GetNewMessagesCriteria>());
         }
     }
 }

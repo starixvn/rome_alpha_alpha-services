@@ -10,7 +10,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Options;
     using Swashbuckle.AspNetCore.Swagger;
 
     public static class ServiceCollectionExtensions
@@ -51,8 +50,8 @@
         public static IServiceCollection AddCustomConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
-            services.Configure<AppSettings>(configuration);
-            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppSettings>>().Value);
+
+            services.AddSingleton<IAppSettings>(new AppSettings(configuration));
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
