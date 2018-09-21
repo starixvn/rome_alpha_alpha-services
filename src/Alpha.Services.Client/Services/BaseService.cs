@@ -10,11 +10,7 @@
     {
         private readonly IRestClient restClient;
 
-        protected BaseService() : this(null)
-        {
-        }
-
-        internal BaseService(IRestClient restClient)
+        protected BaseService(IRestClient restClient)
         {
             this.restClient = restClient ?? CreateRestClient();
         }

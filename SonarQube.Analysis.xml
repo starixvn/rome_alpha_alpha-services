@@ -9,6 +9,7 @@
 	**/HttpRequestExtensions.cs,
 	**/DomainException.cs,
 	**/ErrorResponse.cs,
-	**/InternalServerErrorObjectResult.cs
+	**/InternalServerErrorObjectResult.cs,
+	**/HmacAuthenticator.cs
   </Property>
 </SonarQubeAnalysisProperties>
