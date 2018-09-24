@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using RestSharp;
 
     public interface ReportService
     {
@@ -21,6 +22,16 @@
 
     public class ReportServiceImpl : BaseService, ReportService
     {
+        public ReportServiceImpl()
+            : this(null)
+        {
+        }
+
+        internal ReportServiceImpl(IRestClient restClient)
+            : base(restClient)
+        {
+        }
+
         public IDictionary<string, object> GetOutstanding(int custId, byte custLevel)
            => Get<Dictionary<string, object>>($"report/{custId}/{custLevel}/outstanding");
 

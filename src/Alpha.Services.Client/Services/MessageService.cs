@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Alpha.Services.Client.Models;
+    using RestSharp;
 
     public interface MessageService
     {
@@ -14,6 +15,16 @@
 
     public class MessageServiceImpl : BaseService, MessageService
     {
+        public MessageServiceImpl()
+            : this(null)
+        {
+        }
+
+        internal MessageServiceImpl(IRestClient restClient)
+            : base(restClient)
+        {
+        }
+
         public IEnumerable<Message> GetMessages(int messageType, DateTimeOffset fromTime, DateTimeOffset toTime, IEnumerable<Customer> customers)
            => Post<List<Message>>("message",
                new

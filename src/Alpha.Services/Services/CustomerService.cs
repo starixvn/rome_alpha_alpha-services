@@ -1,12 +1,15 @@
-﻿namespace Alpha.Services.Services
-{
-    using System;
-    using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
-    using Alpha.Services.Models;
-    using Fanex.Caching;
-    using Fanex.Data.Repository;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Alpha.Services.Criteria;
+using Alpha.Services.Models;
+using Fanex.Caching;
+using Fanex.Data.Repository;
 
+[assembly: InternalsVisibleTo("Apha.Services.Tests")]
+
+namespace Alpha.Services.Services
+{
     public interface CustomerService
     {
         Task<Customer> GetCustomerInfo(int custId);
@@ -41,7 +44,7 @@
                 () => !IsAccountActive(custId, subAccountId),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
 
-        private bool IsAccountActive(int custId, int subAccountId)
+        internal bool IsAccountActive(int custId, int subAccountId)
         {
             var command = new GetCustomerStatusCommand(custId, subAccountId);
 
