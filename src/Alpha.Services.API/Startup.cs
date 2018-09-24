@@ -50,6 +50,8 @@
                 .AddCustomAuthentication();
 
             services.AddSingleton(Logger.Log);
+
+            Logger.Log.Info("Alpha Service has been started up.");
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
