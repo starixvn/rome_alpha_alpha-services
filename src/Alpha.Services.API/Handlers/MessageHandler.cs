@@ -63,7 +63,10 @@
                 result.AddRange(custMessages);
             }
 
-            logger.Info(JsonConvert.SerializeObject(result, Formatting.Indented));
+            if (result.Any())
+            {
+                logger.Info(JsonConvert.SerializeObject(result, Formatting.Indented));
+            }
 
             return result;
         }
