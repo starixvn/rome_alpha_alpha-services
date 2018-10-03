@@ -13,26 +13,33 @@
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
+    using Fanex.Logging;
     using MediatR;
+    using Newtonsoft.Json;
 
     public class MessageHandler : IRequestHandler<MessageQuery, IEnumerable<MessageViewModel>>
     {
         private readonly IAppSettings appSettings;
         private readonly MessageService messageService;
         private readonly CustomerService customerService;
+        private readonly ILogger logger;
 
         public MessageHandler(
             IAppSettings appSettings,
             MessageService messageService,
-            CustomerService customerService)
+            CustomerService customerService,
+            ILogger logger)
         {
             this.appSettings = appSettings;
             this.messageService = messageService;
             this.customerService = customerService;
+            this.logger = logger;
         }
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
         {
+            logger.Info(JsonConvert.SerializeObject(request.Customers, Formatting.Indented));
+
             var result = new List<MessageViewModel>();
 
             var param = new MessageParam(
@@ -55,6 +62,8 @@
 
                 result.AddRange(custMessages);
             }
+
+            logger.Info(JsonConvert.SerializeObject(result, Formatting.Indented));
 
             return result;
         }
