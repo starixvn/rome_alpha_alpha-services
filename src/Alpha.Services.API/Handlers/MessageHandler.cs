@@ -38,7 +38,10 @@
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
         {
-            logger.Info(JsonConvert.SerializeObject(request, Formatting.Indented));
+            if (appSettings.EnableLogInfo)
+            {
+                logger.Info(JsonConvert.SerializeObject(request, Formatting.Indented));
+            }
 
             var result = new List<MessageViewModel>();
 
@@ -63,7 +66,7 @@
                 result.AddRange(custMessages);
             }
 
-            if (result.Any())
+            if (result.Any() && appSettings.EnableLogInfo)
             {
                 logger.Info(JsonConvert.SerializeObject(result, Formatting.Indented));
             }

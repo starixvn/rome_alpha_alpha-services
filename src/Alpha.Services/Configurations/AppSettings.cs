@@ -8,6 +8,8 @@
     {
         bool IsLocalTest { get; }
 
+        bool EnableLogInfo { get; }
+
         IEnumerable<int> GetParentSites(string level, string system);
     }
 
@@ -21,6 +23,8 @@
         }
 
         public bool IsLocalTest => configuration.GetValue<bool>("IsLocalTest");
+
+        public bool EnableLogInfo => configuration.GetValue<bool>("EnableLogInfo");
 
         public IEnumerable<int> GetParentSites(string level, string system)
             => configuration.GetSection($"ParentSites:{level}:{system}").Get<List<int>>()
