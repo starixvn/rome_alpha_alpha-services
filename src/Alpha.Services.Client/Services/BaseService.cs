@@ -55,6 +55,8 @@
             throw new InvalidOperationException(
                 string.Join(
                     "\r\n",
+                    $"Uri: {response.ResponseUri}",
+                    $"Status: {response.StatusCode}",
                     $"Content: {response.Content}",
                     $"ErrorMessage: {response.ErrorMessage}"));
         }
@@ -70,7 +72,7 @@
                 request.AddJsonBody(data);
             }
 
-            var response = await restClient.ExecuteTaskAsync<T>(request);
+            var response = await restClient.ExecuteTaskAsync<T>(request).ConfigureAwait(false);
 
             if (response.IsSuccessful)
             {
@@ -80,6 +82,8 @@
             throw new InvalidOperationException(
                 string.Join(
                     "\r\n",
+                    $"Uri: {response.ResponseUri}",
+                    $"Status: {response.StatusCode}",
                     $"Content: {response.Content}",
                     $"ErrorMessage: {response.ErrorMessage}"));
         }
