@@ -38,7 +38,7 @@
 
         public async Task<IEnumerable<MessageViewModel>> Handle(MessageQuery request, CancellationToken cancellationToken)
         {
-            logger.Info(JsonConvert.SerializeObject(request.Customers, Formatting.Indented));
+            logger.Info(JsonConvert.SerializeObject(request, Formatting.Indented));
 
             var result = new List<MessageViewModel>();
 

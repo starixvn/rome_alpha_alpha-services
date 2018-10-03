@@ -13,6 +13,7 @@
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
+    using Fanex.Logging;
     using NSubstitute;
     using Xunit;
 
@@ -29,7 +30,7 @@
             messageService = Substitute.For<MessageService>();
             customerService = Substitute.For<CustomerService>();
 
-            messageHandler = new MessageHandler(appSettings, messageService, customerService);
+            messageHandler = new MessageHandler(appSettings, messageService, customerService, Substitute.For<ILogger>());
 
             appSettings.IsLocalTest.Returns(true);
         }
