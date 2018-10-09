@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apha.Services.Tests", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha.Services.Client", "src\Alpha.Services.Client\Alpha.Services.Client.csproj", "{3759C983-64A6-4E33-9F9B-DA9358CBC1CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alpha.Services.Client.Tests", "tests\Alpha.Services.Client.Tests\Alpha.Services.Client.Tests.csproj", "{478E71FC-0E55-4C35-9D40-3C6A21C93CCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha.Services.Client.Tests", "tests\Alpha.Services.Client.Tests\Alpha.Services.Client.Tests.csproj", "{478E71FC-0E55-4C35-9D40-3C6A21C93CCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

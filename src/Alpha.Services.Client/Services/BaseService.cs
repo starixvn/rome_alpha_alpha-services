@@ -34,6 +34,9 @@
         protected async Task<T> PostAsync<T>(string resource, object data) where T : new()
             => await ExecuteAsync<T>(resource, Method.POST, data);
 
+        protected async Task PostAsync(string resource, object data)
+            => await ExecuteAsync(resource, Method.POST, data);
+
         private T Execute<T>(string resource, Method method, object data = null) where T : new()
         {
             ValidateResource(resource);
@@ -86,6 +89,31 @@
                     $"Status: {response.StatusCode}",
                     $"Content: {response.Content}",
                     $"ErrorMessage: {response.ErrorMessage}"));
+        }
+
+        private async Task ExecuteAsync(string resource, Method method, object data = null)
+        {
+            ValidateResource(resource);
+
+            var request = new RestRequest(resource, method);
+
+            if (data != null)
+            {
+                request.AddJsonBody(data);
+            }
+
+            var response = await restClient.ExecuteTaskAsync(request).ConfigureAwait(false);
+
+            if (!response.IsSuccessful)
+            {
+                throw new InvalidOperationException(
+                    string.Join(
+                        "\r\n",
+                        $"Uri: {response.ResponseUri}",
+                        $"Status: {response.StatusCode}",
+                        $"Content: {response.Content}",
+                        $"ErrorMessage: {response.ErrorMessage}"));
+            }
         }
 
         private static void ValidateResource(string resource)
