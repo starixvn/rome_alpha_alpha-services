@@ -8,6 +8,7 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
     using System.Web;
+    using Alpha.Services.Configurations;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
@@ -21,16 +22,22 @@
         private const string AuthenticationScheme = "amx";
 
         private readonly IMemoryCache memoryCache;
+        private readonly Fanex.Logging.ILogger logger;
+        private readonly IAppSettings appSettings;
 
         public HmacAuthenticationHandler(
             IMemoryCache memoryCache,
+            Fanex.Logging.ILogger logger,
+            IAppSettings appSettings,
             IOptionsMonitor<AuthenticationSchemeOptions> options,
-            ILoggerFactory logger,
+            ILoggerFactory loggerFactory,
             UrlEncoder encoder,
             ISystemClock clock)
-            : base(options, logger, encoder, clock)
+            : base(options, loggerFactory, encoder, clock)
         {
             this.memoryCache = memoryCache;
+            this.logger = logger;
+            this.appSettings = appSettings;
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -68,6 +75,8 @@
                 }
             }
 
+            logger.Info("Missing or malformed 'Authorization' header.");
+
             return Task.FromResult(AuthenticateResult.Fail("Missing or malformed 'Authorization' header."));
         }
 
@@ -93,19 +102,30 @@
             var sharedKey = "vvVAsk+7swmv0F1Zstz73B54B6Qeroksvt2l2TIqy98=";
             var secretKeyByteArray = Convert.FromBase64String(sharedKey);
 
+            var isValid = false;
             byte[] signature = Encoding.UTF8.GetBytes(signatureRawData);
 
             using (var hmac = new HMACSHA256(secretKeyByteArray))
             {
                 byte[] signatureBytes = hmac.ComputeHash(signature);
-                return incomingBase64Signature.Equals(Convert.ToBase64String(signatureBytes), StringComparison.Ordinal);
+                isValid = incomingBase64Signature.Equals(Convert.ToBase64String(signatureBytes), StringComparison.Ordinal);
             }
+
+            if (!isValid && appSettings.DisableAuthentication)
+            {
+                logger.Info($"SignatureRawData: {signatureRawData}");
+                isValid = true;
+            }
+
+            return isValid;
         }
 
         private bool IsReplayRequest(string nonce, string requestTimeStamp)
         {
             if (memoryCache.TryGetValue(nonce, out object _))
             {
+                logger.Info("Request is a replay attack");
+
                 return true;
             }
 
@@ -115,8 +135,12 @@
             var serverTotalSeconds = Convert.ToUInt64(currentTimeSpan.TotalSeconds);
             var requestTotalSeconds = Convert.ToUInt64(requestTimeStamp);
 
-            if (serverTotalSeconds - requestTotalSeconds > RequestMaxAgeInSeconds)
+            if (((long)serverTotalSeconds - (long)requestTotalSeconds) > RequestMaxAgeInSeconds)
             {
+                logger.Info($"Server Total Seconds: {serverTotalSeconds}"
+                        + Environment.NewLine
+                        + $"Request Total Seconds: {requestTotalSeconds}");
+
                 return true;
             }
 
