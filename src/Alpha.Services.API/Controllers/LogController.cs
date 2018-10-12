@@ -24,9 +24,9 @@
         {
             var commandResult = await mediator.Send(command);
 
-            return (commandResult)
-                ? (IActionResult)Ok()
-                : (IActionResult)BadRequest();
+            return commandResult
+                ? Ok()
+                : BadRequest() as IActionResult;
         }
     }
 }

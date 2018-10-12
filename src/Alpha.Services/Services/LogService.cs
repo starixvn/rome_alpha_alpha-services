@@ -26,7 +26,7 @@
         {
             var trackingValue = BuildTrackingValue(param.SpName, param.IP, param.NewValues);
 
-            var trackingValue2 = param.OldValues.Any()
+            var trackingValue2 = param.OldValues != null && param.OldValues.Any()
                 ? BuildTrackingValue(param.SpName, param.IP, param.OldValues)
                 : null;
 

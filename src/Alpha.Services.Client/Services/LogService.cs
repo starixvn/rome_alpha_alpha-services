@@ -1,20 +1,13 @@
 ﻿namespace Alpha.Services.Client.Services
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Alpha.Services.Client.Helpers;
+    using Alpha.Services.Client.Models;
     using RestSharp;
 
     public interface LogService
     {
-        Task WriteLog(
-            int actorId,
-            int custId,
-            int actionId,
-            string spName,
-            string ip,
-            IDictionary<string, object> newValues,
-            IDictionary<string, object> oldValues);
+        Task WriteLog(ILogData logData);
     }
 
     public class LogServiceImpl : BaseService, LogService
@@ -29,30 +22,23 @@
         {
         }
 
-        public async Task WriteLog(
-            int actorId,
-            int custId,
-            int actionId,
-            string spName,
-            string ip,
-            IDictionary<string, object> newValues,
-            IDictionary<string, object> oldValues)
+        public async Task WriteLog(ILogData logData)
         {
-            InputValidator.ValidateInputParam(nameof(spName), spName);
-            InputValidator.ValidateInputParam(nameof(ip), ip);
-            InputValidator.ValidateInputParam(nameof(newValues), newValues);
+            InputValidator.ValidateInputParam(nameof(logData.SPName), logData.SPName);
+            InputValidator.ValidateInputParam(nameof(logData.IP), logData.IP);
+            InputValidator.ValidateInputParam(nameof(logData.NewValues), logData.NewValues);
 
             await PostAsync(
                 "Log",
                 new
                 {
-                    actorId,
-                    custId,
-                    actionId,
-                    spName,
-                    ip,
-                    newValues,
-                    oldValues
+                    actorId = logData.ActorId,
+                    custId = logData.CustId,
+                    actionId = logData.ActionId,
+                    spName = logData.SPName,
+                    ip = logData.IP,
+                    newValues = logData.NewValues,
+                    oldValues = logData.OldValues
                 });
         }
     }
