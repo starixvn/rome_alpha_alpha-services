@@ -6,10 +6,17 @@
 
     public static class InputValidator
     {
-        public static void ValidateInputParam(string paramName, object paramValue)
+        public static void ValidateInputParam(string paramName, int paramValue)
         {
-            if (paramValue == null
-                || (paramValue is string && string.IsNullOrWhiteSpace(paramValue as string)))
+            if (paramValue <= 0)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+        }
+
+        public static void ValidateInputParam(string paramName, string paramValue)
+        {
+            if (string.IsNullOrWhiteSpace(paramValue))
             {
                 throw new ArgumentNullException(paramName);
             }

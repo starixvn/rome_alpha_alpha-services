@@ -24,12 +24,14 @@
 
         public async Task WriteLog(ILogData logData)
         {
+            InputValidator.ValidateInputParam(nameof(logData.ActorId), logData.ActorId);
+            InputValidator.ValidateInputParam(nameof(logData.CustId), logData.CustId);
+            InputValidator.ValidateInputParam(nameof(logData.ActionId), logData.ActionId);
             InputValidator.ValidateInputParam(nameof(logData.SPName), logData.SPName);
             InputValidator.ValidateInputParam(nameof(logData.IP), logData.IP);
             InputValidator.ValidateInputParam(nameof(logData.NewValues), logData.NewValues);
 
-            await PostAsync(
-                "Log",
+            await PostAsync("Log",
                 new
                 {
                     actorId = logData.ActorId,

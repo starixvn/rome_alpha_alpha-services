@@ -39,8 +39,6 @@
 
         private T Execute<T>(string resource, Method method, object data = null) where T : new()
         {
-            ValidateResource(resource);
-
             var request = new RestRequest(resource, method);
 
             if (data != null)
@@ -66,8 +64,6 @@
 
         private async Task<T> ExecuteAsync<T>(string resource, Method method, object data = null) where T : new()
         {
-            ValidateResource(resource);
-
             var request = new RestRequest(resource, method);
 
             if (data != null)
@@ -93,8 +89,6 @@
 
         private async Task ExecuteAsync(string resource, Method method, object data = null)
         {
-            ValidateResource(resource);
-
             var request = new RestRequest(resource, method);
 
             if (data != null)
@@ -113,14 +107,6 @@
                         $"Status: {response.StatusCode}",
                         $"Content: {response.Content}",
                         $"ErrorMessage: {response.ErrorMessage}"));
-            }
-        }
-
-        private static void ValidateResource(string resource)
-        {
-            if (string.IsNullOrWhiteSpace(resource))
-            {
-                throw new ArgumentNullException(nameof(resource));
             }
         }
     }

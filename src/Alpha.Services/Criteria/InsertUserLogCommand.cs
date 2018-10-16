@@ -36,6 +36,10 @@
 
         public override string GetSettingKey() => "Acc_WriteLog_UserLog_RunSP";
 
-        public override bool IsValid() => true;
+        public override bool IsValid()
+            => ActorId > 0
+            && CustId > 0
+            && ActionId > 0
+            && !string.IsNullOrWhiteSpace(TrackingValue);
     }
 }
