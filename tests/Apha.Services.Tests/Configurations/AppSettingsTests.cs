@@ -1,4 +1,4 @@
-﻿namespace Apha.Services.Tests.Configurations
+﻿namespace Alpha.Services.Tests.Configurations
 {
     using System;
     using Alpha.Services.Configurations;

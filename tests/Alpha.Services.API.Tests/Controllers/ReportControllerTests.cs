@@ -4,6 +4,7 @@
     using Alpha.Services.API.Controllers;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.Tests.Constants;
+    using Alpha.Services.Models;
     using MediatR;
     using NSubstitute;
     using Xunit;
@@ -27,7 +28,8 @@
             reportController.GetOutstanding(custId, CustLevel.Agent).ConfigureAwait(false);
 
             // Assert
-            mediator.Received().Send(Arg.Is<OutstandingQuery>(q => q.CustId == custId));
+            mediator.Received().Send(Arg.Is<OutstandingQuery>(
+                q => q.CustId == custId && q.CustLevel == UserLevel.Agent));
         }
 
         [Fact]
@@ -51,7 +53,19 @@
             reportController.GetWinLoss(custId, CustLevel.Agent, date).ConfigureAwait(false);
 
             // Assert
-            mediator.Received().Send(Arg.Is<WinLossQuery>(q => q.CustId == custId && q.Date == expectedDate));
+            mediator.Received().Send(Arg.Is<WinLossQuery>(
+                q => q.CustId == custId && q.Date == expectedDate && q.CustLevel == UserLevel.Agent));
+        }
+
+        [Fact]
+        public void GetOutstandingDetail_Always_CallsMediatorSendOutstandingDetailQuery()
+        {
+            // Act
+            reportController.GetOutstandingDetail(custId, CustLevel.Agent).ConfigureAwait(false);
+
+            // Assert
+            mediator.Received().Send(Arg.Is<OutstandingDetailQuery>(
+                q => q.CustId == custId && q.CustLevel == UserLevel.Agent));
         }
     }
 }

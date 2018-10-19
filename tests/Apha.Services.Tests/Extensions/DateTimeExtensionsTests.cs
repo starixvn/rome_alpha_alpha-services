@@ -1,4 +1,4 @@
-﻿namespace Apha.Services.Tests.Extensions
+﻿namespace Alpha.Services.Tests.Extensions
 {
     using System;
     using Alpha.Services.Extensions;

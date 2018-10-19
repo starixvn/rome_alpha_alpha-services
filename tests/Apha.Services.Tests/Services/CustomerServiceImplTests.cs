@@ -1,8 +1,8 @@
-﻿namespace Apha.Services.Tests.Services
+﻿namespace Alpha.Services.Tests.Services
 {
     using System;
     using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Customer;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
     using Fanex.Caching;

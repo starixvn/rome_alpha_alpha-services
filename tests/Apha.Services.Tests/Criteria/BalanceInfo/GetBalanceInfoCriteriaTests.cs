@@ -1,21 +1,22 @@
-﻿namespace Apha.Services.Tests.Criteria
+﻿namespace Alpha.Services.Tests.Criteria.BalanceInfo
 {
-    using Alpha.Services.Criteria;
+    using System;
+    using Alpha.Services.Criteria.BalanceInfo;
     using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
     using Xunit;
 
-    public class GetOutstandingCriteriaTests
+    public class GetBalanceInfoCriteriaTests
     {
         [Theory]
-        [InlineData(2, "Age_CustomerSelStatisticsInfo_Ag")]
-        [InlineData(3, "Age_CustomerSelStatisticsInfo_MAg")]
-        [InlineData(4, "Age_CustomerSelStatisticsInfo_SAg")]
+        [InlineData(2, "Age_CustomerSelBalanceInfo_Ag")]
+        [InlineData(3, "Age_CustomerSelBalanceInfo_MAg")]
+        [InlineData(4, "Age_CustomerSelBalanceInfo_SAg")]
         public void GetSettingKey_WithCorrectCustLevel_ReturnsValidSettingKey(byte custLevelId, string expectedSettingKey)
         {
             // Arrange
             var custLevel = Enumeration.FromValue<UserLevel>(custLevelId);
-            var criteria = new GetOutstandingCriteria(custLevel, 0);
+            var criteria = new GetBalanceInfoCriteria(custLevel, 0, DateTime.Now);
 
             // Act & Assert
             Assert.Equal(expectedSettingKey, criteria.GetSettingKey());
@@ -28,17 +29,7 @@
         public void IsValid_InvalidCustId_ReturnsFalse(int custId)
         {
             // Arrange
-            var criteria = new GetOutstandingCriteria(UserLevel.Agent, custId);
-
-            // Act & Assert
-            Assert.False(criteria.IsValid());
-        }
-
-        [Fact]
-        public void IsValid_IsMemberLevel_ReturnsFalse()
-        {
-            // Arrange
-            var criteria = new GetOutstandingCriteria(UserLevel.Member, 1);
+            var criteria = new GetBalanceInfoCriteria(UserLevel.Agent, custId, DateTime.Now);
 
             // Act & Assert
             Assert.False(criteria.IsValid());
@@ -48,7 +39,7 @@
         public void IsValid_ValidCriteria_ReturnsTrue()
         {
             // Arrange
-            var criteria = new GetOutstandingCriteria(UserLevel.Agent, 1);
+            var criteria = new GetBalanceInfoCriteria(UserLevel.Agent, 1, DateTime.Now);
 
             // Act & Assert
             Assert.True(criteria.IsValid());

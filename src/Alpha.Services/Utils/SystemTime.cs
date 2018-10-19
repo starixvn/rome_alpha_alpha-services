@@ -1,10 +1,10 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Apha.Services.Tests")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Alpha.Services.Tests")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Alpha.Services.API.Tests")]
 
 namespace Alpha.Services.Utils
 {
+    using System;
+
     public static class SystemTime
     {
         [ThreadStatic]

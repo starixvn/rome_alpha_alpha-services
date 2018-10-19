@@ -1,4 +1,4 @@
-﻿namespace Apha.Services.Tests.ModelsForTesting
+﻿namespace Alpha.Services.Tests.ModelsForTesting
 {
     using Alpha.Services.Models;
 

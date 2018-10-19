@@ -1,4 +1,4 @@
-﻿namespace Alpha.Services.Criteria
+﻿namespace Alpha.Services.Criteria.BalanceInfo
 {
     using System;
     using Alpha.Services.Models;

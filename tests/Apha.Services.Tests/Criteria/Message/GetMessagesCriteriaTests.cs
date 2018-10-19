@@ -1,7 +1,7 @@
-﻿namespace Apha.Services.Tests.Criteria
+﻿namespace Alpha.Services.Tests.Criteria.Message
 {
     using System;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Message;
     using Xunit;
 
     public class GetMessagesCriteriaTests

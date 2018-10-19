@@ -1,4 +1,4 @@
-﻿namespace Alpha.Services.Criteria
+﻿namespace Alpha.Services.Criteria.Outstanding
 {
     using Alpha.Services.Models;
     using Fanex.Data;

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Alpha.Services.Criteria;
-using Alpha.Services.Models;
-using Fanex.Caching;
-using Fanex.Data.Repository;
-
-[assembly: InternalsVisibleTo("Apha.Services.Tests")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Alpha.Services.Tests")]
 
 namespace Alpha.Services.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Alpha.Services.Criteria.Customer;
+    using Alpha.Services.Models;
+    using Fanex.Caching;
+    using Fanex.Data.Repository;
+
     public interface CustomerService
     {
         Task<Customer> GetCustomerInfo(int custId);

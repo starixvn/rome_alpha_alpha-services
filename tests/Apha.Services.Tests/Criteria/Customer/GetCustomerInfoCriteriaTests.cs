@@ -1,6 +1,6 @@
-﻿namespace Apha.Services.Tests.Criteria
+﻿namespace Alpha.Services.Tests.Criteria.Customer
 {
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Customer;
     using Xunit;
 
     public class GetCustomerInfoCriteriaTests

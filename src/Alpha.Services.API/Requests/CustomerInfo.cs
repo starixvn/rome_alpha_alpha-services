@@ -1,7 +1,4 @@
-﻿using Alpha.Services.Enumerations;
-using Alpha.Services.Models;
-
-namespace Alpha.Services.API.Requests
+﻿namespace Alpha.Services.API.Requests
 {
     public class CustomerInfo
     {
@@ -10,7 +7,5 @@ namespace Alpha.Services.API.Requests
         public byte RoleId { get; set; }
 
         public string Language { get; set; }
-
-        public UserLevel CustLevel => Enumeration.FromValue<UserLevel>(RoleId);
     }
 }

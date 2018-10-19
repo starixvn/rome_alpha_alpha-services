@@ -1,11 +1,11 @@
-﻿namespace Apha.Services.Tests.Enumerations
+﻿namespace Alpha.Services.Tests.Enumerations
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
-    using Apha.Services.Tests.ModelsForTesting;
+    using Alpha.Services.Tests.ModelsForTesting;
     using Xunit;
 
     public class EnumerationTests

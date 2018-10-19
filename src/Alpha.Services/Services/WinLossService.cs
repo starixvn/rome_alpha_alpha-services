@@ -1,7 +1,7 @@
 ﻿namespace Alpha.Services.Services
 {
     using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.WinLoss;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Fanex.Data.Repository;

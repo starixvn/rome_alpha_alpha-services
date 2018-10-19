@@ -1,4 +1,4 @@
-﻿namespace Alpha.Services.Criteria
+﻿namespace Alpha.Services.Criteria.Customer
 {
     using Fanex.Data.Repository;
 

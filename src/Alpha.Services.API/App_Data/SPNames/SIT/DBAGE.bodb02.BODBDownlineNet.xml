@@ -33,4 +33,9 @@
     <Setting Key="Age_Rpt_SumWinLoss_Agent" SpName="Age_Rpt_SumWinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
     <Setting Key="Age_Rpt_SumWinLoss_Member" SpName="Age_Rpt_SumWinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
   </Function>
+  <Function Name="Outstanding Detail">
+    <Setting Key="Age_Rpt_Outstanding_Master" SpName="Age_Rpt_Outstanding_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_Outstanding_Agent" SpName="Age_Rpt_Outstanding_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+    <Setting Key="Age_Rpt_Outstanding_Member" SpName="Age_Rpt_Outstanding_Member" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
+  </Function>
 </Functions>

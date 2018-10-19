@@ -1,9 +1,9 @@
-﻿namespace Apha.Services.Tests.Criteria
+﻿namespace Alpha.Services.Tests.Criteria.WinLoss
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.WinLoss;
     using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
     using Xunit;

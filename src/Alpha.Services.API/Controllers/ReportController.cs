@@ -39,10 +39,17 @@
         [HttpGet("{custId}/{custLevel}/winloss/{date}")]
         public async Task<IActionResult> GetWinLoss(int custId, byte custLevel, long date)
         {
-            var winLoss = await mediator.Send(
-                new WinLossQuery(custId, custLevel, date.ToLocalTime()));
+            var winLoss = await mediator.Send(new WinLossQuery(custId, custLevel, date.ToLocalTime()));
 
             return Ok(winLoss);
+        }
+
+        [HttpGet("{custId}/{custLevel}/outstandingdetail")]
+        public async Task<IActionResult> GetOutstandingDetail(int custId, byte custLevel)
+        {
+            var outstandingDetails = await mediator.Send(new OutstandingDetailQuery(custId, custLevel));
+
+            return Ok(outstandingDetails);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿namespace Apha.Services.Tests.Services
+﻿namespace Alpha.Services.Tests.Services
 {
     using System;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Message;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
