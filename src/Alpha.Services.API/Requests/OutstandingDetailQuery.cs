@@ -1,11 +1,11 @@
 ﻿namespace Alpha.Services.API.Requests
 {
-    using System.Collections.Generic;
+    using Alpha.Services.API.ViewModels;
     using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
     using MediatR;
 
-    public class OutstandingDetailQuery : IRequest<IEnumerable<OutstandingDetail>>
+    public class OutstandingDetailQuery : IRequest<OutstandingDetailViewModel>
     {
         public OutstandingDetailQuery(int custId, byte custLevel)
         {

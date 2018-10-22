@@ -363,6 +363,20 @@
             Assert.Equal(expectedHashCode, actual);
         }
 
+        [Fact]
+        public void ToString_Always_ReturnsDisplayName()
+        {
+            // Arrange
+            var displayName = "Agent";
+            UserLevel value = Enumeration.FromDisplayName<UserLevel>(displayName);
+
+            // Act
+            var actual = value.ToString();
+
+            // Assert
+            Assert.Equal(displayName, actual);
+        }
+
         [Theory]
         [InlineData(2, 2, 0)]
         [InlineData(2, 3, -1)]

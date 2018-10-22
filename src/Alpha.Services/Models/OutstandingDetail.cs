@@ -10,28 +10,33 @@
             int custId,
             string custName,
             decimal memberOutstanding,
-            decimal agentOutstanding,
-            decimal masterOutstanding,
-            decimal superOutstanding)
+            decimal outstanding)
         {
             CustId = custId;
             CustName = custName;
             MemberOutstanding = memberOutstanding;
-            AgentOutstanding = agentOutstanding;
-            MasterOutstanding = masterOutstanding;
-            SuperOutstanding = superOutstanding;
+            Outstanding = outstanding;
         }
 
         public int CustId { get; }
 
         public string CustName { get; }
 
-        public decimal MemberOutstanding { get; }
+        public decimal MemberOutstanding { get; private set; }
 
-        public decimal AgentOutstanding { get; }
+        public decimal Outstanding { get; private set; }
 
-        public decimal MasterOutstanding { get; }
+        public OutstandingDetail Add(OutstandingDetail outstanding)
+        {
+            if (outstanding == null)
+            {
+                return this;
+            }
 
-        public decimal SuperOutstanding { get; }
+            MemberOutstanding += outstanding.MemberOutstanding;
+            Outstanding += outstanding.Outstanding;
+
+            return this;
+        }
     }
 }
