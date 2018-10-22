@@ -137,7 +137,7 @@
                 ToTime = new DateTimeOffset(toTime).ToUnixTimeMilliseconds(),
                 Customers = new List<CustomerInfo>
                 {
-                    new CustomerInfo { CustId = 1, RoleId = CustLevel.Agent, Language = "en-US" }
+                    new CustomerInfo { CustId = 1, Language = "en-US" }
                 }
             };
     }
