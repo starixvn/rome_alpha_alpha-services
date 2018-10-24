@@ -3,17 +3,22 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Alpha.Services.Client.Models;
     using RestSharp;
 
     public interface ReportService
     {
         IDictionary<string, object> GetOutstanding(int custId, byte custLevel);
 
+        OutstandingDetail GetOutstandingDetail(int custId, byte custLevel);
+
         IDictionary<string, object> GetBalanceInfo(int custId);
 
         IDictionary<string, object> GetWinLoss(int custId, byte custLevel, DateTimeOffset date);
 
         Task<IDictionary<string, object>> GetOutstandingAsync(int custId, byte custLevel);
+
+        Task<OutstandingDetail> GetOutstandingDetailAsync(int custId, byte custLevel);
 
         Task<IDictionary<string, object>> GetBalanceInfoAsync(int custId);
 
@@ -49,5 +54,11 @@
 
         public async Task<IDictionary<string, object>> GetWinLossAsync(int custId, byte custLevel, DateTimeOffset date)
             => await GetAsync<Dictionary<string, object>>($"report/{custId}/{custLevel}/winloss/{date.ToUnixTimeMilliseconds()}");
+
+        public OutstandingDetail GetOutstandingDetail(int custId, byte custLevel)
+            => Get<OutstandingDetail>($"report/{custId}/{custLevel}/outstandingdetail");
+
+        public async Task<OutstandingDetail> GetOutstandingDetailAsync(int custId, byte custLevel)
+            => await GetAsync<OutstandingDetail>($"report/{custId}/{custLevel}/outstandingdetail");
     }
 }

@@ -1,7 +1,6 @@
-﻿
-// This file is used by Code Analysis to maintain SuppressMessage 
+﻿// This file is used by Code Analysis to maintain SuppressMessage
 // attributes that are applied to this project.
-// Project-level suppressions either have no target or are given 
+// Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.API.Handlers.WinLossHandler.Handle(Alpha.Services.API.Requests.WinLossQuery,System.Threading.CancellationToken)~System.Threading.Tasks.Task{System.Collections.Generic.IDictionary{System.String,System.Object}}")]
@@ -10,3 +9,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "<Pending>", Scope = "member", Target = "~P:Alpha.Services.API.Requests.WinLossQuery.MinDate")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.API.Infrastructure.Auth.HmacAuthenticationHandler.HandleAuthenticateAsync~System.Threading.Tasks.Task{Microsoft.AspNetCore.Authentication.AuthenticateResult}")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Bug", "S1226:Method parameters, caught exceptions and foreach variables' initial values should not be ignored", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.API.Extensions.HttpRequestExtensions.GetRawBodyStringAsync(Microsoft.AspNetCore.Http.HttpRequest,System.Text.Encoding)~System.Threading.Tasks.Task{System.String}")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>")]

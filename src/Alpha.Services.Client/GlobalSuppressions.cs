@@ -1,7 +1,6 @@
-﻿
-// This file is used by Code Analysis to maintain SuppressMessage 
+﻿// This file is used by Code Analysis to maintain SuppressMessage
 // attributes that are applied to this project.
-// Project-level suppressions either have no target or are given 
+// Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3996:URI properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:Alpha.Services.Client.Configurations.IServiceSettings.BaseUrl")]
@@ -23,4 +22,6 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3216:\"ConfigureAwait(false)\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.Client.Services.MessageServiceImpl.GetMessagesAsync(System.Int32,System.DateTimeOffset,System.DateTimeOffset,System.Collections.Generic.IEnumerable{Alpha.Services.Client.Models.Customer})~System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Alpha.Services.Client.Models.Message}}")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3216:\"ConfigureAwait(false)\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.Client.Services.BaseService.PostAsync(System.String,System.Object)~System.Threading.Tasks.Task")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3216:\"ConfigureAwait(false)\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.Client.Services.LogServiceImpl.WriteLog(System.Int32,System.Int32,System.Int32,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object})~System.Threading.Tasks.Task")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3216:\"ConfigureAwait(false)\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.Client.Services.ReportServiceImpl.GetOutstandingDetailAsync(System.Int32,System.Byte)~System.Threading.Tasks.Task{Alpha.Services.Client.Models.OutstandingDetail}")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3216:\"ConfigureAwait(false)\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Alpha.Services.Client.Services.LogServiceImpl.WriteLog(Alpha.Services.Client.Models.ILogData)~System.Threading.Tasks.Task")]
