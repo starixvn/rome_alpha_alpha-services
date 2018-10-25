@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Alpha.Services.API.Handlers;
@@ -79,7 +80,9 @@
             outstandingDetailService.GetOutstandingDetails(Arg.Any<OutstandingDetailParam>())
                 .Returns(Task.FromResult(outstandings));
 
-            var expectedViewModel = new OutstandingDetailViewModel(request.CustLevel.Value, outstandings);
+            var total = OutstandingDetailHandler.AccummulateTotal(outstandings);
+
+            var expectedViewModel = new OutstandingDetailViewModel(request.CustLevel.Value, 0, total, outstandings.OrderByDescending(o => o.MemberOutstanding).Take(50));
 
             // Act
             var actualViewModel = outstandingDetailHandler.Handle(request, default(CancellationToken))

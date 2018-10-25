@@ -29,8 +29,22 @@
 
             // Assert
             mediator.Received().Send(Arg.Is<GetAccountStatusQuery>(
-                q => q.CustId == custId
-                    && q.SubAccountId == subAccountId));
+                q => q.CustId == custId && q.SubAccountId == subAccountId));
+        }
+
+        [Fact]
+        public void GetDownlineInfo_Always_CallsMediatorSendDownlineInfoQuery()
+        {
+            // Arrange
+            var custId = 1;
+            var downlineUserName = "UserName";
+
+            // Act
+            customerController.GetDownlineInfo(custId, downlineUserName).ConfigureAwait(false);
+
+            // Assert
+            mediator.Received().Send(Arg.Is<DownlineInfoQuery>(
+                query => query.CustId == custId && query.DownlineUserName == downlineUserName));
         }
     }
 }

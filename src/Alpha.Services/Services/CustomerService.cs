@@ -13,6 +13,8 @@ namespace Alpha.Services.Services
     {
         Task<Customer> GetCustomerInfo(int custId);
 
+        Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName);
+
         Task<bool> IsAccountClosed(int custId, int subAccountId);
     }
 
@@ -36,6 +38,15 @@ namespace Alpha.Services.Services
                 $"{CustomerInfoCacheKey}.{custId}",
                 () => dynamicRepository.Get<Customer>(new GetCustomerInfoCriteria(custId)),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+
+        public async Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName)
+        {
+            var command = new GetDownlineInfoCommand(custId, downlineUserName, 0);
+
+            await dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
+
+            return new DownlineInfo(command.CustId, command.IsSubAcc, command.IsActive, command.RoleId);
+        }
 
         public async Task<bool> IsAccountClosed(int custId, int subAccountId)
             => await cacheService.GetOrSetAsync(

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Alpha.Services.Client.Models;
     using Alpha.Services.Client.Services;
     using NSubstitute;
     using RestSharp;
@@ -56,6 +57,30 @@
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(() => customerService.IsAccountClosed(custId, subAccountId));
+        }
+
+        [Fact]
+        public void GetDownlineInfo_Always_CallsExecuteTaskAsync()
+        {
+            // Arrange
+            var custId = 1;
+            var downlineUserName = "username";
+
+            var request = new RestRequest($"customer/{custId}/downline/{downlineUserName}", Method.GET);
+
+            var restResponse = Substitute.For<IRestResponse<DownlineInfo>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new DownlineInfo());
+            restClient.ExecuteTaskAsync<DownlineInfo>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            customerService.GetDownlineInfo(custId, downlineUserName).ConfigureAwait(false);
+
+            // Assert
+            restClient.Received().ExecuteTaskAsync<DownlineInfo>(Arg.Is<IRestRequest>(
+                r => r.Resource == request.Resource
+                    && r.Method == request.Method));
         }
     }
 }

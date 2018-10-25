@@ -26,5 +26,13 @@
 
             return Ok(isClosed);
         }
+
+        [HttpGet("{custId}/downline/{downlineUserName}")]
+        public async Task<ActionResult> GetDownlineInfo(int custId, string downlineUserName)
+        {
+            var downlineInfo = await mediator.Send(new DownlineInfoQuery(custId, downlineUserName));
+
+            return Ok(downlineInfo);
+        }
     }
 }

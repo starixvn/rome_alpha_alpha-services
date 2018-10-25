@@ -1,36 +1,28 @@
 ﻿namespace Alpha.Services.API.ViewModels
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Alpha.Services.Models;
 
     public class OutstandingDetailViewModel
     {
-        public OutstandingDetailViewModel(byte custLevel, IEnumerable<OutstandingDetail> outstandings)
+        public OutstandingDetailViewModel(
+            byte custLevel,
+            int hiddenDownlinesCount,
+            OutstandingDetail total,
+            IEnumerable<OutstandingDetail> topOutstandings)
         {
             CustLevel = custLevel;
-            Outstandings = outstandings;
+            HiddenDownlinesCount = hiddenDownlinesCount > 0 ? hiddenDownlinesCount : 0;
+            Total = total;
+            TopOutstandings = topOutstandings;
         }
 
         public byte CustLevel { get; }
 
-        public IEnumerable<OutstandingDetail> Outstandings { get; }
+        public int HiddenDownlinesCount { get; }
 
-        public OutstandingDetail Total => AccummulateTotal(Outstandings);
+        public OutstandingDetail Total { get; }
 
-        internal static OutstandingDetail AccummulateTotal(IEnumerable<OutstandingDetail> outstandingDetails)
-        {
-            var total = new OutstandingDetail();
-
-            if (outstandingDetails != null && outstandingDetails.Any())
-            {
-                foreach (var outstanding in outstandingDetails)
-                {
-                    total.Add(outstanding);
-                }
-            }
-
-            return total;
-        }
+        public IEnumerable<OutstandingDetail> TopOutstandings { get; }
     }
 }
