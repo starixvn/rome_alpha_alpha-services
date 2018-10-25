@@ -39,7 +39,7 @@ namespace Alpha.Services.API.Handlers
             var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(topDownlinesDisplay);
 
             return new OutstandingDetailViewModel(
-                request.CustLevel.Value,
+                request.CustLevel.DisplayName,
                 hiddenDownlinesCount,
                 total,
                 topOutstandings);

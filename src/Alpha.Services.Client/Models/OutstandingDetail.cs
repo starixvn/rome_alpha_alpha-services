@@ -4,7 +4,7 @@
 
     public class OutstandingDetail
     {
-        public int CustLevel { get; set; }
+        public string CustLevel { get; set; }
 
         public OutstandingModel Total { get; set; }
 

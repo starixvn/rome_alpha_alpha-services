@@ -6,7 +6,7 @@
     public class OutstandingDetailViewModel
     {
         public OutstandingDetailViewModel(
-            byte custLevel,
+            string custLevel,
             int hiddenDownlinesCount,
             OutstandingDetail total,
             IEnumerable<OutstandingDetail> topOutstandings)
@@ -17,7 +17,7 @@
             TopOutstandings = topOutstandings;
         }
 
-        public byte CustLevel { get; }
+        public string CustLevel { get; }
 
         public int HiddenDownlinesCount { get; }
 
