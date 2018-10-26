@@ -8,6 +8,6 @@
 
         public OutstandingModel Total { get; set; }
 
-        public IEnumerable<OutstandingModel> Outstandings { get; set; }
+        public IEnumerable<OutstandingModel> TopOutstandings { get; set; }
     }
 }

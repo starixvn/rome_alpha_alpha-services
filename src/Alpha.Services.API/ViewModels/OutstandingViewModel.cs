@@ -3,13 +3,13 @@
     using System.Collections.Generic;
     using Alpha.Services.Models;
 
-    public class OutstandingDetailViewModel
+    public class OutstandingViewModel
     {
-        public OutstandingDetailViewModel(
+        public OutstandingViewModel(
             string custLevel,
             int hiddenDownlinesCount,
-            OutstandingDetail total,
-            IEnumerable<OutstandingDetail> topOutstandings)
+            OutstandingModel total,
+            IEnumerable<OutstandingModel> topOutstandings)
         {
             CustLevel = custLevel;
             HiddenDownlinesCount = hiddenDownlinesCount > 0 ? hiddenDownlinesCount : 0;
@@ -21,8 +21,8 @@
 
         public int HiddenDownlinesCount { get; }
 
-        public OutstandingDetail Total { get; }
+        public OutstandingModel Total { get; }
 
-        public IEnumerable<OutstandingDetail> TopOutstandings { get; }
+        public IEnumerable<OutstandingModel> TopOutstandings { get; }
     }
 }

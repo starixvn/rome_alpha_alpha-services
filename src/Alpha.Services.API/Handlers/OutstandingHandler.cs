@@ -1,31 +1,91 @@
-﻿namespace Alpha.Services.API.Handlers
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Alpha.Services.API.Tests")]
+
+namespace Alpha.Services.API.Handlers
 {
+    using Alpha.Services.API.Requests;
+    using Alpha.Services.API.ViewModels;
+    using Alpha.Services.Models;
+    using Alpha.Services.Params;
+    using Alpha.Services.Services;
+    using Alpha.Services.Utils;
+    using MediatR;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Alpha.Services.API.Requests;
-    using Alpha.Services.Models;
-    using Alpha.Services.Services;
-    using MediatR;
 
-    public class OutstandingHandler : IRequestHandler<OutstandingQuery, IDictionary<string, object>>
+    public class OutstandingHandler :
+        IRequestHandler<OutstandingQuery, OutstandingViewModel>,
+        IRequestHandler<DownlineOutstandingQuery, IDictionary<string, object>>
     {
+        private const int DefaultTopDownlinesDisplay = 50;
+        private readonly ProductService productService;
         private readonly OutstandingService outstandingService;
 
-        public OutstandingHandler(OutstandingService outstandingService)
+        public OutstandingHandler(
+            ProductService productService,
+            OutstandingService outstandingService)
         {
+            this.productService = productService;
             this.outstandingService = outstandingService;
         }
 
-        public async Task<IDictionary<string, object>> Handle(OutstandingQuery request, CancellationToken cancellationToken)
+        public async Task<OutstandingViewModel> Handle(OutstandingQuery request, CancellationToken cancellationToken)
         {
-            var outstanding = await outstandingService.GetOutstanding(request.CustLevel, request.CustId);
+            var outstandings = await GetOutstandings(request.CustLevel, request.CustId);
 
-            return new Dictionary<string, object>
+            var total = AccummulateTotal(outstandings);
+
+            var numberOfDownlinesDisplay = request.Top <= 0 ? DefaultTopDownlinesDisplay : request.Top;
+            var hiddenDownlinesCount = outstandings.Count() - numberOfDownlinesDisplay;
+            var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(numberOfDownlinesDisplay);
+
+            return new OutstandingViewModel(
+                request.CustLevel.DisplayName,
+                hiddenDownlinesCount,
+                total,
+                topOutstandings);
+        }
+
+        internal static OutstandingModel AccummulateTotal(IEnumerable<OutstandingModel> outstandingDetails)
+        {
+            var total = new OutstandingModel();
+
+            if (outstandingDetails != null && outstandingDetails.Any())
             {
-                { UserLevel.Member.DisplayName, outstanding.TotalOutstanding },
-                { request.CustLevel.DisplayName , outstanding.Outstanding }
-            };
+                foreach (var outstanding in outstandingDetails)
+                {
+                    total.Add(outstanding);
+                }
+            }
+
+            return total;
+        }
+
+        public async Task<IDictionary<string, object>> Handle(DownlineOutstandingQuery request, CancellationToken cancellationToken)
+        {
+            var outstandings = await GetOutstandings(request.CustLevel, request.CustId, request.DownlineId);
+            var downlineOutstanding = outstandings.FirstOrDefault();
+
+            return downlineOutstanding == null
+                ? new Dictionary<string, object>()
+                : new Dictionary<string, object>
+                {
+                    [nameof(downlineOutstanding.CustName)] = downlineOutstanding.CustName,
+                    [nameof(downlineOutstanding.MemberOutstanding)] = downlineOutstanding.MemberOutstanding,
+                    [nameof(downlineOutstanding.Outstanding)] = downlineOutstanding.Outstanding
+                };
+        }
+
+        private async Task<IEnumerable<OutstandingModel>> GetOutstandings(
+            UserLevel custLevel,
+            int custId,
+            int downlineId = 0)
+        {
+            var productIds = await productService.GetOfferedProductIdsForCustomer(custId, SystemTime.Today);
+            var param = new OutstandingParam(custLevel, custId, productIds, downlineId);
+
+            return await outstandingService.GetOutstandings(param);
         }
     }
 }

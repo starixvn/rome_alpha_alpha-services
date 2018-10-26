@@ -1,11 +1,11 @@
 ﻿namespace Alpha.Services.API.Controllers
 {
-    using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.Extensions;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     [FormatFilter]
     [ApiController]
@@ -18,14 +18,6 @@
         public ReportController(IMediator mediator)
         {
             this.mediator = mediator;
-        }
-
-        [HttpGet("{custId}/{custLevel}/outstanding")]
-        public async Task<IActionResult> GetOutstanding(int custId, byte custLevel)
-        {
-            var outstanding = await mediator.Send(new OutstandingQuery(custId, custLevel));
-
-            return Ok(outstanding);
         }
 
         [HttpGet("{custId}/balanceinfo")]
@@ -44,12 +36,12 @@
             return Ok(winLoss);
         }
 
-        [HttpGet("{custId}/{custLevel}/outstandingdetail")]
-        public async Task<IActionResult> GetOutstandingDetail(int custId, byte custLevel)
-        {
-            var outstandingDetails = await mediator.Send(new OutstandingDetailQuery(custId, custLevel));
+        [HttpGet("{custId}/{custLevel}/outstandings/{top}")]
+        public async Task<IActionResult> GetOutstandings(int custId, byte custLevel, int top)
+            => Ok(await mediator.Send(new OutstandingQuery(custId, custLevel, top)));
 
-            return Ok(outstandingDetails);
-        }
+        [HttpGet("{custId}/{custLevel}/outstanding/{downlineId}")]
+        public async Task<IActionResult> GetDownlineOutstanding(int custId, byte custLevel, int downlineId)
+            => Ok(await mediator.Send(new DownlineOutstandingQuery(custId, custLevel, downlineId)));
     }
 }

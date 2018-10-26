@@ -1,18 +1,20 @@
 ﻿namespace Alpha.Services.Params
 {
-    using System.Collections.Generic;
     using Alpha.Services.Models;
+    using System.Collections.Generic;
 
-    public class OutstandingDetailParam
+    public class OutstandingParam
     {
-        public OutstandingDetailParam(
+        public OutstandingParam(
             UserLevel custLevel,
             int custId,
-            IEnumerable<int> productIds)
+            IEnumerable<int> productIds,
+            int downlineId)
         {
             CustLevel = custLevel;
             CustId = custId;
             ProductIds = productIds;
+            DownlineId = downlineId;
         }
 
         public UserLevel CustLevel { get; }
@@ -20,5 +22,7 @@
         public int CustId { get; }
 
         public IEnumerable<int> ProductIds { get; }
+
+        public int DownlineId { get; }
     }
 }

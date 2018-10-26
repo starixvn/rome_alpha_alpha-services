@@ -13,10 +13,10 @@
             Console.WriteLine("-------------------- Report Service --------------------");
 
             var reportService = new ReportServiceImpl();
-            GetOutstanding(reportService);
+            GetOutstandings(reportService, 50);
             GetBalanceInfo(reportService);
             GetWinLoss(reportService);
-            GetOutstandingAsync(reportService);
+            GetOutstandingsAsync(reportService, 50);
             GetBalanceInfoAsync(reportService);
             GetWinLossAsync(reportService);
 
@@ -42,9 +42,9 @@
         private static string FormatJson(object data)
             => JsonConvert.SerializeObject(data, Formatting.Indented);
 
-        private static void GetOutstanding(ReportService service)
+        private static void GetOutstandings(ReportService service, int top)
         {
-            var outstanding = service.GetOutstanding(1176086, 2);
+            var outstanding = service.GetOutstandings(1176086, 2, top);
 
             Console.WriteLine($"Request: GetOutstanding, response: {FormatJson(outstanding)}");
         }
@@ -63,9 +63,9 @@
             Console.WriteLine($"Request: GetWinLoss, response: {FormatJson(winLoss)}");
         }
 
-        private static void GetOutstandingAsync(ReportService service)
+        private static void GetOutstandingsAsync(ReportService service, int top)
         {
-            var outstanding = service.GetOutstandingAsync(1176086, 2).Result;
+            var outstanding = service.GetOutstandingsAsync(1176086, 2, top).Result;
 
             Console.WriteLine($"Request: GetOutstandingAsync, response: {FormatJson(outstanding)}");
         }

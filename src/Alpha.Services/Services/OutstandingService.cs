@@ -1,13 +1,15 @@
 ﻿namespace Alpha.Services.Services
 {
-    using System.Threading.Tasks;
     using Alpha.Services.Criteria.Outstanding;
     using Alpha.Services.Models;
+    using Alpha.Services.Params;
     using Fanex.Data.Repository;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface OutstandingService
     {
-        Task<OutstandingModel> GetOutstanding(UserLevel custLevel, int custId);
+        Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param);
     }
 
     public class OutstandingServiceImpl : OutstandingService
@@ -19,8 +21,9 @@
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<OutstandingModel> GetOutstanding(UserLevel custLevel, int custId)
-            => await dynamicRepository.GetAsync<OutstandingModel>(
-                new GetOutstandingCriteria(custLevel, custId));
+        public async Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param)
+            => await dynamicRepository.FetchAsync<OutstandingModel>(
+                new GetOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds, param.DownlineId))
+                .ConfigureAwait(false);
     }
 }

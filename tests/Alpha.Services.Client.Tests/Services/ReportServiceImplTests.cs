@@ -11,6 +11,8 @@
 
     public class ReportServiceImplTests
     {
+        private const int DefaultTopDownlinesDisplay = 50;
+
         private readonly IRestClient restClient;
         private readonly ReportServiceImpl reportService;
 
@@ -19,50 +21,6 @@
             restClient = Substitute.For<IRestClient>();
             reportService = new ReportServiceImpl(restClient);
         }
-
-        #region GetOutstanding
-
-        [Fact]
-        public void GetOutstanding_Always_CallsExecuteGet()
-        {
-            // Arrange
-            var custId = 1;
-            byte custLevel = 2;
-
-            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding", Method.GET);
-
-            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
-            restResponse.IsSuccessful.Returns(true);
-            restResponse.Data.Returns(new Dictionary<string, object>());
-            restClient.Execute<Dictionary<string, object>>(Arg.Any<IRestRequest>())
-                .Returns(restResponse);
-
-            // Act
-            reportService.GetOutstanding(custId, custLevel);
-
-            // Assert
-            restClient.Received().Execute<Dictionary<string, object>>(Arg.Is<IRestRequest>(
-                r => r.Resource == request.Resource
-                    && r.Method == request.Method));
-        }
-
-        [Fact]
-        public void GetOutstanding_ResponseIsFailed_ThrowsInvalidOperationException()
-        {
-            // Arrange
-            var custId = 1;
-            byte custLevel = 2;
-
-            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
-            restResponse.IsSuccessful.Returns(false);
-            restClient.Execute<Dictionary<string, object>>(Arg.Any<IRestRequest>())
-                .Returns(restResponse);
-
-            // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => reportService.GetOutstanding(custId, custLevel));
-        }
-
-        #endregion GetOutstanding
 
         #region GetBalanceInfo
 
@@ -153,50 +111,6 @@
         }
 
         #endregion GetWinLoss
-
-        #region GetOutstandingAsync
-
-        [Fact]
-        public void GetOutstandingAsync_Always_CallsExecuteGet()
-        {
-            // Arrange
-            var custId = 1;
-            byte custLevel = 2;
-
-            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding", Method.GET);
-
-            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
-            restResponse.IsSuccessful.Returns(true);
-            restResponse.Data.Returns(new Dictionary<string, object>());
-            restClient.ExecuteTaskAsync<Dictionary<string, object>>(Arg.Any<IRestRequest>())
-                .Returns(Task.FromResult(restResponse));
-
-            // Act
-            reportService.GetOutstandingAsync(custId, custLevel).ConfigureAwait(false);
-
-            // Assert
-            restClient.Received().ExecuteTaskAsync<Dictionary<string, object>>(Arg.Is<IRestRequest>(
-                r => r.Resource == request.Resource
-                    && r.Method == request.Method));
-        }
-
-        [Fact]
-        public void GetOutstandingAsync_ResponseIsFailed_ThrowsInvalidOperationException()
-        {
-            // Arrange
-            var custId = 1;
-            byte custLevel = 2;
-
-            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
-            restResponse.IsSuccessful.Returns(false);
-            restClient.ExecuteTaskAsync<Dictionary<string, object>>(Arg.Any<IRestRequest>())
-                .Returns(Task.FromResult(restResponse));
-
-            // Act & Assert
-            Assert.ThrowsAsync<InvalidOperationException>(() => reportService.GetOutstandingAsync(custId, custLevel));
-        }
-
-        #endregion GetOutstandingAsync
 
         #region GetBalanceInfoAsync
 
@@ -289,16 +203,17 @@
 
         #endregion GetWinLossAsync
 
-        #region GetOutstandingDetail
+        #region Outstanding
 
         [Fact]
-        public void GetOutstandingDetail_Always_CallsExecuteGet()
+        public void GetOutstandings_Always_CallsExecuteGet()
         {
             // Arrange
             var custId = 1;
             byte custLevel = 2;
+            var top = 50;
 
-            var request = new RestRequest($"report/{custId}/{custLevel}/outstandingdetail", Method.GET);
+            var request = new RestRequest($"report/{custId}/{custLevel}/outstandings/{top}", Method.GET);
 
             var restResponse = Substitute.For<IRestResponse<OutstandingDetail>>();
             restResponse.IsSuccessful.Returns(true);
@@ -307,7 +222,7 @@
                 .Returns(restResponse);
 
             // Act
-            reportService.GetOutstandingDetail(custId, custLevel);
+            reportService.GetOutstandings(custId, custLevel, DefaultTopDownlinesDisplay);
 
             // Assert
             restClient.Received().Execute<OutstandingDetail>(Arg.Is<IRestRequest>(
@@ -316,7 +231,7 @@
         }
 
         [Fact]
-        public void GetOutstandingDetail_ResponseIsFailed_ThrowsInvalidOperationException()
+        public void GetOutstandings_ResponseIsFailed_ThrowsInvalidOperationException()
         {
             // Arrange
             var custId = 1;
@@ -328,21 +243,18 @@
                 .Returns(restResponse);
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => reportService.GetOutstandingDetail(custId, custLevel));
+            Assert.Throws<InvalidOperationException>(() => reportService.GetOutstandings(custId, custLevel, DefaultTopDownlinesDisplay));
         }
 
-        #endregion GetOutstandingDetail
-
-        #region GetOutstandingDetailAsync
-
         [Fact]
-        public void GetOutstandingDetailAsync_Always_CallsExecuteGet()
+        public void GetOutstandingsAsync_Always_CallsExecuteGet()
         {
             // Arrange
             var custId = 1;
             byte custLevel = 2;
+            var top = 50;
 
-            var request = new RestRequest($"report/{custId}/{custLevel}/outstandingdetail", Method.GET);
+            var request = new RestRequest($"report/{custId}/{custLevel}/outstandings/{top}", Method.GET);
 
             var restResponse = Substitute.For<IRestResponse<OutstandingDetail>>();
             restResponse.IsSuccessful.Returns(true);
@@ -351,7 +263,7 @@
                 .Returns(Task.FromResult(restResponse));
 
             // Act
-            reportService.GetOutstandingDetailAsync(custId, custLevel).ConfigureAwait(false);
+            reportService.GetOutstandingsAsync(custId, custLevel, DefaultTopDownlinesDisplay).ConfigureAwait(false);
 
             // Assert
             restClient.Received().ExecuteTaskAsync<OutstandingDetail>(Arg.Is<IRestRequest>(
@@ -360,7 +272,7 @@
         }
 
         [Fact]
-        public void GetOutstandingDetailAsync_ResponseIsFailed_ThrowsInvalidOperationException()
+        public void GetOutstandingsAsync_ResponseIsFailed_ThrowsInvalidOperationException()
         {
             // Arrange
             var custId = 1;
@@ -373,9 +285,94 @@
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(
-                () => reportService.GetOutstandingDetailAsync(custId, custLevel));
+                () => reportService.GetOutstandingsAsync(custId, custLevel, DefaultTopDownlinesDisplay));
         }
 
-        #endregion GetOutstandingDetailAsync
+        [Fact]
+        public void GetDownlineOutstanding_Always_CallsExecuteGet()
+        {
+            // Arrange
+            var custId = 1;
+            byte custLevel = 2;
+            var downlineId = 3;
+
+            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding/{downlineId}", Method.GET);
+
+            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new Dictionary<string, object>());
+            restClient.Execute<Dictionary<string, object>>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            reportService.GetDownlineOutstanding(custId, custLevel, downlineId);
+
+            // Assert
+            restClient.Received().Execute<Dictionary<string, object>>(Arg.Is<IRestRequest>(
+                r => r.Resource == request.Resource
+                    && r.Method == request.Method));
+        }
+
+        [Fact]
+        public void GetDownlineOutstanding_ResponseIsFailed_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var custId = 1;
+            byte custLevel = 2;
+            var downlineId = 3;
+
+            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
+            restResponse.IsSuccessful.Returns(false);
+            restClient.Execute<Dictionary<string, object>>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => reportService.GetDownlineOutstanding(custId, custLevel, downlineId));
+        }
+
+        [Fact]
+        public void GetDownlineOutstandingAsync_Always_CallsExecuteGet()
+        {
+            // Arrange
+            var custId = 1;
+            byte custLevel = 2;
+            var downlineId = 3;
+
+            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding/{downlineId}", Method.GET);
+
+            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new Dictionary<string, object>());
+            restClient.ExecuteTaskAsync<Dictionary<string, object>>(Arg.Any<IRestRequest>())
+                .Returns(Task.FromResult(restResponse));
+
+            // Act
+            reportService.GetDownlineOutstandingAsync(custId, custLevel, downlineId).ConfigureAwait(false);
+
+            // Assert
+            restClient.Received().ExecuteTaskAsync<Dictionary<string, object>>(Arg.Is<IRestRequest>(
+                r => r.Resource == request.Resource
+                    && r.Method == request.Method));
+        }
+
+        [Fact]
+        public void GetDownlineOutstandingAsync_ResponseIsFailed_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var custId = 1;
+            byte custLevel = 2;
+            var downlineId = 3;
+
+            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
+            restResponse.IsSuccessful.Returns(false);
+            restClient.ExecuteTaskAsync<Dictionary<string, object>>(Arg.Any<IRestRequest>())
+                .Returns(Task.FromResult(restResponse));
+
+            // Act & Assert
+            Assert.ThrowsAsync<InvalidOperationException>(
+                () => reportService.GetDownlineOutstandingAsync(custId, custLevel, downlineId));
+        }
+
+        #endregion Outstanding
     }
 }

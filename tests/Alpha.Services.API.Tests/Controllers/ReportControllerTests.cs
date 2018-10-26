@@ -12,6 +12,7 @@
     public class ReportControllerTests
     {
         private const int custId = 1;
+        private const int DefaultTopDownlinesDisplay = 50;
         private readonly IMediator mediator;
         private readonly ReportController reportController;
 
@@ -19,17 +20,6 @@
         {
             mediator = Substitute.For<IMediator>();
             reportController = new ReportController(mediator);
-        }
-
-        [Fact]
-        public void GetOutstanding_Always_CallsMediatorSendOutstandingQuery()
-        {
-            // Act
-            reportController.GetOutstanding(custId, CustLevel.Agent).ConfigureAwait(false);
-
-            // Assert
-            mediator.Received().Send(Arg.Is<OutstandingQuery>(
-                q => q.CustId == custId && q.CustLevel == UserLevel.Agent));
         }
 
         [Fact]
@@ -58,14 +48,25 @@
         }
 
         [Fact]
-        public void GetOutstandingDetail_Always_CallsMediatorSendOutstandingDetailQuery()
+        public void GetOutstanding_Always_CallsMediatorSendOutstandingQuery()
         {
             // Act
-            reportController.GetOutstandingDetail(custId, CustLevel.Agent).ConfigureAwait(false);
+            reportController.GetOutstandings(custId, CustLevel.Agent, DefaultTopDownlinesDisplay).ConfigureAwait(false);
 
             // Assert
-            mediator.Received().Send(Arg.Is<OutstandingDetailQuery>(
+            mediator.Received().Send(Arg.Is<OutstandingQuery>(
                 q => q.CustId == custId && q.CustLevel == UserLevel.Agent));
+        }
+
+        [Fact]
+        public void GetOutstanding_DownlineIdGreaterThanZero_CallsMediatorSendOutstandingQuery()
+        {
+            // Act
+            reportController.GetDownlineOutstanding(custId, CustLevel.Agent, 1).ConfigureAwait(false);
+
+            // Assert
+            mediator.Received().Send(Arg.Is<DownlineOutstandingQuery>(
+                q => q.CustId == custId && q.CustLevel == UserLevel.Agent && q.DownlineId == 1));
         }
     }
 }

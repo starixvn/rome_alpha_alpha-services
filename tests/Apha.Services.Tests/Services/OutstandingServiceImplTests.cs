@@ -1,10 +1,13 @@
 ﻿namespace Alpha.Services.Tests.Services
 {
     using Alpha.Services.Criteria.Outstanding;
+    using Alpha.Services.Extensions;
     using Alpha.Services.Models;
+    using Alpha.Services.Params;
     using Alpha.Services.Services;
     using Fanex.Data.Repository;
     using NSubstitute;
+    using System.Collections.Generic;
     using Xunit;
 
     public class OutstandingServiceImplTests
@@ -19,18 +22,19 @@
         }
 
         [Fact]
-        public void GetOutstanding_Always_CallsDynamicRepository()
+        public void GetOutstandingDetails_Always_CallDynamicRepositoryFetchAsync()
         {
             // Arrange
-            var custId = 1;
-            var custLevel = UserLevel.Agent;
+            var param = new OutstandingParam(UserLevel.Agent, 1, new List<int> { 1, 2, 3 }, 0);
 
             // Act
-            outstandingService.GetOutstanding(custLevel, custId).GetAwaiter().GetResult();
+            outstandingService.GetOutstandings(param).ConfigureAwait(false);
 
-            // Assert
-            dynamicRepository.Received().GetAsync<OutstandingModel>(
-                Arg.Is<GetOutstandingCriteria>(c => c.CustLevel == custLevel && c.CustId == custId));
+            // Asset
+            dynamicRepository.Received().FetchAsync<OutstandingModel>(Arg.Is<GetOutstandingCriteria>(
+                criteria => criteria.CustId == param.CustId
+                        && criteria.CustLevel == param.CustLevel
+                        && criteria.ProductIds == param.ProductIds.JoinWithComma()));
         }
     }
 }
