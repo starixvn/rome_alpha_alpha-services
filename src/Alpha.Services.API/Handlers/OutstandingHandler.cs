@@ -2,6 +2,10 @@
 
 namespace Alpha.Services.API.Handlers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
     using Alpha.Services.Models;
@@ -9,10 +13,6 @@ namespace Alpha.Services.API.Handlers
     using Alpha.Services.Services;
     using Alpha.Services.Utils;
     using MediatR;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     public class OutstandingHandler :
         IRequestHandler<OutstandingQuery, OutstandingViewModel>,
@@ -71,9 +71,9 @@ namespace Alpha.Services.API.Handlers
                 ? new Dictionary<string, object>()
                 : new Dictionary<string, object>
                 {
-                    [nameof(downlineOutstanding.CustName)] = downlineOutstanding.CustName,
-                    [nameof(downlineOutstanding.MemberOutstanding)] = downlineOutstanding.MemberOutstanding,
-                    [nameof(downlineOutstanding.Outstanding)] = downlineOutstanding.Outstanding
+                    ["Username"] = downlineOutstanding.CustName,
+                    [UserLevel.Member.DisplayName] = downlineOutstanding.MemberOutstanding,
+                    [request.CustLevel.DisplayName] = downlineOutstanding.Outstanding
                 };
         }
 

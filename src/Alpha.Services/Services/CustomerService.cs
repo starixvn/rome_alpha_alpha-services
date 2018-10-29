@@ -45,7 +45,7 @@ namespace Alpha.Services.Services
 
             await dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
 
-            return new DownlineInfo(command.CustId, command.IsSubAcc, command.IsActive, command.RoleId);
+            return new DownlineInfo(command.CustId, command.IsSubAcc, command.IsActive, (byte)command.RoleId);
         }
 
         public async Task<bool> IsAccountClosed(int custId, int subAccountId)

@@ -1,5 +1,10 @@
 ﻿namespace Alpha.Services.API.Tests.Handlers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Alpha.Services.API.Handlers;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.Tests.Constants;
@@ -10,11 +15,6 @@
     using Alpha.Services.Utils;
     using KellermanSoftware.CompareNetObjects;
     using NSubstitute;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class OutstandingHandlerTests
@@ -133,9 +133,9 @@
 
             var expectedViewModel = new Dictionary<string, object>
             {
-                [nameof(downlineOutstanding.CustName)] = downlineOutstanding.CustName,
-                [nameof(downlineOutstanding.MemberOutstanding)] = downlineOutstanding.MemberOutstanding,
-                [nameof(downlineOutstanding.Outstanding)] = downlineOutstanding.Outstanding
+                ["Username"] = downlineOutstanding.CustName,
+                [UserLevel.Member.DisplayName] = downlineOutstanding.MemberOutstanding,
+                [request.CustLevel.DisplayName] = downlineOutstanding.Outstanding
             };
 
             // Act
