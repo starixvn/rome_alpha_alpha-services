@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
   <Function Name="Log">
-    <Setting Key="Acc_WriteLog_UserLog_RunSP" SpName="Acc_WriteLog_UserLog_RunSP_Wrapper_UAT4" DbName="DBCust.CustDB.BODBDownlineNet" Plain="0" />
+    <Setting Key="Acc_WriteLog_UserLog_RunSP" SpName="Acc_WriteLog_UserLog_RunSP_Wrapper" DbName="DBCust.CustDB.BODBDownlineNet" Plain="0" />
   </Function>
 </Functions>
