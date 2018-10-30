@@ -101,6 +101,7 @@
             services.AddSingleton<ProductService, ProductServiceImpl>();
             services.AddSingleton<WinLossService, WinLossServiceImpl>();
             services.AddSingleton<MessageService, MessageServiceImpl>();
+            services.AddSingleton<LogService, LogServiceImpl>();
 
             return services;
         }

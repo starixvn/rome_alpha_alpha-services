@@ -17,14 +17,18 @@
     <None Remove="App_Data\SPNames\DBAGE.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\DBCust.CustDB.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Local\DB042.bodb02.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\Local\DBCust.CustDB.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Local\DBMSG.bodb_Message.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Pro\DB042.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Pro\DBAGE.bodb02.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\Pro\DBCust.CustDB.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\Pro\DBMSG.bodb_Message.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\SIT\DBAGE.bodb02.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\SIT\DBCust.CustDB.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\SIT\DBMSG.bodb_Message.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\UAT\DB042.bodb02.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\UAT\DBAGE.bodb02.BODBDownlineNet.xml" />
+    <None Remove="App_Data\SPNames\UAT\DBCust.CustDB.BODBDownlineNet.xml" />
     <None Remove="App_Data\SPNames\UAT\DBMSG.bodb_Message.BODBDownlineNet.xml" />
   </ItemGroup>
 
@@ -33,6 +37,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\Local\DBAGE.bodb02.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\Local\DBCust.CustDB.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\Local\DBMSG.bodb_Message.BODBDownlineNet.xml">
@@ -44,10 +51,16 @@
     <Content Include="App_Data\SPNames\Pro\DBAGE.bodb02.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\SPNames\Pro\DBCust.CustDB.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\SPNames\Pro\DBMSG.bodb_Message.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\SIT\DBAGE.bodb02.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\SIT\DBCust.CustDB.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\SIT\DBMSG.bodb_Message.BODBDownlineNet.xml">
@@ -57,6 +70,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\UAT\DBAGE.bodb02.BODBDownlineNet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SPNames\UAT\DBCust.CustDB.BODBDownlineNet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SPNames\UAT\DBMSG.bodb_Message.BODBDownlineNet.xml">
@@ -73,7 +89,7 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
