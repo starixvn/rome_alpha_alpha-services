@@ -10,6 +10,8 @@
     public interface OutstandingService
     {
         Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param);
+
+        Task<TotalOutstandingModel> GetTotalOutstanding(UserLevel custLevel, int custId);
     }
 
     public class OutstandingServiceImpl : OutstandingService
@@ -24,6 +26,11 @@
         public async Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param)
             => await dynamicRepository.FetchAsync<OutstandingModel>(
                 new GetOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds, param.DownlineId))
+                .ConfigureAwait(false);
+
+        public async Task<TotalOutstandingModel> GetTotalOutstanding(UserLevel custLevel, int custId)
+            => await dynamicRepository.GetAsync<TotalOutstandingModel>(
+                new GetTotalOutstandingCriteria(custLevel, custId))
                 .ConfigureAwait(false);
     }
 }
