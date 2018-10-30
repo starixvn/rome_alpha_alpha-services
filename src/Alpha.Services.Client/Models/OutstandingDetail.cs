@@ -4,7 +4,9 @@
 
     public class OutstandingDetail
     {
-        public string CustLevel { get; set; }
+        public byte CustLevel { get; set; }
+
+        public int HiddenDownlinesCount { get; set; }
 
         public OutstandingModel Total { get; set; }
 

@@ -18,7 +18,6 @@ namespace Alpha.Services.API.Handlers
         IRequestHandler<OutstandingQuery, OutstandingViewModel>,
         IRequestHandler<DownlineOutstandingQuery, IDictionary<string, object>>
     {
-        private const int DefaultTopDownlinesDisplay = 50;
         private readonly ProductService productService;
         private readonly OutstandingService outstandingService;
 
@@ -36,12 +35,11 @@ namespace Alpha.Services.API.Handlers
 
             var total = AccummulateTotal(outstandings);
 
-            var numberOfDownlinesDisplay = request.Top <= 0 ? DefaultTopDownlinesDisplay : request.Top;
-            var hiddenDownlinesCount = outstandings.Count() - numberOfDownlinesDisplay;
-            var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(numberOfDownlinesDisplay);
+            var hiddenDownlinesCount = outstandings.Count() - request.Top;
+            var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(request.Top);
 
             return new OutstandingViewModel(
-                request.CustLevel.DisplayName,
+                request.CustLevel.Value,
                 hiddenDownlinesCount,
                 total,
                 topOutstandings);

@@ -84,7 +84,7 @@
 
             var total = OutstandingHandler.AccummulateTotal(outstandings);
 
-            var expectedViewModel = new OutstandingViewModel(request.CustLevel.DisplayName, 0, total, outstandings.OrderByDescending(o => o.MemberOutstanding).Take(50));
+            var expectedViewModel = new OutstandingViewModel(request.CustLevel.Value, 0, total, outstandings.OrderByDescending(o => o.MemberOutstanding).Take(50));
 
             // Act
             var actualViewModel = outstandingHandler.Handle(request, default(CancellationToken))
