@@ -2,6 +2,10 @@
 {
     public class TotalOutstandingModel
     {
+        public TotalOutstandingModel()
+        {
+        }
+
         public TotalOutstandingModel(decimal outstanding, decimal totalOutstanding)
         {
             Outstanding = outstanding;

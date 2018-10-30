@@ -34,10 +34,11 @@
                 throw new DomainException("Customer does not exist");
             }
 
-            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, request.CustId);
             var directDownlineLevel = customer.CustLevel.GetDirectDownLineLevel();
+            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, request.CustId);
+            var outstanding = await outstandingService.GetTotalOutstanding(customer.CustLevel, request.CustId);
 
-            var balanceInfoResult = new Dictionary<string, object>
+            return new Dictionary<string, object>
             {
                 [nameof(customer.CurrencyName)] = customer.CurrencyName,
                 [nameof(balanceInfo.CashBalance)] = balanceInfo.CashBalance,
@@ -47,25 +48,10 @@
                 [nameof(balanceInfo.TodayWinLoss)] = balanceInfo.TodayWinLoss,
                 [nameof(balanceInfo.YesterdayWinLoss)] = balanceInfo.YesterdayWinLoss,
                 [nameof(balanceInfo.GivenCredit)] = balanceInfo.GivenCredit,
-                [directDownlineLevel.DisplayName + nameof(balanceInfo.TotalCredit)] = balanceInfo.TotalCredit
+                [$"{directDownlineLevel.DisplayName}{nameof(balanceInfo.TotalCredit)}"] = balanceInfo.TotalCredit,
+                [$"{UserLevel.Member.DisplayName}Outstanding"] = outstanding.TotalOutstanding,
+                [$"{customer.CustLevel.DisplayName}Outstanding"] = outstanding.Outstanding
             };
-
-            return await AddTotalOutstanding(balanceInfoResult, customer.CustLevel, request.CustId);
-        }
-
-        private async Task<IDictionary<string, object>> AddTotalOutstanding(
-            IDictionary<string, object> balanceInfo,
-            UserLevel custLevel,
-            int custId)
-        {
-            var outstanding = await outstandingService
-                .GetTotalOutstanding(custLevel, custId)
-                .ConfigureAwait(false);
-
-            balanceInfo.TryAdd(UserLevel.Member.DisplayName, outstanding.TotalOutstanding);
-            balanceInfo.TryAdd(custLevel.DisplayName, outstanding.Outstanding);
-
-            return balanceInfo;
         }
     }
 }

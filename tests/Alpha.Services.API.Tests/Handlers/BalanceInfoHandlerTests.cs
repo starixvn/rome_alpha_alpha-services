@@ -83,8 +83,8 @@
                 [nameof(balanceInfo.YesterdayWinLoss)] = balanceInfo.YesterdayWinLoss,
                 [nameof(balanceInfo.GivenCredit)] = balanceInfo.GivenCredit,
                 [customer.CustLevel.GetDirectDownLineLevel().DisplayName + nameof(balanceInfo.TotalCredit)] = balanceInfo.TotalCredit,
-                [UserLevel.Member.DisplayName] = outstanding.TotalOutstanding,
-                [customer.CustLevel.DisplayName] = outstanding.Outstanding
+                [$"{UserLevel.Member.DisplayName}Outstanding"] = outstanding.TotalOutstanding,
+                [$"{customer.CustLevel.DisplayName}Outstanding"] = outstanding.Outstanding
             };
 
             // Act

@@ -8,6 +8,8 @@
     {
         public GetTotalOutstandingCriteria(UserLevel custLevel, int custId)
         {
+            CustLevel = custLevel;
+            CustId = custId;
         }
 
         public int CustId { get; }
