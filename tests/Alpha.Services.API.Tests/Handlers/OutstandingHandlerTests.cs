@@ -51,7 +51,7 @@
             // Arrange
             var request = new OutstandingQuery(1, CustLevel.Agent, DefaultTopDownlinesDisplay);
             IEnumerable<int> productIds = new List<int> { 1, 2, 3 };
-            var param = new OutstandingParam(request.CustLevel, request.CustId, productIds, 0);
+            var param = new OutstandingParam(request.CustLevel, request.CustId, productIds);
             productService.GetOfferedProductIdsForCustomer(Arg.Any<int>(), Arg.Any<DateTime?>()).Returns(Task.FromResult(productIds));
 
             // Act
@@ -95,7 +95,7 @@
         }
 
         [Fact]
-        public void HandleDownlineOutstanding_Always_CallsGetOutstandings()
+        public void HandleDownlineOutstanding_Always_CallsGetDownlineOutstanding()
         {
             // Arrange
             var request = new DownlineOutstandingQuery(1, CustLevel.Agent, 2);
@@ -107,7 +107,7 @@
             outstandingHandler.Handle(request, default(CancellationToken)).ConfigureAwait(false);
 
             // Assert
-            outstandingService.Received().GetOutstandings(Arg.Is<OutstandingParam>(
+            outstandingService.Received().GetDownlineOutstanding(Arg.Is<OutstandingParam>(
                 p => p.CustId == param.CustId && p.CustLevel == param.CustLevel && p.ProductIds == param.ProductIds && p.DownlineId == param.DownlineId));
         }
 
@@ -122,20 +122,15 @@
             productService.GetOfferedProductIdsForCustomer(Arg.Any<int>(), Arg.Any<DateTime?>())
                 .Returns(Task.FromResult(productIds));
 
-            IEnumerable<OutstandingModel> outstandings = new List<OutstandingModel>
-            {
-                new OutstandingModel(2, "cust1", 1, 2)
-            };
-            outstandingService.GetOutstandings(Arg.Any<OutstandingParam>())
-                .Returns(Task.FromResult(outstandings));
-
-            var downlineOutstanding = outstandings.FirstOrDefault();
+            var outstanding = new OutstandingModel(2, "cust1", 1, 2);
+            outstandingService.GetDownlineOutstanding(Arg.Any<OutstandingParam>())
+                .Returns(Task.FromResult(outstanding));
 
             var expectedViewModel = new Dictionary<string, object>
             {
-                ["Username"] = downlineOutstanding.CustName,
-                [UserLevel.Member.DisplayName] = downlineOutstanding.MemberOutstanding,
-                [request.CustLevel.DisplayName] = downlineOutstanding.Outstanding
+                ["Username"] = outstanding.CustName,
+                [UserLevel.Member.DisplayName] = outstanding.MemberOutstanding,
+                [request.CustLevel.DisplayName] = outstanding.Outstanding
             };
 
             // Act
@@ -156,9 +151,9 @@
             productService.GetOfferedProductIdsForCustomer(Arg.Any<int>(), Arg.Any<DateTime?>())
                 .Returns(Task.FromResult(productIds));
 
-            var outstandings = Enumerable.Empty<OutstandingModel>();
-            outstandingService.GetOutstandings(Arg.Any<OutstandingParam>())
-                .Returns(Task.FromResult(outstandings));
+            OutstandingModel outstanding = null;
+            outstandingService.GetDownlineOutstanding(Arg.Any<OutstandingParam>())
+                .Returns(Task.FromResult(outstanding));
 
             // Act
             var actualViewModel = outstandingHandler.Handle(request, default(CancellationToken))

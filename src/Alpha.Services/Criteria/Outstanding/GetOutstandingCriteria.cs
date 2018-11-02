@@ -1,23 +1,21 @@
 ﻿namespace Alpha.Services.Criteria.Outstanding
 {
-    using System.Collections.Generic;
     using Alpha.Services.Extensions;
     using Alpha.Services.Models;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using System.Collections.Generic;
 
     public class GetOutstandingCriteria : CriteriaBase
     {
         public GetOutstandingCriteria(
             UserLevel custLevel,
             int custId,
-            IEnumerable<int> productIds,
-            int downlineId)
+            IEnumerable<int> productIds)
         {
             CustId = custId;
             CustLevel = custLevel;
             ProductIds = productIds == null ? string.Empty : productIds.JoinWithComma();
-            DownlineId = downlineId;
         }
 
         public int CustId { get; }
@@ -26,8 +24,6 @@
         public UserLevel CustLevel { get; }
 
         public string ProductIds { get; }
-
-        public int DownlineId { get; }
 
         public override string GetSettingKey()
             => CustLevel.IsAgentLevel()

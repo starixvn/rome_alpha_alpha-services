@@ -11,6 +11,8 @@
     {
         Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param);
 
+        Task<OutstandingModel> GetDownlineOutstanding(OutstandingParam param);
+
         Task<TotalOutstandingModel> GetTotalOutstanding(UserLevel custLevel, int custId);
     }
 
@@ -25,7 +27,12 @@
 
         public async Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param)
             => await dynamicRepository.FetchAsync<OutstandingModel>(
-                new GetOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds, param.DownlineId))
+                new GetOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds))
+                .ConfigureAwait(false);
+
+        public async Task<OutstandingModel> GetDownlineOutstanding(OutstandingParam param)
+            => await dynamicRepository.GetAsync<OutstandingModel>(
+                new GetDownlineOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds, param.DownlineId))
                 .ConfigureAwait(false);
 
         public async Task<TotalOutstandingModel> GetTotalOutstanding(UserLevel custLevel, int custId)

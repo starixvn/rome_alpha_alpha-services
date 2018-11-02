@@ -22,10 +22,10 @@
         }
 
         [Fact]
-        public void GetOutstandingDetails_Always_CallDynamicRepositoryFetchAsync()
+        public void GetOutstandings_Always_CallDynamicRepositoryFetchAsync()
         {
             // Arrange
-            var param = new OutstandingParam(UserLevel.Agent, 1, new List<int> { 1, 2, 3 }, 0);
+            var param = new OutstandingParam(UserLevel.Agent, 1, new List<int> { 1, 2, 3 });
 
             // Act
             outstandingService.GetOutstandings(param).ConfigureAwait(false);
@@ -35,6 +35,23 @@
                 criteria => criteria.CustId == param.CustId
                         && criteria.CustLevel == param.CustLevel
                         && criteria.ProductIds == param.ProductIds.JoinWithComma()));
+        }
+
+        [Fact]
+        public void GetDownlineOutstanding_Always_CallDynamicRepositoryFetchAsync()
+        {
+            // Arrange
+            var param = new OutstandingParam(UserLevel.Agent, 1, new List<int> { 1, 2, 3 }, 2);
+
+            // Act
+            outstandingService.GetDownlineOutstanding(param).ConfigureAwait(false);
+
+            // Asset
+            dynamicRepository.Received().GetAsync<OutstandingModel>(Arg.Is<GetDownlineOutstandingCriteria>(
+                criteria => criteria.CustId == param.CustId
+                        && criteria.CustLevel == param.CustLevel
+                        && criteria.ProductIds == param.ProductIds.JoinWithComma()
+                        && criteria.DownlineId == param.DownlineId));
         }
     }
 }

@@ -16,7 +16,7 @@
         {
             // Arrange
             var custLevel = Enumeration.FromValue<UserLevel>(custLevelId);
-            var criteria = new GetOutstandingCriteria(custLevel, 0, Enumerable.Empty<int>(), 0);
+            var criteria = new GetOutstandingCriteria(custLevel, 0, Enumerable.Empty<int>());
 
             // Act & Assert
             Assert.Equal(expectedSettingKey, criteria.GetSettingKey());
@@ -29,7 +29,7 @@
         public void IsValid_InvalidCustId_ReturnsFalse(int custId)
         {
             // Arrange
-            var criteria = new GetOutstandingCriteria(UserLevel.Agent, custId, Enumerable.Empty<int>(), 0);
+            var criteria = new GetOutstandingCriteria(UserLevel.Agent, custId, Enumerable.Empty<int>());
 
             // Act & Assert
             Assert.False(criteria.IsValid());
@@ -39,7 +39,7 @@
         public void IsValid_CustLevelIsMember_ReturnsFalse()
         {
             // Arrange
-            var criteria = new GetOutstandingCriteria(UserLevel.Member, 1, Enumerable.Empty<int>(), 0);
+            var criteria = new GetOutstandingCriteria(UserLevel.Member, 1, Enumerable.Empty<int>());
 
             // Act & Assert
             Assert.False(criteria.IsValid());
@@ -55,8 +55,7 @@
             var criteria = new GetOutstandingCriteria(
                 custLevel: Enumeration.FromValue<UserLevel>(custLevel),
                 custId: 1,
-                productIds: Enumerable.Empty<int>(),
-                downlineId: 0);
+                productIds: Enumerable.Empty<int>());
 
             // Act & Assert
             Assert.True(criteria.IsValid());

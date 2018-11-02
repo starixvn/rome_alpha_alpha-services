@@ -9,7 +9,7 @@
             UserLevel custLevel,
             int custId,
             IEnumerable<int> productIds,
-            int downlineId)
+            int downlineId = 0)
         {
             CustLevel = custLevel;
             CustId = custId;

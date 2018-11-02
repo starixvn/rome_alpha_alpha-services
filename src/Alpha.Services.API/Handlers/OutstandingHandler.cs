@@ -2,10 +2,6 @@
 
 namespace Alpha.Services.API.Handlers
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.ViewModels;
     using Alpha.Services.Models;
@@ -13,6 +9,10 @@ namespace Alpha.Services.API.Handlers
     using Alpha.Services.Services;
     using Alpha.Services.Utils;
     using MediatR;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public class OutstandingHandler :
         IRequestHandler<OutstandingQuery, OutstandingViewModel>,
@@ -31,10 +31,12 @@ namespace Alpha.Services.API.Handlers
 
         public async Task<OutstandingViewModel> Handle(OutstandingQuery request, CancellationToken cancellationToken)
         {
-            var outstandings = await GetOutstandings(request.CustLevel, request.CustId);
+            var productIds = await productService.GetOfferedProductIdsForCustomer(request.CustId, SystemTime.Today);
+
+            var param = new OutstandingParam(request.CustLevel, request.CustId, productIds);
+            var outstandings = await outstandingService.GetOutstandings(param);
 
             var total = AccummulateTotal(outstandings);
-
             var hiddenDownlinesCount = outstandings.Count() - request.Top;
             var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(request.Top);
 
@@ -62,28 +64,19 @@ namespace Alpha.Services.API.Handlers
 
         public async Task<IDictionary<string, object>> Handle(DownlineOutstandingQuery request, CancellationToken cancellationToken)
         {
-            var outstandings = await GetOutstandings(request.CustLevel, request.CustId, request.DownlineId);
-            var downlineOutstanding = outstandings.FirstOrDefault();
+            var productIds = await productService.GetOfferedProductIdsForCustomer(request.CustId, SystemTime.Today);
 
-            return downlineOutstanding == null
+            var param = new OutstandingParam(request.CustLevel, request.CustId, productIds, request.DownlineId);
+            var outstanding = await outstandingService.GetDownlineOutstanding(param);
+
+            return outstanding == null
                 ? new Dictionary<string, object>()
                 : new Dictionary<string, object>
                 {
-                    ["Username"] = downlineOutstanding.CustName,
-                    [UserLevel.Member.DisplayName] = downlineOutstanding.MemberOutstanding,
-                    [request.CustLevel.DisplayName] = downlineOutstanding.Outstanding
+                    ["Username"] = outstanding.CustName,
+                    [UserLevel.Member.DisplayName] = outstanding.MemberOutstanding,
+                    [request.CustLevel.DisplayName] = outstanding.Outstanding
                 };
-        }
-
-        private async Task<IEnumerable<OutstandingModel>> GetOutstandings(
-            UserLevel custLevel,
-            int custId,
-            int downlineId = 0)
-        {
-            var productIds = await productService.GetOfferedProductIdsForCustomer(custId, SystemTime.Today);
-            var param = new OutstandingParam(custLevel, custId, productIds, downlineId);
-
-            return await outstandingService.GetOutstandings(param);
         }
     }
 }
