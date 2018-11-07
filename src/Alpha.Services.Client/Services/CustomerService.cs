@@ -27,6 +27,6 @@
             => await GetAsync<bool>($"customer/{custId}/isaccountclosed/{subAccountId}");
 
         public async Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName)
-            => await GetAsync<DownlineInfo>($"customer/{custId}/downline/{downlineUserName}");
+            => await GetAsync<DownlineInfo>($"customer/{custId}/downline?downlineUserName={downlineUserName}");
     }
 }

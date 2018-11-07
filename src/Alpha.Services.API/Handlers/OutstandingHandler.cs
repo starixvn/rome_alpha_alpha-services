@@ -35,10 +35,11 @@ namespace Alpha.Services.API.Handlers
 
             var param = new OutstandingParam(request.CustLevel, request.CustId, productIds);
             var outstandings = await outstandingService.GetOutstandings(param);
+            var top = request.Top < 0 ? 0 : request.Top;
 
             var total = AccummulateTotal(outstandings);
-            var hiddenDownlinesCount = outstandings.Count() - request.Top;
-            var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(request.Top);
+            var hiddenDownlinesCount = outstandings.Count() - top;
+            var topOutstandings = outstandings.OrderByDescending(o => o.MemberOutstanding).Take(top);
 
             return new OutstandingViewModel(
                 request.CustLevel.Value,

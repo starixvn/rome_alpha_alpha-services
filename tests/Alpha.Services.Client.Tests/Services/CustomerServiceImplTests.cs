@@ -66,7 +66,7 @@
             var custId = 1;
             var downlineUserName = "username";
 
-            var request = new RestRequest($"customer/{custId}/downline/{downlineUserName}", Method.GET);
+            var request = new RestRequest($"customer/{custId}/downline?downlineUserName={downlineUserName}", Method.GET);
 
             var restResponse = Substitute.For<IRestResponse<DownlineInfo>>();
             restResponse.IsSuccessful.Returns(true);
