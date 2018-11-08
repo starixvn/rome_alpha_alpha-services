@@ -8,6 +8,7 @@
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.RabbitMQ;
+    using Fanex.RemotingRef;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,10 @@
                     .SetDefaultLogCategory(Configuration["Fanex.Logging:DefaultCategory"])
                     .Use(new RabbitMQLogging(Configuration["Fanex.Logging:RabbitMQConnectionStrings"]));
 
+            RefDataTypeContainer
+                .ConnectTo(new Uri(Configuration["RemotingRefUrl"]))
+                .FromApplication("Alpha.Services.API");
+
             services.AddCustomMvc()
                 .AddCustomSwagger()
                 .AddMediatR(typeof(Startup).GetTypeInfo().Assembly)
@@ -47,9 +52,8 @@
                 .AddServices()
                 .AddCustomConfiguration(Configuration)
                 .AddMemoryCache()
-                .AddCustomAuthentication();
-
-            services.AddSingleton(Logger.Log);
+                .AddCustomAuthentication()
+                .AddSingleton(Logger.Log);
 
             Logger.Log.Info("Alpha Service has been started up.");
         }

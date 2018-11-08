@@ -1,8 +1,8 @@
 ﻿namespace Alpha.Services.Configurations
 {
+    using Microsoft.Extensions.Configuration;
     using System;
     using System.Collections.Generic;
-    using Microsoft.Extensions.Configuration;
 
     public interface IAppSettings
     {

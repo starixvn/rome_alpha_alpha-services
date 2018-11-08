@@ -10,17 +10,13 @@
     {
         public GetDownlineOutstandingCriteria(
             UserLevel custLevel,
-            int custId,
             IEnumerable<int> productIds,
             int downlineId)
         {
-            CustId = custId;
             CustLevel = custLevel;
             ProductIds = productIds == null ? string.Empty : productIds.JoinWithComma();
             DownlineId = downlineId;
         }
-
-        public int CustId { get; }
 
         [SpParam(Ignored = true)]
         public UserLevel CustLevel { get; }
@@ -36,6 +32,6 @@
             ? "Age_Rpt_DownlineOutstanding_Agent"
             : "Age_Rpt_DownlineOutstanding_Master";
 
-        public override bool IsValid() => CustId > 0 && !CustLevel.IsMemberLevel() && DownlineId > 0;
+        public override bool IsValid() => !CustLevel.IsMemberLevel() && DownlineId > 0;
     }
 }

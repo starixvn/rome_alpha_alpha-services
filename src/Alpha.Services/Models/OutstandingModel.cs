@@ -7,20 +7,22 @@
         }
 
         public OutstandingModel(
-            int custId,
-            string custName,
+            int id,
+            string name,
             decimal memberOutstanding,
             decimal outstanding)
         {
-            CustId = custId;
-            CustName = custName;
+            Id = id;
+            Name = name;
             MemberOutstanding = memberOutstanding;
             Outstanding = outstanding;
         }
 
-        public int CustId { get; }
+        // CustId or ProductId.
+        public int Id { get; }
 
-        public string CustName { get; }
+        // CustName or ProductName from RemotingRef.
+        public string Name { get; set; }
 
         public decimal MemberOutstanding { get; private set; }
 

@@ -62,7 +62,7 @@
         public void GetOutstanding_DownlineIdGreaterThanZero_CallsMediatorSendOutstandingQuery()
         {
             // Act
-            reportController.GetDownlineOutstanding(custId, CustLevel.Agent, 1).ConfigureAwait(false);
+            reportController.GetDownlineOutstanding(custId, CustLevel.Agent, 1, "member01", "en-US").ConfigureAwait(false);
 
             // Assert
             mediator.Received().Send(Arg.Is<DownlineOutstandingQuery>(

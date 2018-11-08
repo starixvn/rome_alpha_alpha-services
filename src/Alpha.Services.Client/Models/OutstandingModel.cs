@@ -2,7 +2,7 @@
 {
     public class OutstandingModel
     {
-        public string CustName { get; set; }
+        public string Name { get; set; }
 
         public decimal MemberOutstanding { get; set; }
 

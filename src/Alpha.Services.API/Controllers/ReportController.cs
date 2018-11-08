@@ -40,8 +40,8 @@
         public async Task<IActionResult> GetOutstandings(int custId, byte custLevel, int top)
             => Ok(await mediator.Send(new OutstandingQuery(custId, custLevel, top)));
 
-        [HttpGet("{custId}/{custLevel}/outstanding/{downlineId}")]
-        public async Task<IActionResult> GetDownlineOutstanding(int custId, byte custLevel, int downlineId)
-            => Ok(await mediator.Send(new DownlineOutstandingQuery(custId, custLevel, downlineId)));
+        [HttpGet("{custId}/{custLevel}/outstanding/{downlineId}/{downlineName}/{language}")]
+        public async Task<IActionResult> GetDownlineOutstanding(int custId, byte custLevel, int downlineId, string downlineName, string language)
+            => Ok(await mediator.Send(new DownlineOutstandingQuery(custId, custLevel, downlineId, downlineName, language)));
     }
 }

@@ -11,5 +11,7 @@
         public OutstandingModel Total { get; set; }
 
         public IEnumerable<OutstandingModel> TopOutstandings { get; set; }
+
+        public string DownlineName { get; set; }
     }
 }

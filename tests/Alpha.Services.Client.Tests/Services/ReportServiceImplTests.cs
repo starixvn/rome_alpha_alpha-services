@@ -1,12 +1,12 @@
 ﻿namespace Alpha.Services.Client.Tests.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Alpha.Services.Client.Models;
     using Alpha.Services.Client.Services;
     using NSubstitute;
     using RestSharp;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class ReportServiceImplTests
@@ -295,20 +295,22 @@
             var custId = 1;
             byte custLevel = 2;
             var downlineId = 3;
+            var downlineName = "member01";
+            var language = "en-US";
 
-            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding/{downlineId}", Method.GET);
+            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding/{downlineId}/{downlineName}/{language}", Method.GET);
 
-            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
+            var restResponse = Substitute.For<IRestResponse<OutstandingDetail>>();
             restResponse.IsSuccessful.Returns(true);
-            restResponse.Data.Returns(new Dictionary<string, object>());
-            restClient.Execute<Dictionary<string, object>>(Arg.Any<IRestRequest>())
+            restResponse.Data.Returns(new OutstandingDetail());
+            restClient.Execute<OutstandingDetail>(Arg.Any<IRestRequest>())
                 .Returns(restResponse);
 
             // Act
-            reportService.GetDownlineOutstanding(custId, custLevel, downlineId);
+            reportService.GetDownlineOutstanding(custId, custLevel, downlineId, downlineName, language);
 
             // Assert
-            restClient.Received().Execute<Dictionary<string, object>>(Arg.Is<IRestRequest>(
+            restClient.Received().Execute<OutstandingDetail>(Arg.Is<IRestRequest>(
                 r => r.Resource == request.Resource
                     && r.Method == request.Method));
         }
@@ -320,6 +322,8 @@
             var custId = 1;
             byte custLevel = 2;
             var downlineId = 3;
+            var downlineName = "member01";
+            var language = "en-US";
 
             var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
             restResponse.IsSuccessful.Returns(false);
@@ -327,7 +331,7 @@
                 .Returns(restResponse);
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => reportService.GetDownlineOutstanding(custId, custLevel, downlineId));
+            Assert.Throws<InvalidOperationException>(() => reportService.GetDownlineOutstanding(custId, custLevel, downlineId, downlineName, language));
         }
 
         [Fact]
@@ -337,20 +341,22 @@
             var custId = 1;
             byte custLevel = 2;
             var downlineId = 3;
+            var downlineName = "member01";
+            var language = "en-US";
 
-            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding/{downlineId}", Method.GET);
+            var request = new RestRequest($"report/{custId}/{custLevel}/outstanding/{downlineId}/{downlineName}/{language}", Method.GET);
 
-            var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
+            var restResponse = Substitute.For<IRestResponse<OutstandingDetail>>();
             restResponse.IsSuccessful.Returns(true);
-            restResponse.Data.Returns(new Dictionary<string, object>());
-            restClient.ExecuteTaskAsync<Dictionary<string, object>>(Arg.Any<IRestRequest>())
+            restResponse.Data.Returns(new OutstandingDetail());
+            restClient.ExecuteTaskAsync<OutstandingDetail>(Arg.Any<IRestRequest>())
                 .Returns(Task.FromResult(restResponse));
 
             // Act
-            reportService.GetDownlineOutstandingAsync(custId, custLevel, downlineId).ConfigureAwait(false);
+            reportService.GetDownlineOutstandingAsync(custId, custLevel, downlineId, downlineName, language).ConfigureAwait(false);
 
             // Assert
-            restClient.Received().ExecuteTaskAsync<Dictionary<string, object>>(Arg.Is<IRestRequest>(
+            restClient.Received().ExecuteTaskAsync<OutstandingDetail>(Arg.Is<IRestRequest>(
                 r => r.Resource == request.Resource
                     && r.Method == request.Method));
         }
@@ -362,6 +368,8 @@
             var custId = 1;
             byte custLevel = 2;
             var downlineId = 3;
+            var downlineName = "member01";
+            var language = "en-US";
 
             var restResponse = Substitute.For<IRestResponse<Dictionary<string, object>>>();
             restResponse.IsSuccessful.Returns(false);
@@ -370,7 +378,7 @@
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(
-                () => reportService.GetDownlineOutstandingAsync(custId, custLevel, downlineId));
+                () => reportService.GetDownlineOutstandingAsync(custId, custLevel, downlineId, downlineName, language));
         }
 
         #endregion Outstanding

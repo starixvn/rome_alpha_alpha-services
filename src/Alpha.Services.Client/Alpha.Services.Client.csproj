@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
-    <Version>1.0.3-beta10</Version>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <Version>1.0.4-os04</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Starix Soft</Authors>
     <Company>Starix Soft</Company>
-    <PackageReleaseNotes>- Outstanding detail</PackageReleaseNotes>
+    <PackageReleaseNotes>- New Outstanding format</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

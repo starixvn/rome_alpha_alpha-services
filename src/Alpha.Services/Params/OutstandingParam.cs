@@ -9,12 +9,12 @@
             UserLevel custLevel,
             int custId,
             IEnumerable<int> productIds,
-            int downlineId = 0)
+            string language = "en-US")
         {
             CustLevel = custLevel;
             CustId = custId;
             ProductIds = productIds;
-            DownlineId = downlineId;
+            Language = language;
         }
 
         public UserLevel CustLevel { get; }
@@ -23,6 +23,6 @@
 
         public IEnumerable<int> ProductIds { get; }
 
-        public int DownlineId { get; }
+        public string Language { get; }
     }
 }
