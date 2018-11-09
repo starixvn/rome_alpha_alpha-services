@@ -68,18 +68,16 @@ namespace Alpha.Services.API.Handlers
             var productIds = await productService.GetOfferedProductIdsForCustomer(request.CustId, SystemTime.Today);
 
             var param = new OutstandingParam(request.CustLevel, request.CustId, productIds, request.DownlineId);
+            var outstanding = await outstandingService.GetDownlineOutstanding(param);
 
-            return new Dictionary<string, object>();
-            //var outstanding = await outstandingService.GetDownlineOutstanding(param);
-
-            //return outstanding == null
-            //    ? new Dictionary<string, object>()
-            //    : new Dictionary<string, object>
-            //    {
-            //        ["Username"] = outstanding.CustName,
-            //        [UserLevel.Member.DisplayName] = outstanding.MemberOutstanding,
-            //        [request.CustLevel.DisplayName] = outstanding.Outstanding
-            //    };
+            return outstanding == null
+                ? new Dictionary<string, object>()
+                : new Dictionary<string, object>
+                {
+                    ["Username"] = outstanding.CustName,
+                    [UserLevel.Member.DisplayName] = outstanding.MemberOutstanding,
+                    [request.CustLevel.DisplayName] = outstanding.Outstanding
+                };
         }
     }
 }
