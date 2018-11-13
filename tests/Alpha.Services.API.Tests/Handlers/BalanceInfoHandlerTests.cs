@@ -15,13 +15,15 @@
     {
         private readonly CustomerService customerService;
         private readonly BalanceInfoService balanceInfoService;
+        private readonly OutstandingService outstandingService;
         private readonly BalanceInfoHandler balanceInfoHandler;
 
         public BalanceInfoHandlerTests()
         {
             customerService = Substitute.For<CustomerService>();
             balanceInfoService = Substitute.For<BalanceInfoService>();
-            balanceInfoHandler = new BalanceInfoHandler(customerService, balanceInfoService);
+            outstandingService = Substitute.For<OutstandingService>();
+            balanceInfoHandler = new BalanceInfoHandler(customerService, balanceInfoService, outstandingService);
         }
 
         [Fact]
@@ -66,6 +68,10 @@
             balanceInfoService.GetBalanceInfo(Arg.Any<UserLevel>(), Arg.Any<int>())
                 .Returns(Task.FromResult(balanceInfo));
 
+            var outstanding = new TotalOutstandingModel(1, 2);
+            outstandingService.GetTotalOutstanding(Arg.Any<UserLevel>(), Arg.Any<int>())
+                .Returns(Task.FromResult(outstanding));
+
             var expectedResult = new Dictionary<string, object>
             {
                 [nameof(customer.CurrencyName)] = customer.CurrencyName,
@@ -76,7 +82,9 @@
                 [nameof(balanceInfo.TodayWinLoss)] = balanceInfo.TodayWinLoss,
                 [nameof(balanceInfo.YesterdayWinLoss)] = balanceInfo.YesterdayWinLoss,
                 [nameof(balanceInfo.GivenCredit)] = balanceInfo.GivenCredit,
-                [customer.CustLevel.GetDirectDownLineLevel().DisplayName + nameof(balanceInfo.TotalCredit)] = balanceInfo.TotalCredit
+                [customer.CustLevel.GetDirectDownLineLevel().DisplayName + nameof(balanceInfo.TotalCredit)] = balanceInfo.TotalCredit,
+                [$"{UserLevel.Member.DisplayName}Outstanding"] = outstanding.TotalOutstanding,
+                [$"{customer.CustLevel.DisplayName}Outstanding"] = outstanding.Outstanding
             };
 
             // Act

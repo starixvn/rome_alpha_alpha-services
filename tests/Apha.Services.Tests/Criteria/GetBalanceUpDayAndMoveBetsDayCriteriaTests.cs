@@ -1,4 +1,4 @@
-﻿namespace Apha.Services.Tests.Criteria
+﻿namespace Alpha.Services.Tests.Criteria
 {
     using Alpha.Services.Criteria;
     using Xunit;

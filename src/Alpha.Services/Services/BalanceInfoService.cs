@@ -1,7 +1,7 @@
 ﻿namespace Alpha.Services.Services
 {
     using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.BalanceInfo;
     using Alpha.Services.Models;
     using Fanex.Data.Repository;
 
@@ -28,10 +28,7 @@
             var moveBetsDay = await reportDateService.GetMoveBetsDay();
 
             return await dynamicRepository.GetAsync<BalanceInfo>(
-                new GetBalanceInfoCriteria(
-                    custLevel,
-                    custId,
-                    moveBetsDay));
+                new GetBalanceInfoCriteria(custLevel, custId, moveBetsDay));
         }
     }
 }

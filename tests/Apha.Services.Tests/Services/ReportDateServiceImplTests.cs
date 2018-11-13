@@ -1,4 +1,4 @@
-﻿namespace Apha.Services.Tests.Services
+﻿namespace Alpha.Services.Tests.Services
 {
     using System;
     using System.Threading.Tasks;

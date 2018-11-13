@@ -1,4 +1,4 @@
-﻿namespace Alpha.Services.Criteria
+﻿namespace Alpha.Services.Criteria.WinLoss
 {
     using System;
     using System.Collections.Generic;

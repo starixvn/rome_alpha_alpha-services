@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha.Services.Sample", "sa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha.Services.API.Tests", "tests\Alpha.Services.API.Tests\Alpha.Services.API.Tests.csproj", "{640ECD3E-79CE-41EC-A115-D148EE83AA6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apha.Services.Tests", "tests\Apha.Services.Tests\Apha.Services.Tests.csproj", "{E7BD8896-96CB-46F0-AEA2-3A6F6E4448E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha.Services.Tests", "tests\Apha.Services.Tests\Alpha.Services.Tests.csproj", "{E7BD8896-96CB-46F0-AEA2-3A6F6E4448E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alpha.Services.Client", "src\Alpha.Services.Client\Alpha.Services.Client.csproj", "{3759C983-64A6-4E33-9F9B-DA9358CBC1CF}"
 EndProject

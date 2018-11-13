@@ -1,8 +1,8 @@
-﻿namespace Apha.Services.Tests.Services
+﻿namespace Alpha.Services.Tests.Services
 {
     using System;
     using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Customer;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
     using Fanex.Caching;
@@ -103,6 +103,23 @@
             dynamicRepository.Received().Execute(Arg.Is<GetCustomerStatusCommand>(
                 c => c.CustId == custId
                     && c.SubAccId == subAccountId));
+        }
+
+        [Fact]
+        public void GetDownlineInfo_Always_CallsDynamicRepository()
+        {
+            // Arrange
+            var custId = 1;
+            var downlineUserName = "username";
+
+            // Act
+            customerService.GetDownlineInfo(custId, downlineUserName).ConfigureAwait(false);
+
+            // Assert
+            dynamicRepository.Received().ExecuteAsync(Arg.Is<GetDownlineInfoCommand>(
+                command => command.UplineId == custId
+                        && command.UserName == downlineUserName
+                        && command.SubAccountId == 0));
         }
     }
 }

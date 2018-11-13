@@ -1,4 +1,4 @@
-﻿namespace Apha.Services.Tests.Utils
+﻿namespace Alpha.Services.Tests.Utils
 {
     using System;
     using Alpha.Services.Utils;

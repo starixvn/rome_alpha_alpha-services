@@ -30,7 +30,6 @@
                 new CustomerInfo
                 {
                     CustId=1,
-                    RoleId=1,
                     Language="en-US"
                 }
             };

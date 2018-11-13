@@ -1,9 +1,9 @@
-﻿namespace Apha.Services.Tests.Services
+﻿namespace Alpha.Services.Tests.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.WinLoss;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;

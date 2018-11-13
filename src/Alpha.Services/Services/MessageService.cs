@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Message;
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Fanex.Data.Repository;

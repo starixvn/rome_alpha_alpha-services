@@ -1,6 +1,6 @@
-﻿namespace Apha.Services.Tests.Services
+﻿namespace Alpha.Services.Tests.Services
 {
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.BalanceInfo;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
     using Fanex.Data.Repository;

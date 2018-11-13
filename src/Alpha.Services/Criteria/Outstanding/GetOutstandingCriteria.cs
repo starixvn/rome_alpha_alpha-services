@@ -1,17 +1,21 @@
-﻿namespace Alpha.Services.Criteria
+﻿namespace Alpha.Services.Criteria.Outstanding
 {
+    using Alpha.Services.Extensions;
     using Alpha.Services.Models;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using System.Collections.Generic;
 
     public class GetOutstandingCriteria : CriteriaBase
     {
         public GetOutstandingCriteria(
             UserLevel custLevel,
-            int custId)
+            int custId,
+            IEnumerable<int> productIds)
         {
-            CustLevel = custLevel;
             CustId = custId;
+            CustLevel = custLevel;
+            ProductIds = productIds == null ? string.Empty : productIds.JoinWithComma();
         }
 
         public int CustId { get; }
@@ -19,12 +23,14 @@
         [SpParam(Ignored = true)]
         public UserLevel CustLevel { get; }
 
+        public string ProductIds { get; }
+
         public override string GetSettingKey()
             => CustLevel.IsAgentLevel()
-            ? "Age_CustomerSelStatisticsInfo_Ag"
+            ? "Age_Rpt_Outstanding_Member"
             : CustLevel.IsMasterLevel()
-            ? "Age_CustomerSelStatisticsInfo_MAg"
-            : "Age_CustomerSelStatisticsInfo_SAg";
+            ? "Age_Rpt_Outstanding_Agent"
+            : "Age_Rpt_Outstanding_Master";
 
         public override bool IsValid() => CustId > 0 && !CustLevel.IsMemberLevel();
     }

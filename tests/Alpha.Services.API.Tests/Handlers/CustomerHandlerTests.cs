@@ -1,8 +1,10 @@
 ﻿namespace Alpha.Services.API.Tests.Handlers
 {
     using System.Threading;
+    using System.Threading.Tasks;
     using Alpha.Services.API.Handlers;
     using Alpha.Services.API.Requests;
+    using Alpha.Services.Models;
     using Alpha.Services.Services;
     using NSubstitute;
     using Xunit;
@@ -19,7 +21,7 @@
         }
 
         [Fact]
-        public void Handle_Always_CallsCustomerServiceIsAccountClosed()
+        public void HandleGetAccountStatusQuery_Always_CallsCustomerServiceIsAccountClosed()
         {
             // Arrange
             var request = new GetAccountStatusQuery(1, 0);
@@ -28,8 +30,37 @@
             customerHandler.Handle(request, default(CancellationToken)).ConfigureAwait(false);
 
             // Assert
-            customerService.Received()
-                .IsAccountClosed(Arg.Is(request.CustId), Arg.Is(request.SubAccountId));
+            customerService.Received().IsAccountClosed(Arg.Is(request.CustId), Arg.Is(request.SubAccountId));
+        }
+
+        [Fact]
+        public void HandleDownlineInfoQuery_Always_CallsCustomerServiceGetDownlineInfo()
+        {
+            // Arrange
+            var request = new DownlineInfoQuery(1, "username");
+
+            // Act
+            customerHandler.Handle(request, default(CancellationToken)).ConfigureAwait(false);
+
+            // Assert
+            customerService.Received().GetDownlineInfo(Arg.Is(request.CustId), Arg.Is(request.DownlineUserName));
+        }
+
+        [Fact]
+        public void HandleDownlineInfoQuery_Always_ReturnsCorrectResult()
+        {
+            // Arrange
+            var request = new DownlineInfoQuery(1, "username");
+            var downlineInfo = new DownlineInfo(2, false, true, 3);
+
+            customerService.GetDownlineInfo(request.CustId, request.DownlineUserName)
+                .Returns(Task.FromResult(downlineInfo));
+
+            // Act
+            var actualResult = customerHandler.Handle(request, default(CancellationToken)).GetAwaiter().GetResult();
+
+            // Assert
+            Assert.Equal(downlineInfo, actualResult);
         }
     }
 }

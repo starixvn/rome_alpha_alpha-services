@@ -1,4 +1,4 @@
-﻿namespace Alpha.Services.Criteria
+﻿namespace Alpha.Services.Criteria.Message
 {
     using System;
     using Fanex.Data;

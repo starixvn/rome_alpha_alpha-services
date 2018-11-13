@@ -1,11 +1,11 @@
-﻿namespace Apha.Services.Tests.Enumerations
+﻿namespace Alpha.Services.Tests.Enumerations
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
-    using Apha.Services.Tests.ModelsForTesting;
+    using Alpha.Services.Tests.ModelsForTesting;
     using Xunit;
 
     public class EnumerationTests
@@ -361,6 +361,20 @@
 
             // Assert
             Assert.Equal(expectedHashCode, actual);
+        }
+
+        [Fact]
+        public void ToString_Always_ReturnsDisplayName()
+        {
+            // Arrange
+            var displayName = "Agent";
+            UserLevel value = Enumeration.FromDisplayName<UserLevel>(displayName);
+
+            // Act
+            var actual = value.ToString();
+
+            // Assert
+            Assert.Equal(displayName, actual);
         }
 
         [Theory]

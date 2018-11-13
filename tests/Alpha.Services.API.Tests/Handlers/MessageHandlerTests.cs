@@ -13,7 +13,6 @@
     using Alpha.Services.Models;
     using Alpha.Services.Params;
     using Alpha.Services.Services;
-    using Fanex.Logging;
     using NSubstitute;
     using Xunit;
 
@@ -30,7 +29,7 @@
             messageService = Substitute.For<MessageService>();
             customerService = Substitute.For<CustomerService>();
 
-            messageHandler = new MessageHandler(appSettings, messageService, customerService, Substitute.For<ILogger>());
+            messageHandler = new MessageHandler(appSettings, messageService, customerService);
 
             appSettings.IsLocalTest.Returns(true);
         }
@@ -138,7 +137,7 @@
                 ToTime = new DateTimeOffset(toTime).ToUnixTimeMilliseconds(),
                 Customers = new List<CustomerInfo>
                 {
-                    new CustomerInfo { CustId = 1, RoleId = CustLevel.Agent, Language = "en-US" }
+                    new CustomerInfo { CustId = 1, Language = "en-US" }
                 }
             };
     }

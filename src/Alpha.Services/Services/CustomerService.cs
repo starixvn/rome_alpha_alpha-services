@@ -1,18 +1,19 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Alpha.Services.Criteria;
-using Alpha.Services.Models;
-using Fanex.Caching;
-using Fanex.Data.Repository;
-
-[assembly: InternalsVisibleTo("Apha.Services.Tests")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Alpha.Services.Tests")]
 
 namespace Alpha.Services.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Alpha.Services.Criteria.Customer;
+    using Alpha.Services.Models;
+    using Fanex.Caching;
+    using Fanex.Data.Repository;
+
     public interface CustomerService
     {
         Task<Customer> GetCustomerInfo(int custId);
+
+        Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName);
 
         Task<bool> IsAccountClosed(int custId, int subAccountId);
     }
@@ -37,6 +38,15 @@ namespace Alpha.Services.Services
                 $"{CustomerInfoCacheKey}.{custId}",
                 () => dynamicRepository.Get<Customer>(new GetCustomerInfoCriteria(custId)),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+
+        public async Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName)
+        {
+            var command = new GetDownlineInfoCommand(custId, downlineUserName, 0);
+
+            await dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
+
+            return new DownlineInfo(command.CustId, command.IsSubAcc, command.IsActive, (byte)command.RoleId);
+        }
 
         public async Task<bool> IsAccountClosed(int custId, int subAccountId)
             => await cacheService.GetOrSetAsync(

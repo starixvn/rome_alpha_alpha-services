@@ -1,13 +1,19 @@
 ﻿namespace Alpha.Services.Services
 {
-    using System.Threading.Tasks;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.Outstanding;
     using Alpha.Services.Models;
+    using Alpha.Services.Params;
     using Fanex.Data.Repository;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface OutstandingService
     {
-        Task<OutstandingModel> GetOutstanding(UserLevel custLevel, int custId);
+        Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param);
+
+        Task<OutstandingModel> GetDownlineOutstanding(OutstandingParam param);
+
+        Task<TotalOutstandingModel> GetTotalOutstanding(UserLevel custLevel, int custId);
     }
 
     public class OutstandingServiceImpl : OutstandingService
@@ -19,8 +25,19 @@
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<OutstandingModel> GetOutstanding(UserLevel custLevel, int custId)
+        public async Task<IEnumerable<OutstandingModel>> GetOutstandings(OutstandingParam param)
+            => await dynamicRepository.FetchAsync<OutstandingModel>(
+                new GetOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds))
+                .ConfigureAwait(false);
+
+        public async Task<OutstandingModel> GetDownlineOutstanding(OutstandingParam param)
             => await dynamicRepository.GetAsync<OutstandingModel>(
-                new GetOutstandingCriteria(custLevel, custId));
+                new GetDownlineOutstandingCriteria(param.CustLevel, param.CustId, param.ProductIds, param.DownlineId))
+                .ConfigureAwait(false);
+
+        public async Task<TotalOutstandingModel> GetTotalOutstanding(UserLevel custLevel, int custId)
+            => await dynamicRepository.GetAsync<TotalOutstandingModel>(
+                new GetTotalOutstandingCriteria(custLevel, custId))
+                .ConfigureAwait(false);
     }
 }

@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
-    <Version>1.0.2-beta2</Version>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <Version>1.0.3-beta10</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Starix Soft</Authors>
     <Company>Starix Soft</Company>
-    <PackageReleaseNotes>- Add Log Service</PackageReleaseNotes>
+    <PackageReleaseNotes>- Outstanding detail</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

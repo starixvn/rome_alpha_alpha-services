@@ -29,7 +29,7 @@
             var toTime = DateTimeOffset.Now;
             var customers = new List<Customer>
             {
-                new Customer { CustId = 1, RoleId = 2, Language = "en-US" }
+                new Customer { CustId = 1, Language = "en-US" }
             };
 
             var request = new RestRequest("message", Method.POST);
@@ -58,7 +58,7 @@
             var toTime = DateTimeOffset.Now;
             var customers = new List<Customer>
             {
-                new Customer { CustId = 1, RoleId = 2, Language = "en-US" }
+                new Customer { CustId = 1, Language = "en-US" }
             };
 
             var expectedResult = new List<Message>
@@ -88,7 +88,7 @@
             var toTime = DateTimeOffset.Now;
             var customers = new List<Customer>
             {
-                new Customer { CustId = 1, RoleId = 2, Language = "en-US" }
+                new Customer { CustId = 1, Language = "en-US" }
             };
 
             var restResponse = Substitute.For<IRestResponse<List<Message>>>();
@@ -109,7 +109,7 @@
             var toTime = DateTimeOffset.Now;
             var customers = new List<Customer>
             {
-                new Customer { CustId = 1, RoleId = 2, Language = "en-US" }
+                new Customer { CustId = 1, Language = "en-US" }
             };
 
             var request = new RestRequest("message", Method.POST);
@@ -138,7 +138,7 @@
             var toTime = DateTimeOffset.Now;
             var customers = new List<Customer>
             {
-                new Customer { CustId = 1, RoleId = 2, Language = "en-US" }
+                new Customer { CustId = 1, Language = "en-US" }
             };
 
             var expectedResult = new List<Message>
@@ -169,7 +169,7 @@
             var toTime = DateTimeOffset.Now;
             var customers = new List<Customer>
             {
-                new Customer { CustId = 1, RoleId = 2, Language = "en-US" }
+                new Customer { CustId = 1, Language = "en-US" }
             };
 
             var restResponse = Substitute.For<IRestResponse<List<Message>>>();

@@ -1,24 +1,28 @@
 ﻿namespace Alpha.Services.API.Handlers
 {
+    using Alpha.Services.API.Infrastructure.Exceptions;
+    using Alpha.Services.API.Requests;
+    using Alpha.Services.Models;
+    using Alpha.Services.Services;
+    using MediatR;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using Alpha.Services.API.Infrastructure.Exceptions;
-    using Alpha.Services.API.Requests;
-    using Alpha.Services.Services;
-    using MediatR;
 
     public class BalanceInfoHandler : IRequestHandler<BalanceInfoQuery, IDictionary<string, object>>
     {
         private readonly CustomerService customerService;
         private readonly BalanceInfoService balanceInfoService;
+        private readonly OutstandingService outstandingService;
 
         public BalanceInfoHandler(
             CustomerService customerService,
-            BalanceInfoService balanceInfoService)
+            BalanceInfoService balanceInfoService,
+            OutstandingService outstandingService)
         {
             this.customerService = customerService;
             this.balanceInfoService = balanceInfoService;
+            this.outstandingService = outstandingService;
         }
 
         public async Task<IDictionary<string, object>> Handle(BalanceInfoQuery request, CancellationToken cancellationToken)
@@ -30,8 +34,9 @@
                 throw new DomainException("Customer does not exist");
             }
 
-            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, request.CustId);
             var directDownlineLevel = customer.CustLevel.GetDirectDownLineLevel();
+            var balanceInfo = await balanceInfoService.GetBalanceInfo(customer.CustLevel, request.CustId);
+            var outstanding = await outstandingService.GetTotalOutstanding(customer.CustLevel, request.CustId);
 
             return new Dictionary<string, object>
             {
@@ -43,7 +48,9 @@
                 [nameof(balanceInfo.TodayWinLoss)] = balanceInfo.TodayWinLoss,
                 [nameof(balanceInfo.YesterdayWinLoss)] = balanceInfo.YesterdayWinLoss,
                 [nameof(balanceInfo.GivenCredit)] = balanceInfo.GivenCredit,
-                [directDownlineLevel.DisplayName + nameof(balanceInfo.TotalCredit)] = balanceInfo.TotalCredit
+                [$"{directDownlineLevel.DisplayName}{nameof(balanceInfo.TotalCredit)}"] = balanceInfo.TotalCredit,
+                [$"{UserLevel.Member.DisplayName}Outstanding"] = outstanding.TotalOutstanding,
+                [$"{customer.CustLevel.DisplayName}Outstanding"] = outstanding.Outstanding
             };
         }
     }

@@ -1,7 +1,7 @@
-﻿namespace Apha.Services.Tests.Criteria
+﻿namespace Alpha.Services.Tests.Criteria.BalanceInfo
 {
     using System;
-    using Alpha.Services.Criteria;
+    using Alpha.Services.Criteria.BalanceInfo;
     using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
     using Xunit;
