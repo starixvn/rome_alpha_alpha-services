@@ -30,15 +30,15 @@
       <Mapping DataField="AgentOutstanding" ObjectProperty="Outstanding" />
     </Setting>
 
-    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master_uat2" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
       <Mapping DataField="SuperOutstanding" ObjectProperty="Outstanding" />
     </Setting>
-    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent_uat2" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
       <Mapping DataField="MasterOutstanding" ObjectProperty="Outstanding" />
     </Setting>
-    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member_uat2" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
       <Mapping DataField="AgentOutstanding" ObjectProperty="Outstanding" />
     </Setting>
