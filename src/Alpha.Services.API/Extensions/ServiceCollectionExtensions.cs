@@ -6,6 +6,7 @@
     using Alpha.Services.Services;
     using Fanex.Caching;
     using Fanex.Data.Repository;
+    using Fanex.RemotingRef;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
@@ -103,6 +104,7 @@
             services.AddSingleton<MessageService, MessageServiceImpl>();
             services.AddSingleton<LogService, LogServiceImpl>();
             services.AddSingleton<OutstandingService, OutstandingServiceImpl>();
+            services.AddSingleton<IRemotingRefService, RemotingRefService>();
 
             return services;
         }

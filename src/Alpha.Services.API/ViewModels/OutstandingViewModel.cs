@@ -9,12 +9,14 @@
             byte custLevel,
             int hiddenDownlinesCount,
             OutstandingModel total,
-            IEnumerable<OutstandingModel> topOutstandings)
+            IEnumerable<OutstandingModel> topOutstandings,
+            string downlineName = "")
         {
             CustLevel = custLevel;
             HiddenDownlinesCount = hiddenDownlinesCount > 0 ? hiddenDownlinesCount : 0;
             Total = total;
             TopOutstandings = topOutstandings;
+            DownlineName = downlineName;
         }
 
         public byte CustLevel { get; }
@@ -24,5 +26,7 @@
         public OutstandingModel Total { get; }
 
         public IEnumerable<OutstandingModel> TopOutstandings { get; }
+
+        public string DownlineName { get; }
     }
 }

@@ -98,69 +98,38 @@
         public void HandleDownlineOutstanding_Always_CallsGetDownlineOutstanding()
         {
             // Arrange
-            var request = new DownlineOutstandingQuery(1, CustLevel.Agent, 2);
+            var request = new DownlineOutstandingQuery(1, CustLevel.Agent, 2, "member01", "en-US");
             IEnumerable<int> productIds = new List<int> { 1, 2, 3 };
-            var param = new OutstandingParam(request.CustLevel, request.CustId, productIds, request.DownlineId);
+            var param = new OutstandingParam(request.CustLevel, request.DownlineId, productIds, request.Language);
             productService.GetOfferedProductIdsForCustomer(Arg.Any<int>(), Arg.Any<DateTime?>()).Returns(Task.FromResult(productIds));
 
             // Act
             outstandingHandler.Handle(request, default(CancellationToken)).ConfigureAwait(false);
 
             // Assert
-            outstandingService.Received().GetDownlineOutstanding(Arg.Is<OutstandingParam>(
-                p => p.CustId == param.CustId && p.CustLevel == param.CustLevel && p.ProductIds == param.ProductIds && p.DownlineId == param.DownlineId));
+            outstandingService.Received().GetDownlineOutstandings(Arg.Is<OutstandingParam>(
+                p => p.CustId == param.CustId && p.CustLevel == param.CustLevel && p.ProductIds == param.ProductIds && p.CustId == param.CustId));
         }
 
         [Fact]
-        public void HandleDownlineOutstanding_Always_ReturnsCorrectDictionary()
+        public void HandleDownlineOutstanding_InvalidDownlineId_ReturnsEmptyResult()
         {
             // Arrange
-            var compareLogic = new CompareLogic();
-            var request = new DownlineOutstandingQuery(1, CustLevel.Agent, 2);
+            var request = new DownlineOutstandingQuery(1, CustLevel.Agent, 0, "member01", "en-US");
 
             IEnumerable<int> productIds = new List<int> { 1, 2, 3 };
             productService.GetOfferedProductIdsForCustomer(Arg.Any<int>(), Arg.Any<DateTime?>())
                 .Returns(Task.FromResult(productIds));
 
-            var outstanding = new OutstandingModel(2, "cust1", 1, 2);
-            outstandingService.GetDownlineOutstanding(Arg.Any<OutstandingParam>())
-                .Returns(Task.FromResult(outstanding));
-
-            var expectedViewModel = new Dictionary<string, object>
-            {
-                ["Username"] = outstanding.CustName,
-                [UserLevel.Member.DisplayName] = outstanding.MemberOutstanding,
-                [request.CustLevel.DisplayName] = outstanding.Outstanding
-            };
+            outstandingService.GetDownlineOutstandings(Arg.Any<OutstandingParam>())
+                .Returns(Task.FromResult(Enumerable.Empty<OutstandingModel>()));
 
             // Act
-            var actualViewModel = outstandingHandler.Handle(request, default(CancellationToken))
+            var actualResults = outstandingHandler.Handle(request, default(CancellationToken))
                 .GetAwaiter().GetResult();
 
             // Assert
-            Assert.True(compareLogic.Compare(expectedViewModel, actualViewModel).AreEqual);
-        }
-
-        [Fact]
-        public void HandleDownlineOutstanding_InvalidDownlineId_ReturnsEmptyDictionary()
-        {
-            // Arrange
-            var request = new DownlineOutstandingQuery(1, CustLevel.Agent, 0);
-
-            IEnumerable<int> productIds = new List<int> { 1, 2, 3 };
-            productService.GetOfferedProductIdsForCustomer(Arg.Any<int>(), Arg.Any<DateTime?>())
-                .Returns(Task.FromResult(productIds));
-
-            OutstandingModel outstanding = null;
-            outstandingService.GetDownlineOutstanding(Arg.Any<OutstandingParam>())
-                .Returns(Task.FromResult(outstanding));
-
-            // Act
-            var actualViewModel = outstandingHandler.Handle(request, default(CancellationToken))
-                .GetAwaiter().GetResult();
-
-            // Assert
-            Assert.Equal(0, actualViewModel.Count);
+            Assert.Empty(actualResults.TopOutstandings);
         }
     }
 }

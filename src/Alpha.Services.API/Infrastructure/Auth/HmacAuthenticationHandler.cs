@@ -75,7 +75,15 @@
                 }
             }
 
-            logger.Info("Missing or malformed 'Authorization' header.");
+            if (appSettings.DisableAuthentication)
+            {
+                logger.Info("Missing or malformed 'Authorization' header.");
+
+                var identity = new ClaimsIdentity("HMAC");
+                var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), "HMAC");
+
+                return Task.FromResult(AuthenticateResult.Success(ticket));
+            }
 
             return Task.FromResult(AuthenticateResult.Fail("Missing or malformed 'Authorization' header."));
         }

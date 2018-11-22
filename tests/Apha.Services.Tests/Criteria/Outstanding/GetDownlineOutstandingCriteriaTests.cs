@@ -16,30 +16,17 @@
         {
             // Arrange
             var custLevel = Enumeration.FromValue<UserLevel>(custLevelId);
-            var criteria = new GetDownlineOutstandingCriteria(custLevel, 0, Enumerable.Empty<int>(), 1);
+            var criteria = new GetDownlineOutstandingCriteria(custLevel, Enumerable.Empty<int>(), 1);
 
             // Act & Assert
             Assert.Equal(expectedSettingKey, criteria.GetSettingKey());
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(int.MinValue)]
-        public void IsValid_InvalidCustId_ReturnsFalse(int custId)
-        {
-            // Arrange
-            var criteria = new GetDownlineOutstandingCriteria(UserLevel.Agent, custId, Enumerable.Empty<int>(), 1);
-
-            // Act & Assert
-            Assert.False(criteria.IsValid());
         }
 
         [Fact]
         public void IsValid_CustLevelIsMember_ReturnsFalse()
         {
             // Arrange
-            var criteria = new GetDownlineOutstandingCriteria(UserLevel.Member, 1, Enumerable.Empty<int>(), 1);
+            var criteria = new GetDownlineOutstandingCriteria(UserLevel.Member, Enumerable.Empty<int>(), 1);
 
             // Act & Assert
             Assert.False(criteria.IsValid());
@@ -52,7 +39,7 @@
         public void IsValid_InvalidDownlineId_ReturnsFalse(int downlineId)
         {
             // Arrange
-            var criteria = new GetDownlineOutstandingCriteria(UserLevel.Agent, 1, Enumerable.Empty<int>(), downlineId);
+            var criteria = new GetDownlineOutstandingCriteria(UserLevel.Agent, Enumerable.Empty<int>(), downlineId);
 
             // Act & Assert
             Assert.False(criteria.IsValid());
@@ -67,7 +54,6 @@
             // Arrange
             var criteria = new GetDownlineOutstandingCriteria(
                 Enumeration.FromValue<UserLevel>(custLevel),
-                1,
                 Enumerable.Empty<int>(),
                 1);
 

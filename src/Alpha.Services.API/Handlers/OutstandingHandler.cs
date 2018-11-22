@@ -16,7 +16,7 @@ namespace Alpha.Services.API.Handlers
 
     public class OutstandingHandler :
         IRequestHandler<OutstandingQuery, OutstandingViewModel>,
-        IRequestHandler<DownlineOutstandingQuery, IDictionary<string, object>>
+        IRequestHandler<DownlineOutstandingQuery, OutstandingViewModel>
     {
         private readonly ProductService productService;
         private readonly OutstandingService outstandingService;
@@ -48,13 +48,13 @@ namespace Alpha.Services.API.Handlers
                 topOutstandings);
         }
 
-        internal static OutstandingModel AccummulateTotal(IEnumerable<OutstandingModel> outstandingDetails)
+        internal static OutstandingModel AccummulateTotal(IEnumerable<OutstandingModel> outstandings)
         {
             var total = new OutstandingModel();
 
-            if (outstandingDetails != null && outstandingDetails.Any())
+            if (outstandings != null && outstandings.Any())
             {
-                foreach (var outstanding in outstandingDetails)
+                foreach (var outstanding in outstandings)
                 {
                     total.Add(outstanding);
                 }
@@ -63,21 +63,19 @@ namespace Alpha.Services.API.Handlers
             return total;
         }
 
-        public async Task<IDictionary<string, object>> Handle(DownlineOutstandingQuery request, CancellationToken cancellationToken)
+        public async Task<OutstandingViewModel> Handle(DownlineOutstandingQuery request, CancellationToken cancellationToken)
         {
             var productIds = await productService.GetOfferedProductIdsForCustomer(request.CustId, SystemTime.Today);
 
-            var param = new OutstandingParam(request.CustLevel, request.CustId, productIds, request.DownlineId);
-            var outstanding = await outstandingService.GetDownlineOutstanding(param);
+            var param = new OutstandingParam(request.CustLevel, request.DownlineId, productIds, request.Language);
+            var outstandings = await outstandingService.GetDownlineOutstandings(param);
 
-            return outstanding == null
-                ? new Dictionary<string, object>()
-                : new Dictionary<string, object>
-                {
-                    ["Username"] = outstanding.CustName,
-                    [UserLevel.Member.DisplayName] = outstanding.MemberOutstanding,
-                    [request.CustLevel.DisplayName] = outstanding.Outstanding
-                };
+            return new OutstandingViewModel(
+                request.CustLevel.Value,
+                0,
+                AccummulateTotal(outstandings),
+                outstandings,
+                request.DownlineName);
         }
     }
 }
