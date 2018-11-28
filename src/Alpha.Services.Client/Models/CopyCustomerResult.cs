@@ -1,6 +1,6 @@
 ﻿namespace Alpha.Services.Client.Models
 {
-    public class CloneCustomerResult
+    public class CopyCustomerResult
     {
         public int CustId { get; set; }
 

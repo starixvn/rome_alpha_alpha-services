@@ -17,53 +17,83 @@
             copyCustomerService = new CopyCustomerServiceImpl(restClient);
         }
 
-        //[Fact]
-        //public void GetPTWithoutSite_Always_CallsExecuteGet()
-        //{
-        //    // Arrange
-        //    var custId = 33193062;
-        //    byte custLevel = 4;
+        [Fact]
+        public void GetPTWithoutSite_Always_CallsExecuteGetAsync()
+        {
+            // Arrange
+            var custId = 33193062;
+            byte custLevel = 4;
 
-        //    var request = new RestRequest($"customer/{custId}/{custLevel}/pt?site=", Method.GET);
+            var request = new RestRequest($"customer/{custId}/{custLevel}/pt?site=", Method.GET);
 
-        //    var restResponse = Substitute.For<IRestResponse<CustomerPTInfo>>();
-        //    restResponse.IsSuccessful.Returns(true);
-        //    restResponse.Data.Returns(new CustomerPTInfo());
-        //    restClient.Execute<CustomerPTInfo>(Arg.Any<IRestRequest>())
-        //        .Returns(restResponse);
+            var restResponse = Substitute.For<IRestResponse<CustomerPTInfo>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new CustomerPTInfo());
+            restClient.ExecuteTaskAsync<CustomerPTInfo>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
 
-        //    // Act
-        //    copyCustomerService.GetPT(custId, custLevel);
+            // Act
+            copyCustomerService.GetPT(custId, custLevel).ConfigureAwait(false);
 
-        //    // Assert
-        //    restClient.Received().Execute<CustomerPTInfo>(Arg.Is<IRestRequest>(
-        //        r => r.Resource == request.Resource
-        //            && r.Method == request.Method));
-        //}
+            // Assert
+            restClient.Received().ExecuteTaskAsync<CustomerPTInfo>(Arg.Is<IRestRequest>(
+                r => r.Resource == request.Resource
+                    && r.Method == request.Method));
+        }
 
-        //[Fact]
-        //public void GetPT_Always_CallsExecuteGet()
-        //{
-        //    // Arrange
-        //    var custId = 33193062;
-        //    byte custLevel = 4;
-        //    var site = "BEST-ODDS";
+        [Fact]
+        public void GetPT_Always_CallsExecuteGetAsync()
+        {
+            // Arrange
+            var custId = 33193062;
+            byte custLevel = 4;
+            var site = "BEST-ODDS";
 
-        //    var request = new RestRequest($"customer/{custId}/{custLevel}/pt?site={site}", Method.GET);
+            var request = new RestRequest($"customer/{custId}/{custLevel}/pt?site={site}", Method.GET);
 
-        //    var restResponse = Substitute.For<IRestResponse<CustomerPTInfo>>();
-        //    restResponse.IsSuccessful.Returns(true);
-        //    restResponse.Data.Returns(new CustomerPTInfo());
-        //    restClient.Execute<CustomerPTInfo>(Arg.Any<IRestRequest>())
-        //        .Returns(restResponse);
+            var restResponse = Substitute.For<IRestResponse<CustomerPTInfo>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new CustomerPTInfo());
+            restClient.ExecuteTaskAsync<CustomerPTInfo>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
 
-        //    // Act
-        //    copyCustomerService.GetPT(custId, custLevel, site);
+            // Act
+            copyCustomerService.GetPT(custId, custLevel, site).ConfigureAwait(false);
 
-        //    // Assert
-        //    restClient.Received().Execute<CustomerPTInfo>(Arg.Is<IRestRequest>(
-        //        r => r.Resource == request.Resource
-        //            && r.Method == request.Method));
-        //}
+            // Assert
+            restClient.Received().ExecuteTaskAsync<CustomerPTInfo>(Arg.Is<IRestRequest>(
+                r => r.Resource == request.Resource
+                    && r.Method == request.Method));
+        }
+
+        [Fact]
+        public void Copy_Always_CallsExecuteTaskAsync()
+        {
+            // Arrange
+            var copyData = Substitute.For<ICopyCustomerData>();
+            copyData.ActorId.Returns(33193110);
+            copyData.ActorUserLevel.Returns((byte)4);
+            copyData.UserName.Returns("leemaster00");
+            copyData.Credit.Returns(10);
+            copyData.SourceCustId.Returns(33193111);
+            copyData.Language.Returns("en-US");
+            copyData.IP.Returns(string.Empty);
+
+            var restResponse = Substitute.For<IRestResponse<CopyCustomerResult>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new CopyCustomerResult());
+            restClient.ExecuteTaskAsync<CopyCustomerResult>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            copyCustomerService.Copy(copyData).ConfigureAwait(false);
+
+            // Assert
+            restClient
+                .Received()
+                .ExecuteTaskAsync<CopyCustomerResult>(Arg.Is<IRestRequest>(
+                    r => r.Resource == "customer/copy"
+                    && r.Method == Method.POST));
+        }
     }
 }

@@ -13,11 +13,13 @@
 
         Task<CustomerPTInfo> GetPT(int custId, byte custLevel, string site);
 
-        Task<CloneCustomerResult> Copy(ICopyCustomerData data);
+        Task<CopyCustomerResult> Copy(ICopyCustomerData data);
     }
 
     public class CopyCustomerServiceImpl : BaseService, CopyCustomerService
     {
+        private const byte ChatbotSystemId = 8;
+
         public CopyCustomerServiceImpl()
             : this(null)
         {
@@ -41,8 +43,8 @@
         public async Task<CustomerPTInfo> GetPT(int custId, byte custLevel, string site)
             => await GetAsync<CustomerPTInfo>($"customer/{custId}/{custLevel}/pt?site={site}");
 
-        public async Task<CloneCustomerResult> Copy(ICopyCustomerData data)
-            => await PostAsync<CloneCustomerResult>("customer/copy",
+        public async Task<CopyCustomerResult> Copy(ICopyCustomerData data)
+            => await PostAsync<CopyCustomerResult>("customer/copy",
                 new
                 {
                     data.ActorId,
@@ -53,7 +55,7 @@
                     data.SourceCustId,
                     data.Language,
                     data.IP,
-                    data.SystemId
+                    systemId = ChatbotSystemId
                 });
     }
 }

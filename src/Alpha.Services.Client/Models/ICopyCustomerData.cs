@@ -17,7 +17,5 @@
         string Language { get; }
 
         string IP { get; }
-
-        byte SystemId { get; }
     }
 }
