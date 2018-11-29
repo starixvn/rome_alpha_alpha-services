@@ -19,6 +19,14 @@
             this.mediator = mediator;
         }
 
+        [HttpGet("{custId}")]
+        public async Task<ActionResult> GetCustomer(int custId)
+        {
+            var customer = await mediator.Send(new GetCustomerQuery(custId));
+
+            return Ok(customer);
+        }
+
         [HttpGet("{custId}/isaccountclosed/{subAccountId}")]
         public async Task<ActionResult> IsAccountClosed(int custId, int subAccountId)
         {

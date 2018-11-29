@@ -62,5 +62,18 @@
             // Assert
             Assert.Equal(downlineInfo, actualResult);
         }
+
+        [Fact]
+        public void HandlerGetCustomerQuery_Alwyas_CallsGetCustomerInfo()
+        {
+            // Arrange
+            var request = new GetCustomerQuery(1);
+
+            // Act
+            customerHandler.Handle(request, default(CancellationToken)).ConfigureAwait(false);
+
+            // Assert
+            customerService.Received().GetCustomerInfo(request.CustId);
+        }
     }
 }

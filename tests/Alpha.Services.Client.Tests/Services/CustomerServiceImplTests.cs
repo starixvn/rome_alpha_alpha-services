@@ -82,5 +82,27 @@
                 r => r.Resource == request.Resource
                     && r.Method == request.Method));
         }
+
+        [Fact]
+        public void GetCustomer_Always_CallsExcuteTaskAsync()
+        {
+            // Arrange
+            var custId = 1;
+            var request = new RestRequest($"customer/{custId}", Method.GET);
+            var response = Substitute.For<IRestResponse<CustomerInfo>>();
+            response.IsSuccessful.Returns(true);
+            response.Data.Returns(new CustomerInfo());
+            restClient.ExecuteTaskAsync<CustomerInfo>(Arg.Any<IRestRequest>())
+                .Returns(response);
+
+            // Act
+            customerService.GetCustomer(custId).ConfigureAwait(false);
+
+            // Assert
+            restClient.Received().ExecuteTaskAsync<CustomerInfo>(
+                Arg.Is<IRestRequest>(
+                    r => r.Resource == request.Resource
+                        && r.Method == request.Method));
+        }
     }
 }

@@ -6,6 +6,8 @@
 
     public interface CustomerService
     {
+        Task<CustomerInfo> GetCustomer(int custId);
+
         Task<bool> IsAccountClosed(int custId, int subAccountId);
 
         Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName);
@@ -22,6 +24,9 @@
             : base(restClient)
         {
         }
+
+        public async Task<CustomerInfo> GetCustomer(int custId)
+            => await GetAsync<CustomerInfo>($"customer/{custId}");
 
         public async Task<bool> IsAccountClosed(int custId, int subAccountId)
             => await GetAsync<bool>($"customer/{custId}/isaccountclosed/{subAccountId}");
