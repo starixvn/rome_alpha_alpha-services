@@ -53,6 +53,7 @@
                     data.Credit,
                     data.MaxCredit,
                     data.SourceCustId,
+                    data.SourceUsername,
                     data.Language,
                     data.IP,
                     systemId = ChatbotSystemId

@@ -8,6 +8,14 @@
 
         public string Password { get; set; }
 
+        public int CustLevel { get; set; }
+
+        public string SourceUsername { get; set; }
+
+        public decimal Credit { get; set; }
+
+        public decimal MaxCredit { get; set; }
+
         public int Code { get; set; }
 
         public string Message { get; set; }

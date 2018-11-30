@@ -4,7 +4,7 @@
     {
         int ActorId { get; }
 
-        byte ActorUserLevel { get;  }
+        byte ActorUserLevel { get; }
 
         string UserName { get; }
 
@@ -13,6 +13,8 @@
         decimal MaxCredit { get; }
 
         int SourceCustId { get; }
+
+        string SourceUsername { get; }
 
         string Language { get; }
 

@@ -76,6 +76,7 @@
             copyData.UserName.Returns("leemaster00");
             copyData.Credit.Returns(10);
             copyData.SourceCustId.Returns(33193111);
+            copyData.SourceUsername.Returns("sourceUsername");
             copyData.Language.Returns("en-US");
             copyData.IP.Returns(string.Empty);
 
