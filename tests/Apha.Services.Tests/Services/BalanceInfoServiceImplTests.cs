@@ -1,5 +1,7 @@
 ﻿namespace Alpha.Services.Tests.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Alpha.Services.Criteria.BalanceInfo;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
@@ -43,6 +45,48 @@
             // Assert
             dynamicRepository.Received().GetAsync<BalanceInfo>(
                 Arg.Is<GetBalanceInfoCriteria>(c => c.CustLevel == custLevel && c.CustId == custId));
+        }
+
+        [Fact]
+        public async Task GetBalances_Always_CallsDynamicRepository()
+        {
+            // Arrange
+            var custId = 1;
+            var custLevel = UserLevel.Agent;
+
+            // Act
+            await balanceInfoService.GetBalances(custLevel, custId, 50);
+
+            // Assert
+            await dynamicRepository
+                .Received()
+                .FetchAsync<BalanceItem>(Arg.Any<GetCreditBalanceCriteria>());
+        }
+
+        [Fact]
+        public async Task GetBalances_Total_CalculateCorrectValue()
+        {
+            // Arrange
+            var custId = 1;
+            var custLevel = UserLevel.Agent;
+            var balances = new List<BalanceItem>
+            {
+                new BalanceItem(0, 0),
+                new BalanceItem(5, 10),
+                new BalanceItem(15, 20),
+                new BalanceItem(25, 30)
+            };
+            dynamicRepository
+                .FetchAsync<BalanceItem>(Arg.Any<GetCreditBalanceCriteria>())
+                .Returns(balances);
+
+            // Act
+            var actualResult = await balanceInfoService.GetBalances(custLevel, custId, 50);
+
+            // Assert
+            Assert.True(
+                actualResult.Total.Balance == 45
+                && actualResult.Total.YesterdayBalance == 60);
         }
     }
 }

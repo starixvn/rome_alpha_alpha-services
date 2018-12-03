@@ -6,6 +6,7 @@
     using Alpha.Services.API.Handlers;
     using Alpha.Services.API.Requests;
     using Alpha.Services.API.Tests.Constants;
+    using Alpha.Services.Enumerations;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
     using NSubstitute;
@@ -94,6 +95,21 @@
 
             // Assert
             Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public async Task HandleTopBanlanceInfo_Always_CallsGetBalancesService()
+        {
+            // Arrange
+            var request = new BalanceQuery(1, 2, 50);
+
+            // Act
+            await balanceInfoHandler.Handle(request, default(CancellationToken));
+
+            // Assert
+            await balanceInfoService
+                .Received()
+                .GetBalances(Enumeration.FromValue<UserLevel>(request.CustLevel), request.CustId, request.Top);
         }
     }
 }

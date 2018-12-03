@@ -15,6 +15,17 @@
       <Mapping DataField="ProductID" ObjectProperty="id" />
     </Setting>
   </Function>
+  <Function Name="Credit/Balance">
+    <Setting Key="Age_CustomerSelCreditBalanceList_Ag" SpName="Age_CustomerSelCreditBalanceList_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="Yesterday_Balance" ObjectProperty="YesterdayBalance" />
+    </Setting>
+    <Setting Key="Age_CustomerSelCreditBalanceList_Mag" SpName="Age_CustomerSelCreditBalanceList_MAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="Yesterday_Balance" ObjectProperty="YesterdayBalance" />
+    </Setting>
+    <Setting Key="Age_CustomerSelCreditBalanceList_Sag" SpName="Age_CustomerSelCreditBalanceList_SAg" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="Yesterday_Balance" ObjectProperty="YesterdayBalance" />
+    </Setting>
+  </Function>
   <Function Name="Win Loss">
     <Setting Key="Age_Rpt_SumWinLoss_Master" SpName="Age_Rpt_SumWinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
     <Setting Key="Age_Rpt_SumWinLoss_Agent" SpName="Age_Rpt_SumWinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />

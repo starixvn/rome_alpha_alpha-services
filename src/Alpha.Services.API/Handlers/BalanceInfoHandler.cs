@@ -1,15 +1,18 @@
 ﻿namespace Alpha.Services.API.Handlers
 {
-    using Alpha.Services.API.Infrastructure.Exceptions;
-    using Alpha.Services.API.Requests;
-    using Alpha.Services.Models;
-    using Alpha.Services.Services;
-    using MediatR;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Alpha.Services.API.Infrastructure.Exceptions;
+    using Alpha.Services.API.Requests;
+    using Alpha.Services.Enumerations;
+    using Alpha.Services.Models;
+    using Alpha.Services.Services;
+    using MediatR;
 
-    public class BalanceInfoHandler : IRequestHandler<BalanceInfoQuery, IDictionary<string, object>>
+    public class BalanceInfoHandler :
+        IRequestHandler<BalanceInfoQuery, IDictionary<string, object>>,
+        IRequestHandler<BalanceQuery, BalanceTotal>
     {
         private readonly CustomerService customerService;
         private readonly BalanceInfoService balanceInfoService;
@@ -53,5 +56,11 @@
                 [$"{customer.CustLevel.DisplayName}Outstanding"] = outstanding.Outstanding
             };
         }
+
+        public async Task<BalanceTotal> Handle(BalanceQuery request, CancellationToken cancellationToken)
+            => await balanceInfoService.GetBalances(
+                Enumeration.FromValue<UserLevel>(request.CustLevel),
+                request.CustId,
+                request.Top);
     }
 }

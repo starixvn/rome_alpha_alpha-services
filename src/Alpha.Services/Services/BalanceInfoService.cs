@@ -1,5 +1,6 @@
 ﻿namespace Alpha.Services.Services
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Alpha.Services.Criteria.BalanceInfo;
     using Alpha.Services.Models;
@@ -8,6 +9,8 @@
     public interface BalanceInfoService
     {
         Task<BalanceInfo> GetBalanceInfo(UserLevel custLevel, int custId);
+
+        Task<BalanceTotal> GetBalances(UserLevel custLevel, int custId, int top);
     }
 
     public class BalanceInfoServiceImpl : BalanceInfoService
@@ -29,6 +32,25 @@
 
             return await dynamicRepository.GetAsync<BalanceInfo>(
                 new GetBalanceInfoCriteria(custLevel, custId, moveBetsDay));
+        }
+
+        public async Task<BalanceTotal> GetBalances(UserLevel custLevel, int custId, int top)
+        {
+            var criteria = new GetCreditBalanceCriteria(custLevel, custId);
+            var balances = (await dynamicRepository.FetchAsync<BalanceItem>(criteria))
+                .OrderByDescending(b => b.Balance)
+                .ToList();
+
+            var total = new BalanceItem(0, 0);
+
+            foreach (var item in balances)
+            {
+                total += item;
+            }
+
+            return criteria.TotalItems <= top
+                ? new BalanceTotal(custLevel.Value, 0, total, balances)
+                : new BalanceTotal(custLevel.Value, criteria.TotalItems - top, total, balances.Take(top));
         }
     }
 }
