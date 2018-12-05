@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyVersion>1.0.4.1</AssemblyVersion>
     <FileVersion>1.0.4.1</FileVersion>
-    <Version>1.0.4.1-cloneacc-04</Version>
+    <Version>1.0.4.1-cloneacc-05</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Starix Soft</Authors>
     <Company>Starix Soft</Company>

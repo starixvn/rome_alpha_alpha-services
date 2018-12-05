@@ -1,5 +1,6 @@
 ﻿namespace Alpha.Services.Client.Tests.Services
 {
+    using System.Threading.Tasks;
     using Alpha.Services.Client.Models;
     using Alpha.Services.Client.Services;
     using NSubstitute;
@@ -15,6 +16,33 @@
         {
             restClient = Substitute.For<IRestClient>();
             copyCustomerService = new CopyCustomerServiceImpl(restClient);
+        }
+
+        [Fact]
+        public async Task ValidateMaxNewMember_Always_CallsExecuteGetAsync()
+        {
+            // Arrange
+            var agentId = 33193062;
+            var language = "en-US";
+
+            var request = new RestRequest($"customer/{agentId}/ValidateMaxNewMember?language={language}", Method.GET);
+
+            var restResponse = Substitute.For<IRestResponse<Result>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new Result());
+            restClient
+                .ExecuteTaskAsync<Result>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            await copyCustomerService.ValidateMaxNewMember(agentId, language);
+
+            // Assert
+            await restClient
+                .Received()
+                .ExecuteTaskAsync<Result>(Arg.Is<IRestRequest>(
+                    r => r.Resource == request.Resource
+                    && r.Method == request.Method));
         }
 
         [Fact]

@@ -9,6 +9,8 @@
 
     public interface CopyCustomerService
     {
+        Task<Result> ValidateMaxNewMember(int agentId, string language);
+
         Task<CustomerPTInfo> GetPT(int custId, byte custLevel);
 
         Task<CustomerPTInfo> GetPT(int custId, byte custLevel, string site);
@@ -36,6 +38,9 @@
                 BaseUrl = new Uri(AppSettings.CopyCustomerServiceSettings.BaseUrl),
                 Authenticator = new HmacAuthenticator(AppSettings.CopyCustomerServiceSettings.ApiKey)
             };
+
+        public async Task<Result> ValidateMaxNewMember(int agentId, string language)
+            => await GetAsync<Result>($"customer/{agentId}/ValidateMaxNewMember?language={language}");
 
         public async Task<CustomerPTInfo> GetPT(int custId, byte custLevel)
             => await GetAsync<CustomerPTInfo>($"customer/{custId}/{custLevel}/pt?site=");
