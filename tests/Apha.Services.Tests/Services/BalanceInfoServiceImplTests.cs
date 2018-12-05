@@ -71,10 +71,10 @@
             var custLevel = UserLevel.Agent;
             var balances = new List<BalanceItem>
             {
-                new BalanceItem(0, 0),
-                new BalanceItem(5, 10),
-                new BalanceItem(15, 20),
-                new BalanceItem(25, 30)
+                new BalanceItem("master", 0, 0),
+                new BalanceItem("master1", 5, 10),
+                new BalanceItem("master2", 15, 20),
+                new BalanceItem("master3", 25, 30)
             };
             dynamicRepository
                 .FetchAsync<BalanceItem>(Arg.Any<GetCreditBalanceCriteria>())

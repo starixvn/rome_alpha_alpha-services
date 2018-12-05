@@ -41,7 +41,7 @@
                 .OrderByDescending(b => b.Balance)
                 .ToList();
 
-            var total = new BalanceItem(0, 0);
+            var total = new BalanceItem(null, 0, 0);
 
             foreach (var item in balances)
             {
