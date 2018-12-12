@@ -13,8 +13,6 @@
 
         Task<CustomerPTInfo> GetPT(int custId, byte custLevel);
 
-        Task<CustomerPTInfo> GetPT(int custId, byte custLevel, string site);
-
         Task<CopyCustomerResult> Copy(ICopyCustomerData data);
     }
 
@@ -43,10 +41,7 @@
             => await GetAsync<Result>($"customer/{agentId}/ValidateMaxNewMember?language={language}");
 
         public async Task<CustomerPTInfo> GetPT(int custId, byte custLevel)
-            => await GetAsync<CustomerPTInfo>($"customer/{custId}/{custLevel}/pt?site=");
-
-        public async Task<CustomerPTInfo> GetPT(int custId, byte custLevel, string site)
-            => await GetAsync<CustomerPTInfo>($"customer/{custId}/{custLevel}/pt?site={site}");
+            => await GetAsync<CustomerPTInfo>($"customer/{custId}/{custLevel}/pt");
 
         public async Task<CopyCustomerResult> Copy(ICopyCustomerData data)
             => await PostAsync<CopyCustomerResult>("customer/copy",
