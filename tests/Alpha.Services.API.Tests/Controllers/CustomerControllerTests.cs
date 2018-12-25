@@ -46,5 +46,18 @@
             mediator.Received().Send(Arg.Is<DownlineInfoQuery>(
                 query => query.CustId == custId && query.DownlineUserName == downlineUserName));
         }
+
+        [Fact]
+        public void GetCustomer_Always_CallsMediatorSendGetCustomerQuery()
+        {
+            // Arrange
+            var custId = 1;
+
+            // Act
+            customerController.GetCustomer(custId).ConfigureAwait(false);
+
+            // Assert
+            mediator.Received().Send(Arg.Is<GetCustomerQuery>(query => query.CustId == custId));
+        }
     }
 }

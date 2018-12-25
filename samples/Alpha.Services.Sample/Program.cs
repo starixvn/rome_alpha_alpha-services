@@ -35,6 +35,7 @@
 
             var customerService = new CustomerServiceImpl();
             IsAccountClosed(customerService);
+            GetCustomer(customerService);
         }
 
         #region Report
@@ -134,6 +135,13 @@
             var isClosed = service.IsAccountClosed(1176086, 0).Result;
 
             Console.WriteLine($"Request: IsAccountClosed, response: {isClosed}");
+        }
+
+        private static void GetCustomer(CustomerService service)
+        {
+            var customer = service.GetCustomer(1176086).Result;
+
+            Console.WriteLine($"Request: GetCustomer, response: {FormatJson(customer)}");
         }
 
         #endregion Customer

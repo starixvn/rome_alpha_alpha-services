@@ -8,6 +8,7 @@
     using MediatR;
 
     public class CustomerHandler :
+        IRequestHandler<GetCustomerQuery, Customer>,
         IRequestHandler<GetAccountStatusQuery, bool>,
         IRequestHandler<DownlineInfoQuery, DownlineInfo>
     {
@@ -17,6 +18,9 @@
         {
             this.customerService = customerService;
         }
+
+        public async Task<Customer> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
+            => await customerService.GetCustomerInfo(request.CustId);
 
         public async Task<bool> Handle(GetAccountStatusQuery request, CancellationToken cancellationToken)
             => await customerService.IsAccountClosed(request.CustId, request.SubAccountId);

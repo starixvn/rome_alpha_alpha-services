@@ -62,6 +62,34 @@
             Assert.Throws<InvalidOperationException>(() => reportService.GetBalanceInfo(custId));
         }
 
+        [Fact]
+        public void GetBalances_Always_CallsExecuteGet()
+        {
+            // Arrange
+            var custId = 1;
+            byte custLevel = 2;
+            var top = 50;
+
+            var request = new RestRequest($"report/{custId}/{custLevel}/balances/{top}", Method.GET);
+
+            var restResponse = Substitute.For<IRestResponse<BalanceTotal>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new BalanceTotal());
+            restClient
+                .Execute<BalanceTotal>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            reportService.GetBalances(custId, custLevel, top);
+
+            // Assert
+            restClient
+                .Received()
+                .Execute<BalanceTotal>(Arg.Is<IRestRequest>(
+                    r => r.Resource == request.Resource
+                    && r.Method == request.Method));
+        }
+
         #endregion GetBalanceInfo
 
         #region GetWinLoss
@@ -150,6 +178,33 @@
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(() => reportService.GetBalanceInfoAsync(custId));
+        }
+
+        [Fact]
+        public async Task GetBalancesAsync_Always_CallsExecuteGet()
+        {
+            // Arrange
+            var custId = 1;
+            byte custLevel = 2;
+            var top = 50;
+
+            var request = new RestRequest($"report/{custId}/{custLevel}/balances/{top}", Method.GET);
+
+            var restResponse = Substitute.For<IRestResponse<BalanceTotal>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new BalanceTotal());
+            restClient
+                .ExecuteTaskAsync<BalanceTotal>(Arg.Any<IRestRequest>())
+                .Returns(Task.FromResult(restResponse));
+
+            // Act
+            await reportService.GetBalancesAsync(custId, custLevel, top);
+
+            // Assert
+            await restClient
+                .Received().ExecuteTaskAsync<BalanceTotal>(Arg.Is<IRestRequest>(
+                    r => r.Resource == request.Resource
+                    && r.Method == request.Method));
         }
 
         #endregion GetBalanceInfoAsync

@@ -51,6 +51,10 @@
             var announcementServiceBaseUrl = GetConfigs("AnnouncementService:BaseUrl");
             var announcementServiceApiKey = GetConfigs("AnnouncementService:ApiKey");
             AnnouncementServiceSettings = new ServiceSettings(announcementServiceBaseUrl, announcementServiceApiKey);
+
+            var copyCustomerServiceBaseUrl = GetConfigs("CopyCustomerService:BaseUrl");
+            var copyCustomerServiceApiKey = GetConfigs("CopyCustomerService:ApiKey");
+            CopyCustomerServiceSettings = new ServiceSettings(copyCustomerServiceBaseUrl, copyCustomerServiceApiKey);
         }
 
         internal static NameValueCollection Settings => ConfigurationManager.AppSettings;
@@ -58,6 +62,8 @@
         public static IServiceSettings AlphaServiceSettings { get; private set; }
 
         public static IServiceSettings AnnouncementServiceSettings { get; private set; }
+
+        public static IServiceSettings CopyCustomerServiceSettings { get; private set; }
 
         private static string GetConfigs(string configName)
         {

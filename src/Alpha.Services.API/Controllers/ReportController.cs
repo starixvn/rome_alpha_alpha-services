@@ -1,11 +1,11 @@
 ﻿namespace Alpha.Services.API.Controllers
 {
+    using System.Threading.Tasks;
     using Alpha.Services.API.Requests;
     using Alpha.Services.Extensions;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
 
     [FormatFilter]
     [ApiController]
@@ -27,6 +27,10 @@
 
             return Ok(balanceInfo);
         }
+
+        [HttpGet("{custId}/{custLevel}/balances/{top}")]
+        public async Task<IActionResult> GetBalances(int custId, byte custLevel, int top)
+            => Ok(await mediator.Send(new BalanceQuery(custId, custLevel, top)));
 
         [HttpGet("{custId}/{custLevel}/winloss/{date}")]
         public async Task<IActionResult> GetWinLoss(int custId, byte custLevel, long date)
