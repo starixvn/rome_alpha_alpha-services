@@ -14,6 +14,8 @@
         Task<CustomerPTInfo> GetPT(int custId, byte custLevel);
 
         Task<CopyCustomerResult> Copy(ICopyCustomerData data);
+
+        Task<Result> CheckReachLimitDownline(int custId, byte custLevel, string username, string language);
     }
 
     public class CopyCustomerServiceImpl : BaseService, CopyCustomerService
@@ -57,6 +59,16 @@
                     data.Language,
                     data.IP,
                     systemId = ChatbotSystemId
+                });
+
+        public async Task<Result> CheckReachLimitDownline(int custId, byte custLevel, string username, string language)
+            => await PostAsync<Result>("customer/CheckReachLimitDownline",
+                new
+                {
+                    custId,
+                    custLevel,
+                    username,
+                    language
                 });
     }
 }

@@ -99,5 +99,27 @@
                     r => r.Resource == "customer/copy"
                     && r.Method == Method.POST));
         }
+
+        [Fact]
+        public void CheckReachLimitDownline_Always_CallsExecuteTaskAsync()
+        {
+            // Arrange
+
+            var restResponse = Substitute.For<IRestResponse<Result>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new Result());
+            restClient.ExecuteTaskAsync<Result>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            copyCustomerService.CheckReachLimitDownline(1, 2, "username", "en-US").ConfigureAwait(false);
+
+            // Assert
+            restClient
+                .Received()
+                .ExecuteTaskAsync<Result>(Arg.Is<IRestRequest>(
+                    r => r.Resource == "customer/CheckReachLimitDownline"
+                        && r.Method == Method.POST));
+        }
     }
 }
