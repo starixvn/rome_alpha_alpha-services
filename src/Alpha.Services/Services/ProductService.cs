@@ -16,6 +16,7 @@
 
     public class ProductServiceImpl : ProductService
     {
+        private const int CacheExpirationTimeInMinute = 5;
         private const string ProductsCacheKey = "Alpha.Services.ProductServiceImpl.OfferedProducts";
         private readonly IDynamicRepository dynamicRepository;
         private readonly ICacheService cacheService;
@@ -50,7 +51,7 @@
             => await cacheService.GetOrSetAsync(
                 $"{ProductsCacheKey}.{custId}",
                 () => dynamicRepository.Fetch<Product>(new GetOfferedProductsCriteria(custId)),
-                new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+                new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CacheExpirationTimeInMinute)));
 
         private static bool IsRemainSupportProduct(Product product, DateTime? minReportDate)
             => !minReportDate.HasValue

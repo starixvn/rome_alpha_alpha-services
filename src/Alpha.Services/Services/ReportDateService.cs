@@ -18,6 +18,7 @@
 
     public class ReportDateServiceImpl : ReportDateService
     {
+        private const int CacheExpirationTimeInMinute = 5;
         private const string BalanceUpDayAndMoveBetsDayCacheKey = "Alpha.Services.ReportDateServiceImpl.BalanceUpDayAndMoveBetsDay";
         private readonly IDynamicRepository dynamicRepository;
         private readonly ICacheService cacheService;
@@ -48,6 +49,6 @@
          => await cacheService.GetOrSetAsync(
              BalanceUpDayAndMoveBetsDayCacheKey,
              () => dynamicRepository.Get<BalanceUpDayAndMoveBetsDay>(new GetBalanceUpDayAndMoveBetsDayCriteria()),
-             new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+             new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CacheExpirationTimeInMinute)));
     }
 }

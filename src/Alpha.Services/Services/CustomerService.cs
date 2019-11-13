@@ -20,6 +20,7 @@ namespace Alpha.Services.Services
 
     public class CustomerServiceImpl : CustomerService
     {
+        private const int CacheExpirationTimeInSecond = 30;
         private const string CustomerInfoCacheKey = "Alpha.Services.Services.CustomerServiceImpl.CustomerInfo";
         private const string AccountClosedCacheKey = "Alpha.Services.Services.CustomerServiceImpl.IsAccountActivated.{0}.{1}";
         private readonly IDynamicRepository dynamicRepository;
@@ -52,7 +53,7 @@ namespace Alpha.Services.Services
             => await cacheService.GetOrSetAsync(
                 string.Format(AccountClosedCacheKey, custId, subAccountId),
                 () => !IsAccountActive(custId, subAccountId),
-                new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpirationTimeInSecond)));
 
         internal bool IsAccountActive(int custId, int subAccountId)
         {
