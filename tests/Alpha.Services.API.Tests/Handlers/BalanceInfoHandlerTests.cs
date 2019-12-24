@@ -45,7 +45,7 @@
         {
             // Arrange
             var request = new BalanceInfoQuery(1);
-            var customer = new Customer(1, "username", CustLevel.Agent, "UUS", 1);
+            var customer = new Customer(1, "username", CustLevel.Agent, "UUS", 1, true);
             customerService.GetCustomerInfo(Arg.Any<int>())
                 .Returns(Task.FromResult(customer));
 
@@ -61,7 +61,7 @@
         {
             // Arrange
             var request = new BalanceInfoQuery(1);
-            var customer = new Customer(1, "username", CustLevel.Agent, "UUS", 1);
+            var customer = new Customer(1, "username", CustLevel.Agent, "UUS", 1, true);
             customerService.GetCustomerInfo(Arg.Any<int>())
                 .Returns(Task.FromResult(customer));
 

@@ -22,13 +22,15 @@
             string userName,
             byte roleId,
             string currencyName,
-            int siteCode)
+            int siteCode,
+            bool enabled)
         {
             CustId = custId;
             UserName = userName;
             RoleId = roleId;
             CurrencyName = currencyName;
             SiteCode = siteCode;
+            Enabled = enabled;
         }
 
         public int CustId { get; }
@@ -44,5 +46,7 @@
         public string System => systems[SiteCode];
 
         public UserLevel CustLevel => Enumeration.FromValue<UserLevel>(RoleId);
+
+        public bool Enabled { get; }
     }
 }

@@ -35,10 +35,22 @@ namespace Alpha.Services.Services
         }
 
         public async Task<Customer> GetCustomerInfo(int custId)
-            => await cacheService.GetOrSetAsync(
-                $"{CustomerInfoCacheKey}.{custId}",
-                () => dynamicRepository.Get<Customer>(new GetCustomerInfoCriteria(custId)),
-                new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+        {
+            var cacheKey = $"{CustomerInfoCacheKey}.{custId}";
+            var customer = await cacheService.GetAsync<Customer>(cacheKey);
+
+            if (customer == null)
+            {
+                customer = await dynamicRepository.GetAsync<Customer>(new GetCustomerInfoCriteria(custId));
+
+                if (customer != null)
+                {
+                    await cacheService.SetAsync(cacheKey, customer, new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+                }
+            }
+
+            return customer;
+        }
 
         public async Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName)
         {

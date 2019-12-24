@@ -68,7 +68,9 @@
         {
             var customer = customerService.GetCustomerInfo(custId).GetAwaiter().GetResult();
 
-            return appSettings.GetParentSites(customer.CustLevel.DisplayName, customer.System);
+            return customer == null || !customer.Enabled
+                ? Enumerable.Empty<int>()
+                : appSettings.GetParentSites(customer.CustLevel.DisplayName, customer.System);
         }
     }
 }
