@@ -31,11 +31,8 @@
         {
             // Arrange
             var custId = 1;
-            var customer = new Customer(custId, "Username", 2, "UUS", 1);
-            cacheService.GetOrSetAsync(
-                $"{CustomerInfoCacheKey}.{custId}",
-                Arg.Any<Func<Customer>>(),
-                Arg.Any<CacheItemOptions>())
+            var customer = new Customer(custId, "Username", 2, "UUS", 1, true);
+            cacheService.GetAsync<Customer>($"{CustomerInfoCacheKey}.{custId}")
                 .Returns(Task.FromResult(customer));
 
             // Act
@@ -51,11 +48,8 @@
         {
             // Arrange
             var custId = 1;
-            var expectedResult = new Customer(custId, "Username", 2, "UUS", 1);
-            cacheService.GetOrSetAsync(
-                $"{CustomerInfoCacheKey}.{custId}",
-                Arg.Any<Func<Customer>>(),
-                Arg.Any<CacheItemOptions>())
+            var expectedResult = new Customer(custId, "Username", 2, "UUS", 1, true);
+            cacheService.GetAsync<Customer>($"{CustomerInfoCacheKey}.{custId}")
                 .Returns(Task.FromResult(expectedResult));
 
             // Act

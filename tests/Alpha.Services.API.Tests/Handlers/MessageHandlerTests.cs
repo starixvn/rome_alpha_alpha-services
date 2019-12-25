@@ -117,7 +117,7 @@
             messageService.GetMessages(Arg.Any<MessageParam>())
                 .Returns(Task.FromResult(messages));
 
-            var customer = new Customer(1, "username", CustLevel.Agent, "UUS", 1);
+            var customer = new Customer(1, "username", CustLevel.Agent, "UUS", 1, true);
             customerService.GetCustomerInfo(Arg.Any<int>())
                 .Returns(Task.FromResult(customer));
 
