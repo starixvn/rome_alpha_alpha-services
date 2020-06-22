@@ -11,6 +11,7 @@
             [7] = "789Y",
             [8] = "EU88",
             [9] = "Y987",
+            [11] = "IBCIndo"
         };
 
         public Customer()
