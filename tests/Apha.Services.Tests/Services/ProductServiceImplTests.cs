@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Alpha.Services.Configurations;
     using Alpha.Services.Models;
     using Alpha.Services.Services;
     using Fanex.Caching;
@@ -17,13 +18,15 @@
 
         private readonly IDynamicRepository dynamicRepository;
         private readonly ICacheService cacheService;
+        private readonly IAppSettings appSettings;
         private readonly ProductServiceImpl productService;
 
         public ProductServiceImplTests()
         {
             dynamicRepository = Substitute.For<IDynamicRepository>();
             cacheService = Substitute.For<ICacheService>();
-            productService = new ProductServiceImpl(dynamicRepository, cacheService);
+            appSettings = Substitute.For<IAppSettings>();
+            productService = new ProductServiceImpl(dynamicRepository, cacheService, appSettings);
         }
 
         [Theory]

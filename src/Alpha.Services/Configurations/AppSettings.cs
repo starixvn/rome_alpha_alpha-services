@@ -11,6 +11,8 @@
         bool DisableAuthentication { get; }
 
         IEnumerable<int> GetParentSites(string level, string system);
+
+        byte SettingStatus { get; }
     }
 
     public class AppSettings : IAppSettings
@@ -29,5 +31,7 @@
         public IEnumerable<int> GetParentSites(string level, string system)
             => configuration.GetSection($"ParentSites:{level}:{system}").Get<List<int>>()
                 ?? throw new InvalidOperationException($"Missing config for ParentSites:{level}:{system}");
+
+        public byte SettingStatus => configuration.GetValue<byte>("SettingStatus");
     }
 }
