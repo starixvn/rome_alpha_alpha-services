@@ -1,44 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
   <Function Name="Outstanding">
-    <Setting Key="Age_CustomerSelStatisticsInfo_Ag" SpName="Age_CustomerSelStatisticsInfo_Ag" DbName="DB042.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
+    <Setting Key="Age_CustomerSelStatisticsInfo_Ag" SpName="Age_CustomerSelStatisticsInfo_Ag" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
       <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
     </Setting>
-    <Setting Key="Age_CustomerSelStatisticsInfo_MAg" SpName="Age_CustomerSelStatisticsInfo_MAg" DbName="DB042.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
+    <Setting Key="Age_CustomerSelStatisticsInfo_MAg" SpName="Age_CustomerSelStatisticsInfo_MAg" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
       <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
     </Setting>
-    <Setting Key="Age_CustomerSelStatisticsInfo_SAg" SpName="Age_CustomerSelStatisticsInfo_SAg" DbName="DB042.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
+    <Setting Key="Age_CustomerSelStatisticsInfo_SAg" SpName="Age_CustomerSelStatisticsInfo_SAg" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0" TimeOut="600">
       <Mapping DataField="outStanding" ObjectProperty="Outstanding" />
       <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
     </Setting>
     
-    <Setting Key="Age_Rpt_Outstanding_Master" SpName="Age_Rpt_Outstanding_Master" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_Outstanding_Master" SpName="Age_Rpt_Outstanding_Master" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="CustId" ObjectProperty="Id" />
       <Mapping DataField="CustName" ObjectProperty="Name" />
       <Mapping DataField="SuperOutstanding" ObjectProperty="Outstanding" />
     </Setting>
-    <Setting Key="Age_Rpt_Outstanding_Agent" SpName="Age_Rpt_Outstanding_Agent" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_Outstanding_Agent" SpName="Age_Rpt_Outstanding_Agent" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="CustId" ObjectProperty="Id" />
       <Mapping DataField="CustName" ObjectProperty="Name" />
       <Mapping DataField="MasterOutstanding" ObjectProperty="Outstanding" />
     </Setting>
-    <Setting Key="Age_Rpt_Outstanding_Member" SpName="Age_Rpt_Outstanding_Member" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_Outstanding_Member" SpName="Age_Rpt_Outstanding_Member" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="CustId" ObjectProperty="Id" />
       <Mapping DataField="CustName" ObjectProperty="Name" />
       <Mapping DataField="AgentOutstanding" ObjectProperty="Outstanding" />
     </Setting>
 
-    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
       <Mapping DataField="SuperOutstanding" ObjectProperty="Outstanding" />
     </Setting>
-    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
       <Mapping DataField="MasterOutstanding" ObjectProperty="Outstanding" />
     </Setting>
-    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member" DbName="DB042.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member" DbName="DBBOF.bodb02.BODBDownlineNet" Plain="0">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
       <Mapping DataField="AgentOutstanding" ObjectProperty="Outstanding" />
     </Setting>
