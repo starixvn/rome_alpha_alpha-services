@@ -115,5 +115,52 @@
                         && command.UserName == downlineUserName
                         && command.SubAccountId == 0));
         }
+
+        [Fact]
+        public void GetDownlineInfoCommand_DefaultProperties_HasValues()
+        {
+            var act = new GetDownlineInfoCommand(0, null, 0);
+            Assert.True(act.CustId == 0);
+            Assert.Null(act.UserName);
+            Assert.True(act.SubAccountId == 0);
+            Assert.False(act.IsActive);
+            Assert.True(act.UplineId == 0);
+            Assert.False(act.IsSubAcc);
+            Assert.True(act.RoleId == 0);
+        }
+
+        [Fact]
+        public void GetDownlineInfoCommand_GetSettingKey_ReturnCorrectValue()
+        {
+            var act = new GetDownlineInfoCommand(0, null, 0);
+            Assert.True(act.GetSettingKey() == "Age_CustomerSelCheckBelonging_ByUsername");
+        }
+
+        [Fact]
+        public void GetDownlineInfoCommand_IsValid_ReturnCorrectValue()
+        {
+            var act = new GetDownlineInfoCommand(1, "abc", 0);
+            Assert.True(act.IsValid());
+        }
+
+        [Fact]
+        public void Customer_DefaultCtor_ReturnDefaultValues()
+        {
+            var act = new Customer();
+            Assert.True(act.CustId == 0);
+            Assert.Null(act.UserName);
+        }
+
+        [Theory]
+        [InlineData(1, "IBCBet")]
+        [InlineData(7, "789Y")]
+        [InlineData(8, "EU88")]
+        [InlineData(9, "Y987")]
+        [InlineData(11, "IBCIndo")]
+        public void Customer_Ctor_ReturnDefaultSystemValues(int siteCode, string siteName)
+        {
+            var act = new Customer(0, null, 0, null, siteCode, true);
+            Assert.True(act.System == siteName);
+        }
     }
 }

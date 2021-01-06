@@ -121,5 +121,15 @@
                     r => r.Resource == "customer/CheckReachLimitDownline"
                         && r.Method == Method.POST));
         }
+
+        [Fact]
+        public void CopyCustomerResult_Properties_HasDefaultValues()
+        {
+            var act = new CopyCustomerResult();
+            Assert.True(act.CustLevel == 0);
+            Assert.Null(act.SourceUsername);
+            Assert.True(act.Credit == 0);
+            Assert.True(act.MaxCredit == 0);
+        }
     }
 }
