@@ -16,6 +16,8 @@
         Task<CopyCustomerResult> Copy(ICopyCustomerData data);
 
         Task<Result> CheckReachLimitDownline(int custId, byte custLevel, string username, string language);
+
+        Task<Result> CheckLimitNewDownline(int custId, byte custLevel, string language);
     }
 
     public class CopyCustomerServiceImpl : BaseService, CopyCustomerService
@@ -68,6 +70,15 @@
                     custId,
                     custLevel,
                     username,
+                    language
+                });
+
+        public async Task<Result> CheckLimitNewDownline(int custId, byte custLevel, string language)
+            => await PostAsync<Result>("customer/CheckLimitNewDownline",
+                new
+                {
+                    custId,
+                    custLevel,
                     language
                 });
     }
