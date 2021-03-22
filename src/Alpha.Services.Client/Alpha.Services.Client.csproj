@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.4.2</AssemblyVersion>
-    <FileVersion>1.0.4.2</FileVersion>
-    <Version>1.0.4.2-checklimitdownline-01</Version>
+    <AssemblyVersion>1.0.4.3</AssemblyVersion>
+    <FileVersion>1.0.4.3</FileVersion>
+    <Version>1.0.4.3-pacreatedownline-02</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Starix Soft</Authors>
     <Company>Starix Soft</Company>
