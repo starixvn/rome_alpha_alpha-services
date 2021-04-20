@@ -1,8 +1,9 @@
 ﻿namespace Alpha.Services.API.Requests
 {
+    using Alpha.Services.Models;
     using MediatR;
 
-    public class GetAccountStatusQuery : IRequest<bool>
+    public class GetAccountStatusQuery : IRequest<AccountStatus>
     {
         public GetAccountStatusQuery(int custId, int subAccountId)
         {

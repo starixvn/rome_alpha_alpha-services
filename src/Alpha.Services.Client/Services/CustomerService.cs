@@ -10,6 +10,8 @@
 
         Task<bool> IsAccountClosed(int custId, int subAccountId);
 
+        Task<AccountStatus> GetAccountStatus(int custId, int subAccountId);
+
         Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName);
     }
 
@@ -30,6 +32,9 @@
 
         public async Task<bool> IsAccountClosed(int custId, int subAccountId)
             => await GetAsync<bool>($"customer/{custId}/isaccountclosed/{subAccountId}");
+
+        public async Task<AccountStatus> GetAccountStatus(int custId, int subAccountId)
+            => await GetAsync<AccountStatus>($"customer/{custId}/getaccountstatus/{subAccountId}");
 
         public async Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName)
             => await GetAsync<DownlineInfo>($"customer/{custId}/downline?downlineUserName={downlineUserName}");

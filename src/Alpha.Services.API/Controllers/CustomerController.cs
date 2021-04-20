@@ -30,9 +30,17 @@
         [HttpGet("{custId}/isaccountclosed/{subAccountId}")]
         public async Task<ActionResult> IsAccountClosed(int custId, int subAccountId)
         {
-            var isClosed = await mediator.Send(new GetAccountStatusQuery(custId, subAccountId));
+            var accountStatus = await mediator.Send(new GetAccountStatusQuery(custId, subAccountId));
 
-            return Ok(isClosed);
+            return Ok(!accountStatus.IsActive);
+        }
+
+        [HttpGet("{custId}/getaccountstatus/{subAccountId}")]
+        public async Task<ActionResult> GetAccountStatus(int custId, int subAccountId)
+        {
+            var accountStatus = await mediator.Send(new GetAccountStatusQuery(custId, subAccountId));
+
+            return Ok(accountStatus);
         }
 
         [HttpGet("{custId}/downline")]
