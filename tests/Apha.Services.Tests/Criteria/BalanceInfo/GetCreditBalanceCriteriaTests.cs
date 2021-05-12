@@ -37,6 +37,24 @@
                 && criteria.TotalItems == 61);
         }
 
+        [Fact]
+        public void Constructor_UsernameIsNull_AssignsEmpty()
+        {
+            // Arrange & Act
+            var criteria = new GetCreditBalanceCriteria(
+                Enumeration.FromValue<UserLevel>(4),
+                8,
+                null,
+                true,
+                false,
+                false,
+                1,
+                500);
+
+            // Assert
+            Assert.Empty(criteria.UserName);
+        }
+
         [Theory]
         [InlineData(2, "Age_CustomerSelCreditBalanceList_Ag")]
         [InlineData(3, "Age_CustomerSelCreditBalanceList_Mag")]

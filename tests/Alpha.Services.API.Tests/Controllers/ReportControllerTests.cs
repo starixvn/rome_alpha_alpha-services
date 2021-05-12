@@ -33,6 +33,17 @@
         }
 
         [Fact]
+        public void GetGetBalances_Always_CallsMediatorSendBalanceQuery()
+        {
+            // Act
+            reportController.GetBalances(custId, CustLevel.Agent, DefaultTopDownlinesDisplay).ConfigureAwait(false);
+
+            // Assert
+            mediator.Received().Send(Arg.Is<BalanceQuery>(
+                q => q.CustId == custId && q.CustLevel == UserLevel.Agent.Value && q.Top == 50));
+        }
+
+        [Fact]
         public void GetGetWinLoss_Always_CallsMediatorSendWinLossQuery()
         {
             // Arrange

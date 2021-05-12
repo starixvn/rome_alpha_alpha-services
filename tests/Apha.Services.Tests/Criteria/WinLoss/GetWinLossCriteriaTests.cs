@@ -10,6 +10,70 @@
 
     public class GetWinLossCriteriaTests
     {
+        [Fact]
+        public void Constructor_ProductIdsIsNull_AssignsEmpty()
+        {
+            // Arrange
+            var balanceUpDate = new DateTime(2021, 5, 12);
+            var moveBetsDate = new DateTime(2020, 4, 10);
+
+            // Act
+            var criteria = new GetWinLossCriteria(
+                UserLevel.Agent,
+                1,
+                DateTime.Now,
+                DateTime.Now,
+                balanceUpDate,
+                moveBetsDate,
+                null);
+
+            // Assert
+            Assert.Empty(criteria.ProductIds);
+        }
+
+        [Fact]
+        public void Constructor_ProductIdsIsNotNull_JoinWithComma()
+        {
+            // Arrange
+            var balanceUpDate = new DateTime(2021, 5, 12);
+            var moveBetsDate = new DateTime(2020, 4, 10);
+
+            // Act
+            var criteria = new GetWinLossCriteria(
+                UserLevel.Agent,
+                1,
+                DateTime.Now,
+                DateTime.Now,
+                balanceUpDate,
+                moveBetsDate,
+                new[] { 1, 2, 3 });
+
+            // Assert
+            Assert.Equal("1,2,3", criteria.ProductIds);
+        }
+
+        [Fact]
+        public void Constructor_Always_AssignsCorrectBalanceUpDayAndMoveBetsDay()
+        {
+            // Arrange
+            var balanceUpDate = new DateTime(2021, 5, 12);
+            var moveBetsDate = new DateTime(2020, 4, 10);
+
+            // Act
+            var criteria = new GetWinLossCriteria(
+                UserLevel.Agent,
+                1,
+                DateTime.Now,
+                DateTime.Now,
+                balanceUpDate,
+                moveBetsDate,
+                new[] { 1, 2, 3 });
+
+            // Assert
+            Assert.True(criteria.BalanceUpDay == balanceUpDate
+                && criteria.MoveBetsDay == moveBetsDate);
+        }
+
         [Theory]
         [InlineData(2, "Age_Rpt_SumWinLoss_Member")]
         [InlineData(3, "Age_Rpt_SumWinLoss_Agent")]

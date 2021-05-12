@@ -8,6 +8,26 @@
 
     public class GetOutstandingCriteriaTests
     {
+        [Fact]
+        public void Constructor_ProductIdsIsNull_AssignsEmpty()
+        {
+            // Arrange
+            var criteria = new GetOutstandingCriteria(UserLevel.Member, 1, null);
+
+            // Act & Assert
+            Assert.Empty(criteria.ProductIds);
+        }
+
+        [Fact]
+        public void Constructor_ProductIdsIsNotNull_JoinWithComma()
+        {
+            // Arrange
+            var criteria = new GetOutstandingCriteria(UserLevel.Member, 1, new[] { 1, 2, 3 });
+
+            // Act & Assert
+            Assert.Equal("1,2,3", criteria.ProductIds);
+        }
+
         [Theory]
         [InlineData(2, "Age_Rpt_Outstanding_Member")]
         [InlineData(3, "Age_Rpt_Outstanding_Agent")]

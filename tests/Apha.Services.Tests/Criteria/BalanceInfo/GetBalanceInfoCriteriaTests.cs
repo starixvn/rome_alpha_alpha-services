@@ -8,6 +8,22 @@
 
     public class GetBalanceInfoCriteriaTests
     {
+        [Fact]
+        public void Constructor_Always_AssignsCorrectProperties()
+        {
+            // Arrange
+            var moveBetsDate = new DateTime(2021, 5, 12);
+
+            // Act
+            var criteria = new GetBalanceInfoCriteria(UserLevel.Agent, 1, moveBetsDate);
+
+            // Assert
+            Assert.True(
+                criteria.CustLevel.Value == 2
+                && criteria.CustId == 1
+                && criteria.MoveBetsDay == moveBetsDate);
+        }
+
         [Theory]
         [InlineData(2, "Age_CustomerSelBalanceInfo_Ag")]
         [InlineData(3, "Age_CustomerSelBalanceInfo_MAg")]
