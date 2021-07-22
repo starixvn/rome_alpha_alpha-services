@@ -15,14 +15,14 @@ namespace Alpha.Services.Services
 
         Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUserName);
 
-        Task<bool> IsAccountClosed(int custId, int subAccountId);
+        Task<AccountStatus> GetAccountStatus(int custId, int subAccountId);
     }
 
     public class CustomerServiceImpl : CustomerService
     {
         private const int CacheExpirationTimeInSecond = 30;
         private const string CustomerInfoCacheKey = "Alpha.Services.Services.CustomerServiceImpl.CustomerInfo";
-        private const string AccountClosedCacheKey = "Alpha.Services.Services.CustomerServiceImpl.IsAccountActivated.{0}.{1}";
+        private const string AccountStatusCacheKey = "Alpha.Services.Services.CustomerServiceImpl.AccountStatus.{0}.{1}";
         private readonly IDynamicRepository dynamicRepository;
         private readonly ICacheService cacheService;
 
@@ -61,19 +61,19 @@ namespace Alpha.Services.Services
             return new DownlineInfo(command.CustId, command.IsSubAcc, command.IsActive, (byte)command.RoleId);
         }
 
-        public async Task<bool> IsAccountClosed(int custId, int subAccountId)
+        public async Task<AccountStatus> GetAccountStatus(int custId, int subAccountId)
             => await cacheService.GetOrSetAsync(
-                string.Format(AccountClosedCacheKey, custId, subAccountId),
-                () => !IsAccountActive(custId, subAccountId),
+                string.Format(AccountStatusCacheKey, custId, subAccountId),
+                () => GetAccountStatusFromDB(custId, subAccountId),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpirationTimeInSecond)));
 
-        internal bool IsAccountActive(int custId, int subAccountId)
+        internal AccountStatus GetAccountStatusFromDB(int custId, int subAccountId)
         {
             var command = new GetCustomerStatusCommand(custId, subAccountId);
 
             dynamicRepository.Execute(command);
 
-            return command.IsActive;
+            return new AccountStatus(command.IsActive, command.Locked);
         }
     }
 }

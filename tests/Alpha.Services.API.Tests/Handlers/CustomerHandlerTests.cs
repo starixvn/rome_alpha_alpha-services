@@ -21,7 +21,7 @@
         }
 
         [Fact]
-        public void HandleGetAccountStatusQuery_Always_CallsCustomerServiceIsAccountClosed()
+        public void HandleGetAccountStatusQuery_Always_CallsCustomerServiceGetCustomerStatus()
         {
             // Arrange
             var request = new GetAccountStatusQuery(1, 0);
@@ -30,7 +30,7 @@
             customerHandler.Handle(request, default(CancellationToken)).ConfigureAwait(false);
 
             // Assert
-            customerService.Received().IsAccountClosed(Arg.Is(request.CustId), Arg.Is(request.SubAccountId));
+            customerService.Received().GetAccountStatus(Arg.Is(request.CustId), Arg.Is(request.SubAccountId));
         }
 
         [Fact]

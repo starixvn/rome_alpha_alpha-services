@@ -13,7 +13,7 @@
     public class CustomerServiceImplTests
     {
         private const string CustomerInfoCacheKey = "Alpha.Services.Services.CustomerServiceImpl.CustomerInfo";
-        private const string AccountClosedCacheKey = "Alpha.Services.Services.CustomerServiceImpl.IsAccountActivated";
+        private const string AccountStatusCacheKey = "Alpha.Services.Services.CustomerServiceImpl.AccountStatus";
 
         private readonly IDynamicRepository dynamicRepository;
         private readonly CustomerServiceImpl customerService;
@@ -62,36 +62,38 @@
         }
 
         [Fact]
-        public void IsAccountClosed_ExistInCache_ReturnsCorrectResult()
+        public void GetAccountStatus_ExistInCache_ReturnsCorrectResult()
         {
             // Arrange
             var custId = 1;
             var subAccountId = 0;
-            var expectedResult = false;
+            var expectedResult = new AccountStatus(true, 2);
             cacheService.GetOrSetAsync(
-                $"{AccountClosedCacheKey}.{custId}.{subAccountId}",
-                Arg.Any<Func<bool>>(),
+                $"{AccountStatusCacheKey}.{custId}.{subAccountId}",
+                Arg.Any<Func<AccountStatus>>(),
                 Arg.Any<CacheItemOptions>())
                 .Returns(Task.FromResult(expectedResult));
 
             // Act
-            var actualResult = customerService.IsAccountClosed(custId, subAccountId)
+            var actualResult = customerService.GetAccountStatus(custId, subAccountId)
                 .GetAwaiter()
                 .GetResult();
 
             // Assert
-            Assert.Equal(expectedResult, actualResult);
+            Assert.True(
+                expectedResult.IsActive == actualResult.IsActive
+                && expectedResult.Locked == actualResult.Locked);
         }
 
         [Fact]
-        public void IsAccountActive_Always_CallsDynamicRepository()
+        public void GetAccountStatusFromDB_Always_CallsDynamicRepository()
         {
             // Arrange
             var custId = 1;
             var subAccountId = 0;
 
             // Act
-            customerService.IsAccountActive(custId, subAccountId);
+            customerService.GetAccountStatusFromDB(custId, subAccountId);
 
             // Assert
             dynamicRepository.Received().Execute(Arg.Is<GetCustomerStatusCommand>(
