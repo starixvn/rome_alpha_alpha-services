@@ -18,7 +18,7 @@
 
     public class ReportDateServiceImpl : ReportDateService
     {
-        private const int CacheExpirationTimeInMinute = 5;
+        private const int CacheExpirationTimeInMinute = 2;
         private const string BalanceUpDayAndMoveBetsDayCacheKey = "Alpha.Services.ReportDateServiceImpl.BalanceUpDayAndMoveBetsDay";
         private readonly IDynamicRepository dynamicRepository;
         private readonly ICacheService cacheService;
