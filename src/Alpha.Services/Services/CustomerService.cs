@@ -73,7 +73,7 @@ namespace Alpha.Services.Services
 
             dynamicRepository.Execute(command);
 
-            return new AccountStatus(command.IsActive, command.Locked);
+            return new AccountStatus(command.IsActive, command.Locked, command.IsProtectedMode);
         }
     }
 }

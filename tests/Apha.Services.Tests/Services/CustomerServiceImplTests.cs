@@ -67,7 +67,7 @@
             // Arrange
             var custId = 1;
             var subAccountId = 0;
-            var expectedResult = new AccountStatus(true, 2);
+            var expectedResult = new AccountStatus(true, 2, false);
             cacheService.GetOrSetAsync(
                 $"{AccountStatusCacheKey}.{custId}.{subAccountId}",
                 Arg.Any<Func<AccountStatus>>(),
