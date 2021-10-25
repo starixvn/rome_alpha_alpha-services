@@ -7,5 +7,7 @@
         public byte Locked { get; set; }
 
         public bool IsLocked => Locked != 0;
+
+        public bool IsProtectedMode { get; set; }
     }
 }

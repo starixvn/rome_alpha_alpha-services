@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.4.4</AssemblyVersion>
-    <FileVersion>1.0.4.4</FileVersion>
-    <Version>1.0.4.4</Version>
+    <AssemblyVersion>1.0.4.5</AssemblyVersion>
+    <FileVersion>1.0.4.5</FileVersion>
+    <Version>1.0.4.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Starix Soft</Authors>
     <Company>Starix Soft</Company>
-    <PackageReleaseNotes>148600 -Lock account &amp; indirect close account</PackageReleaseNotes>
+    <PackageReleaseNotes>160151- Support Data Protection mode</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
