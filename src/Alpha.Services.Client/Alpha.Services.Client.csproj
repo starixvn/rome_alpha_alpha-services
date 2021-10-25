@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyVersion>1.0.4.5</AssemblyVersion>
     <FileVersion>1.0.4.5</FileVersion>
-    <Version>1.0.4.5-pc01</Version>
+    <Version>1.0.4.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Starix Soft</Authors>
     <Company>Starix Soft</Company>
