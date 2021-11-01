@@ -18,8 +18,6 @@
 
         public byte Locked { get; set; }
 
-        public bool IsProtectedMode { get; set; }
-
         public override string GetSettingKey() => "Age_CustomerStatusSel";
 
         public override bool IsValid() => CustId > 0;

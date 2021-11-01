@@ -64,7 +64,22 @@ namespace Alpha.Services.Services
         public async Task<AccountStatus> GetAccountStatus(int custId, int subAccountId)
             => await cacheService.GetOrSetAsync(
                 string.Format(AccountStatusCacheKey, custId, subAccountId),
-                () => GetAccountStatusFromDB(custId, subAccountId),
+                () =>
+                {
+                    var accountStatus = GetAccountStatusFromDB(custId, subAccountId);
+
+                    if (accountStatus != null)
+                    {
+                        var customerInfo = GetCustomerInfo(custId).GetAwaiter().GetResult();
+
+                        if (customerInfo != null)
+                        {
+                            accountStatus.IsProtectedMode = customerInfo.IsProtectedMode;
+                        }
+                    }
+
+                    return accountStatus;
+                },
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpirationTimeInSecond)));
 
         internal AccountStatus GetAccountStatusFromDB(int custId, int subAccountId)
@@ -73,7 +88,7 @@ namespace Alpha.Services.Services
 
             dynamicRepository.Execute(command);
 
-            return new AccountStatus(command.IsActive, command.Locked, command.IsProtectedMode);
+            return new AccountStatus(command.IsActive, command.Locked);
         }
     }
 }

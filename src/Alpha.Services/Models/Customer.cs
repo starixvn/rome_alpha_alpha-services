@@ -24,7 +24,8 @@
             byte roleId,
             string currencyName,
             int siteCode,
-            bool enabled)
+            bool enabled,
+            bool isProtectedMode)
         {
             CustId = custId;
             UserName = userName;
@@ -32,6 +33,7 @@
             CurrencyName = currencyName;
             SiteCode = siteCode;
             Enabled = enabled;
+            IsProtectedMode = isProtectedMode;
         }
 
         public int CustId { get; }
@@ -49,5 +51,7 @@
         public UserLevel CustLevel => Enumeration.FromValue<UserLevel>(RoleId);
 
         public bool Enabled { get; }
+
+        public bool IsProtectedMode { get; }
     }
 }
