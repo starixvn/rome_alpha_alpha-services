@@ -31,7 +31,7 @@
         {
             // Arrange
             var custId = 1;
-            var customer = new Customer(custId, "Username", 2, "UUS", 1, true);
+            var customer = new Customer(custId, "Username", 2, "UUS", 1, true, false);
             cacheService.GetAsync<Customer>($"{CustomerInfoCacheKey}.{custId}")
                 .Returns(Task.FromResult(customer));
 
@@ -48,7 +48,7 @@
         {
             // Arrange
             var custId = 1;
-            var expectedResult = new Customer(custId, "Username", 2, "UUS", 1, true);
+            var expectedResult = new Customer(custId, "Username", 2, "UUS", 1, true, false);
             cacheService.GetAsync<Customer>($"{CustomerInfoCacheKey}.{custId}")
                 .Returns(Task.FromResult(expectedResult));
 
@@ -67,7 +67,7 @@
             // Arrange
             var custId = 1;
             var subAccountId = 0;
-            var expectedResult = new AccountStatus(true, 2, false);
+            var expectedResult = new AccountStatus(true, 2);
             cacheService.GetOrSetAsync(
                 $"{AccountStatusCacheKey}.{custId}.{subAccountId}",
                 Arg.Any<Func<AccountStatus>>(),
@@ -161,7 +161,7 @@
         [InlineData(11, "IBCIndo")]
         public void Customer_Ctor_ReturnDefaultSystemValues(int siteCode, string siteName)
         {
-            var act = new Customer(0, null, 0, null, siteCode, true);
+            var act = new Customer(0, null, 0, null, siteCode, true, false);
             Assert.True(act.System == siteName);
         }
     }
