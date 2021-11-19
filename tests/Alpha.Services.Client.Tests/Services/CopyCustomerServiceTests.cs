@@ -131,5 +131,26 @@
             Assert.True(act.Credit == 0);
             Assert.True(act.MaxCredit == 0);
         }
+
+        [Fact]
+        public void CheckLimitNewDownline_Always_CallsExecuteTaskAsync()
+        {
+            // Arrange
+            var restResponse = Substitute.For<IRestResponse<Result>>();
+            restResponse.IsSuccessful.Returns(true);
+            restResponse.Data.Returns(new Result());
+            restClient.ExecuteTaskAsync<Result>(Arg.Any<IRestRequest>())
+                .Returns(restResponse);
+
+            // Act
+            copyCustomerService.CheckLimitNewDownline(1, 2, "en-US").ConfigureAwait(false);
+
+            // Assert
+            restClient
+                .Received()
+                .ExecuteTaskAsync<Result>(Arg.Is<IRestRequest>(
+                    r => r.Resource == "customer/CheckLimitNewDownline"
+                        && r.Method == Method.POST));
+        }
     }
 }

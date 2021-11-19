@@ -16,6 +16,10 @@
                 copyResult.CustId == 0
                 && copyResult.CustName == null
                 && copyResult.Password == null
+                && copyResult.CustLevel == 0
+                && copyResult.SourceUsername == null
+                && copyResult.Credit == 0
+                && copyResult.MaxCredit == 0
                 && copyResult.Code == 0
                 && copyResult.Message == null
                 && !copyResult.IsSuccess);
